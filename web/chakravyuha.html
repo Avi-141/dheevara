@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chakravyūha — Dheevara</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Sanskrit:ital@0;1&display=swap">
+<style>
+:root{--night:#0D0E0B;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:var(--night)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--night:#0D0E0B}}
+:root[data-theme="dark"]{--night:#0D0E0B}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;height:100%;overflow:hidden;background:var(--night)}
+</style>
+</head>
+<body>
+<script>
+(() => {
+'use strict';
+
+/* ─────────────────────────────  setup  ───────────────────────────── */
+const TAU = Math.PI * 2, PI = Math.PI;
+const FONT = '"Tiro Devanagari Sanskrit","Noto Serif Devanagari","Kohinoor Devanagari",Georgia,serif';
+const C = {
+  night: '#0D0E0B', parch: '#EFE6D2', ash: '#A39B88', gold: '#E3B04B',
+  flame: '#FBE3A4', sindoor: '#C8391F', fallen: 'rgba(74,66,52,0.9)'
+};
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const finePointer = matchMedia('(pointer: fine)').matches;
+const args = new URLSearchParams(location.hash.slice(1));
+
+document.body.style.userSelect = 'none';
+document.body.style.webkitUserSelect = 'none';
+document.body.style.webkitTapHighlightColor = 'transparent';
+
+const cv = document.createElement('canvas');
+cv.style.cssText = 'display:block;width:100%;height:100%;touch-action:none;outline:none;cursor:pointer';
+cv.tabIndex = 0;
+cv.setAttribute('role', 'application');
+cv.setAttribute('aria-label', 'Chakravyūha. An interactive chapter. Press Enter to begin, hold Space to ride forward, press M to mute.');
+document.body.appendChild(cv);
+const live = document.createElement('div');
+live.setAttribute('aria-live', 'polite');
+live.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap';
+document.body.appendChild(live);
+const ctx = cv.getContext('2d');
+
+let W = 0, H = 0, DPR = 1, S = 1, portrait = false;
+let vignette = null, grainPat = null;
+
+const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+const lerp = (a, b, t) => a + (b - a) * t;
+const ease = t => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
+const rnd = (a, b) => a + Math.random() * (b - a);
+const angDist = (a, b) => { let d = ((a - b) % TAU + TAU) % TAU; return d > PI ? TAU - d : d; };
+
+function resize() {
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = cv.clientWidth; H = cv.clientHeight;
+  cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+  portrait = H > W * 1.1;
+  S = Math.min(W, H);
+  const vc = document.createElement('canvas');
+  vc.width = Math.max(2, Math.round(W / 3)); vc.height = Math.max(2, Math.round(H / 3));
+  const v = vc.getContext('2d');
+  const g = v.createRadialGradient(vc.width / 2, vc.height * 0.5, Math.min(vc.width, vc.height) * 0.22,
+    vc.width / 2, vc.height * 0.5, Math.hypot(vc.width, vc.height) * 0.6);
+  g.addColorStop(0, 'rgba(5,5,4,0)'); g.addColorStop(1, 'rgba(5,5,4,0.82)');
+  v.fillStyle = g; v.fillRect(0, 0, vc.width, vc.height);
+  vignette = vc;
+}
+(function buildGrain() {
+  const g = document.createElement('canvas'); g.width = g.height = 180;
+  const gx = g.getContext('2d'); const id = gx.createImageData(180, 180);
+  for (let i = 0; i < id.data.length; i += 4) {
+    const v = (Math.random() * 255) | 0;
+    id.data[i] = id.data[i + 1] = id.data[i + 2] = v; id.data[i + 3] = 255;
+  }
+  gx.putImageData(id, 0, 0);
+  grainPat = ctx.createPattern(g, 'repeat');
+})();
+
+function makeGlow(inner, mid) {
+  const c = document.createElement('canvas'); c.width = c.height = 128;
+  const g = c.getContext('2d');
+  const gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+  gr.addColorStop(0, inner); gr.addColorStop(0.22, mid); gr.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = gr; g.fillRect(0, 0, 128, 128);
+  return c;
+}
+const glowGold = makeGlow('rgba(255,246,220,1)', 'rgba(242,168,58,0.5)');
+const glowRed = makeGlow('rgba(255,196,160,0.95)', 'rgba(200,57,31,0.55)');
+const glowSilver = makeGlow('rgba(236,242,255,0.95)', 'rgba(150,172,214,0.4)');
+
+/* ─────────────────────────────  the wheel  ───────────────────────────── */
+// Seven rings: six walls, then the Chakra-vyuha spiral at the core, as on the
+// Hoysala friezes at Halebidu (a classical labyrinth whose centre is a spiral).
+const WALLS = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5];
+const CORR = [0.95, 0.85, 0.75, 0.65, 0.55, 0.46];
+const BREAK_A = [-90, -20, 70, 160, 250, 340].map(d => d * PI / 180);
+const SP = { r0: 0.42, pitch: 0.155, a0: 60 * PI / 180 + 0.35, turns: 2.25 };
+const spiralR = a => SP.r0 - SP.pitch * (a - SP.a0) / TAU;
+const ENTRY_A = 60 * PI / 180 + TAU;
+const WALL_H = 0.06, WALL_T = 0.026, WARRIOR_H = 0.024;
+const SEG = 240, A0 = -PI / 2;
+const COS = new Float32Array(SEG + 1), SIN = new Float32Array(SEG + 1);
+for (let j = 0; j <= SEG; j++) { COS[j] = Math.cos(A0 + TAU * j / SEG); SIN[j] = Math.sin(A0 + TAU * j / SEG); }
+const SPN = 420;
+const SPX = new Float32Array(SPN + 1), SPY = new Float32Array(SPN + 1);
+for (let j = 0; j <= SPN; j++) {
+  const a = SP.a0 + SP.turns * TAU * j / SPN, r = spiralR(a);
+  SPX[j] = r * Math.cos(a); SPY[j] = r * Math.sin(a);
+}
+
+// Abhimanyu's path: through the gate, round each corridor, into the spiral.
+const pX = [], pY = [], pA = [], pR = [], pL = [];
+const breakL = []; let spiralL = 0, endL = 0;
+function addPt(r, a) {
+  const x = r * Math.cos(a), y = r * Math.sin(a), n = pX.length;
+  pL.push(n ? pL[n - 1] + Math.hypot(x - pX[n - 1], y - pY[n - 1]) : 0);
+  pX.push(x); pY.push(y); pA.push(a); pR.push(r);
+}
+(function buildPath() {
+  let r = 1.2, a = BREAK_A[0];
+  addPt(r, a);
+  const radial = r1 => { const r0 = r, n = Math.max(1, Math.ceil(Math.abs(r1 - r0) / 0.01)); for (let i = 1; i <= n; i++) addPt(r0 + (r1 - r0) * i / n, a); r = r1; };
+  const arc = a1 => { const a0 = a, n = Math.max(1, Math.ceil(Math.abs(a1 - a0) * r / 0.012)); for (let i = 1; i <= n; i++) addPt(r, a0 + (a1 - a0) * i / n); a = a1; };
+  for (let i = 0; i < 6; i++) {
+    radial(WALLS[i]); breakL.push(pL[pL.length - 1]);
+    radial(CORR[i]); arc(i < 5 ? BREAK_A[i + 1] : ENTRY_A);
+  }
+  spiralL = pL[pL.length - 1];
+  radial(0.351);
+  const u1 = 1.12, n = Math.ceil(u1 * TAU * 0.25 / 0.012), aS = a;
+  for (let i = 1; i <= n; i++) { const u = u1 * i / n; addPt(0.351 - SP.pitch * u, aS + u * TAU); }
+  endL = pL[pL.length - 1];
+})();
+let seg = 0, px = 0, py = 0, pa = 0;
+function pathAt(s) {
+  while (seg < pL.length - 2 && pL[seg + 1] < s) seg++;
+  while (seg > 0 && pL[seg] > s) seg--;
+  const l0 = pL[seg], l1 = pL[seg + 1], t = l1 > l0 ? clamp((s - l0) / (l1 - l0), 0, 1) : 0;
+  px = lerp(pX[seg], pX[seg + 1], t); py = lerp(pY[seg], pY[seg + 1], t); pa = lerp(pA[seg], pA[seg + 1], t);
+}
+
+/* ─────────────────────────────  camera  ───────────────────────────── */
+const cam = { yaw: 0.6, pitch: 0, zoom: 0.92, tx: 0, ty: 0, cy: 0.5 };
+const camT = { yaw: 0.6, pitch: 0, zoom: 0.92, tx: 0, ty: 0, cy: 0.5 };
+let cyw = 1, syw = 0, cp = 1, sp = 0, F = 1, shx = 0, shy = 0;
+let _x = 0, _y = 0, _k = 0;
+const DIST = 3.2;
+function camPrep() {
+  cyw = Math.cos(cam.yaw); syw = Math.sin(cam.yaw);
+  cp = Math.cos(cam.pitch); sp = Math.sin(cam.pitch);
+  F = S * (portrait ? 1.16 : 1.26) * cam.zoom;
+}
+function P(x, y, z) {
+  x -= cam.tx; y -= cam.ty;
+  const xr = x * cyw - y * syw, yr = x * syw + y * cyw;
+  const Y = yr * cp + z * sp, D = DIST + yr * sp - z * cp, k = F / D;
+  _x = W * 0.5 + xr * k + shx; _y = H * cam.cy - Y * k + shy; _k = k;
+}
+
+/* ─────────────────────────────  world state  ───────────────────────────── */
+const OMEGA = [0.05, -0.06, 0.07, -0.08, 0.09, -0.1];
+const warriors = [];
+const dust = [];
+for (let i = 0; i < 520; i++) { const r = Math.sqrt(Math.random()) * 1.55, a = Math.random() * TAU; dust.push([r * Math.cos(a), r * Math.sin(a), Math.random()]); }
+let parts = [], broken = [], trail = [], pend = [];
+const wallProg = new Float32Array(7);
+let warriorAlpha = 0, wheel = 0;
+let s = 0, vel = 0, nextBreak = 0, charge = 0, ringsBroken = 0;
+let abhiI = 0, flameOut = 0, wheelGlyph = 0, stuckPush = 0;
+let barrier = 0, hotspot = false, revealOpen = false, revealSeen = false, revealClosedAt = 0;
+let sunset = 0, endUI = 0, flash = 0, shake = 0;
+let heldEver = false, idle = 0, holding = false, stuckHint = false;
+const pandavas = [];
+const six = [];
+let phase = 'start', pt = 0, clock = 0;
+const fired = new Set();
+let cap = { text: '', t: 0, dur: 0 };
+let distAcc = 0, lastClash = 0;
+
+function makeWarriors() {
+  warriors.length = 0;
+  for (let c = 0; c < 6; c++) {
+    const n = Math.round(300 * CORR[c]);
+    for (const dr of [-0.024, 0.022]) {
+      for (let j = 0; j < n; j++) {
+        if (Math.random() < 0.08) continue;
+        warriors.push({ c, r: CORR[c] + dr + rnd(-0.006, 0.006), a: TAU * j / n + rnd(-0.012, 0.012), st: 0, u: 0, glint: j % 5 === 0, h: rnd(0.7, 1.2), dark: Math.random() < 0.38 });
+      }
+    }
+  }
+  for (let j = 0; j < 240; j++) warriors.push({ c: 6, u: 2.08 * j / 240 + rnd(-0.004, 0.004), off: (j % 2 ? 0.022 : -0.022) + rnd(-0.005, 0.005), a: 0, r: 0, st: 0, glint: j % 4 === 0, h: rnd(0.7, 1.2), dark: Math.random() < 0.38 });
+}
+function resetWorld() {
+  makeWarriors();
+  parts = []; broken = []; trail = []; pend = [];
+  wallProg.fill(0); warriorAlpha = 0; wheel = 0;
+  s = 0; seg = 0; vel = 0; nextBreak = 0; charge = 0; ringsBroken = 0;
+  abhiI = 0; flameOut = 0; wheelGlyph = 0; stuckPush = 0;
+  barrier = 0; hotspot = false; revealOpen = false; revealSeen = false; revealClosedAt = 0;
+  sunset = 0; endUI = 0; flash = 0; shake = 0; heldEver = false; idle = 0; stuckHint = false;
+  pandavas.length = 0;
+  for (const d of [-12, -5, 5, 12]) pandavas.push({ a: -PI / 2 + d * PI / 180, r: 1.24, tr: 1.24 });
+  six.length = 0;
+  for (let i = 0; i < 6; i++) six.push({ ang: i * TAU / 6, rad: 0.26, on: 0 });
+  fired.clear(); cap = { text: '', t: 0, dur: 0 };
+  Object.assign(camT, { yaw: 0.6, pitch: 0, zoom: 0.92, tx: 0, ty: 0, cy: 0.5 });
+  Object.assign(cam, camT);
+}
+
+function say(text, dur = 4.6) { cap = { text, t: 0, dur }; live.textContent = text; }
+function later(t, fn) { pend.push({ t, fn }); }
+function go(p) { phase = p; pt = 0; }
+function at(key, time, fn) { const id = phase + ':' + key; if (pt >= time && !fired.has(id)) { fired.add(id); fn(); } }
+
+function embers(x, y, z, n, spd, col) {
+  for (let i = 0; i < n; i++) parts.push({ k: 0, x, y, z, vx: rnd(-1, 1) * spd, vy: rnd(-1, 1) * spd, vz: rnd(0.05, 1) * spd + 0.04, life: 0, max: rnd(0.9, 2.6), s: rnd(0.004, 0.011), col });
+}
+function debris(x, y, n) {
+  const a = Math.atan2(y, x);
+  for (let i = 0; i < n; i++) {
+    const sp2 = rnd(0.15, 0.7), da = rnd(-0.9, 0.9);
+    parts.push({ k: 1, x, y, z: WALL_H * 0.8, vx: Math.cos(a + PI + da) * sp2 * rnd(-0.6, 1), vy: Math.sin(a + PI + da) * sp2 * rnd(-0.6, 1), vz: rnd(0.3, 1.1), life: 0, max: rnd(1.1, 2.2), s: rnd(0.006, 0.016) });
+  }
+}
+
+/* ─────────────────────────────  sound  ───────────────────────────── */
+let ac = null, master = null, bus = null, rev = null, lowpass = null, noiseBuf = null, muted = false;
+const tan = {}; let tanNext = 0, drumNext = 0, windGain = null, drumsOn = false;
+const SA = 110;
+function audioStart() {
+  if (ac) return;
+  try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { ac = null; return; }
+  const comp = ac.createDynamicsCompressor(); comp.threshold.value = -16; comp.ratio.value = 3.5;
+  master = ac.createGain(); master.gain.value = muted ? 0 : 0.95;
+  lowpass = ac.createBiquadFilter(); lowpass.type = 'lowpass'; lowpass.frequency.value = 18000;
+  master.connect(lowpass); lowpass.connect(comp); comp.connect(ac.destination);
+  bus = ac.createGain(); bus.connect(master);
+  rev = ac.createConvolver(); rev.buffer = impulse(3.4, 2.6);
+  const rg = ac.createGain(); rg.gain.value = 0.55; rev.connect(rg); rg.connect(master);
+  const n = ac.sampleRate * 2; noiseBuf = ac.createBuffer(1, n, ac.sampleRate);
+  const nd = noiseBuf.getChannelData(0); for (let i = 0; i < n; i++) nd[i] = Math.random() * 2 - 1;
+  tan.pa = ks(SA * 0.75, 3.4); tan.sa = ks(SA, 3.4); tan.lo = ks(SA / 2, 3.8);
+  tanNext = ac.currentTime + 1.2;
+  setInterval(schedule, 90);
+}
+function impulse(sec, decay) {
+  const n = Math.floor(ac.sampleRate * sec), b = ac.createBuffer(2, n, ac.sampleRate);
+  for (let ch = 0; ch < 2; ch++) { const d = b.getChannelData(ch); for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, decay); }
+  return b;
+}
+function ks(freq, dur) {
+  // Karplus–Strong string with a soft buzz, a stand-in for the tanpura's jawari
+  const sr = ac.sampleRate, n = Math.floor(sr * dur), b = ac.createBuffer(1, n, sr), d = b.getChannelData(0);
+  const N = Math.max(2, Math.round(sr / freq)), ring = new Float32Array(N);
+  for (let i = 0; i < N; i++) ring[i] = Math.random() * 2 - 1;
+  let idx = 0;
+  for (let i = 0; i < n; i++) {
+    const a = ring[idx], c2 = ring[(idx + 1) % N];
+    ring[idx] = (a + c2) * 0.5 * 0.9985;
+    d[i] = Math.tanh(a * 1.8) * 0.55 * Math.min(1, i / 60);
+    idx = (idx + 1) % N;
+  }
+  return b;
+}
+function out(node, dry, wet) {
+  const g = ac.createGain(); g.gain.value = dry; node.connect(g); g.connect(bus);
+  if (wet > 0) { const w = ac.createGain(); w.gain.value = wet; node.connect(w); w.connect(rev); }
+}
+function pluck(buf, t, gain) {
+  const s0 = ac.createBufferSource(); s0.buffer = buf;
+  const g = ac.createGain(); g.gain.value = gain; s0.connect(g); out(g, 1, 0.4); s0.start(t);
+}
+function drum(t, amp = 0.8, f0 = 120, f1 = 44, len = 0.8) {
+  const o = ac.createOscillator(); o.type = 'sine';
+  o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + 0.3);
+  const g = ac.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(amp, t + 0.008); g.gain.exponentialRampToValueAtTime(0.0001, t + len);
+  o.connect(g); out(g, 1, 0.22); o.start(t); o.stop(t + len + 0.05);
+  const nsrc = ac.createBufferSource(); nsrc.buffer = noiseBuf;
+  const bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 240; bp.Q.value = 0.8;
+  const ng = ac.createGain(); ng.gain.setValueAtTime(amp * 0.45, t); ng.gain.exponentialRampToValueAtTime(0.0001, t + 0.13);
+  nsrc.connect(bp); bp.connect(ng); out(ng, 1, 0.15); nsrc.start(t, Math.random()); nsrc.stop(t + 0.2);
+}
+function tak(t, amp = 0.12, f = 2600) {
+  const nsrc = ac.createBufferSource(); nsrc.buffer = noiseBuf;
+  const bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = f; bp.Q.value = 2.2;
+  const g = ac.createGain(); g.gain.setValueAtTime(amp, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.06);
+  nsrc.connect(bp); bp.connect(g); out(g, 1, 0.3); nsrc.start(t, Math.random()); nsrc.stop(t + 0.08);
+}
+function clash(t, amp = 0.16) {
+  tak(t, amp * 1.4, 3400);
+  const o = ac.createOscillator(); o.type = 'triangle';
+  o.frequency.setValueAtTime(rnd(1700, 2300), t); o.frequency.exponentialRampToValueAtTime(rnd(1100, 1400), t + 0.25);
+  const g = ac.createGain(); g.gain.setValueAtTime(amp * 0.35, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.32);
+  o.connect(g); out(g, 1, 0.35); o.start(t); o.stop(t + 0.35);
+}
+function shankh(t) {
+  // conch: a reedy tone with a slow swell, a breath of noise, and a little vibrato
+  const o = ac.createOscillator(); o.type = 'sawtooth';
+  o.frequency.setValueAtTime(176, t); o.frequency.exponentialRampToValueAtTime(196, t + 0.45);
+  const vib = ac.createOscillator(); vib.frequency.value = 5.2; const vg = ac.createGain(); vg.gain.value = 0;
+  vg.gain.setValueAtTime(0, t + 0.9); vg.gain.linearRampToValueAtTime(2.2, t + 1.8); vib.connect(vg); vg.connect(o.frequency);
+  const f1 = ac.createBiquadFilter(); f1.type = 'bandpass'; f1.frequency.value = 780; f1.Q.value = 1.4;
+  const f2 = ac.createBiquadFilter(); f2.type = 'lowpass'; f2.frequency.value = 2200;
+  const g = ac.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.5, t + 0.6);
+  g.gain.setValueAtTime(0.5, t + 2.3); g.gain.linearRampToValueAtTime(0.0001, t + 3.6);
+  o.connect(f1); f1.connect(f2); f2.connect(g); out(g, 1, 0.6);
+  const nsrc = ac.createBufferSource(); nsrc.buffer = noiseBuf;
+  const nb = ac.createBiquadFilter(); nb.type = 'bandpass'; nb.frequency.value = 1500; nb.Q.value = 0.7;
+  const ng = ac.createGain(); ng.gain.setValueAtTime(0.0001, t); ng.gain.linearRampToValueAtTime(0.05, t + 0.5); ng.gain.linearRampToValueAtTime(0.0001, t + 3.4);
+  nsrc.connect(nb); nb.connect(ng); out(ng, 1, 0.4);
+  o.start(t); vib.start(t); nsrc.start(t); o.stop(t + 3.7); vib.stop(t + 3.7); nsrc.stop(t + 3.7);
+}
+function bell(t, base = 330, amp = 0.2) {
+  const ratios = [1, 2.0, 2.76, 3.8, 5.4, 6.8];
+  ratios.forEach((r, i) => {
+    const o = ac.createOscillator(); o.type = 'sine'; o.frequency.value = base * r;
+    const g = ac.createGain(); const a2 = amp / (1 + i * 0.9);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(a2, t + 0.005); g.gain.exponentialRampToValueAtTime(0.0001, t + 5.5 / (1 + i * 0.35));
+    o.connect(g); out(g, 1, 0.7); o.start(t); o.stop(t + 6);
+  });
+}
+function windStart() {
+  if (!ac || windGain) return;
+  const nsrc = ac.createBufferSource(); nsrc.buffer = noiseBuf; nsrc.loop = true;
+  const bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 420; bp.Q.value = 0.5;
+  windGain = ac.createGain(); windGain.gain.value = 0.0001;
+  windGain.gain.linearRampToValueAtTime(0.07, ac.currentTime + 4);
+  const lfo = ac.createOscillator(); lfo.frequency.value = 0.08; const lg = ac.createGain(); lg.gain.value = 180;
+  lfo.connect(lg); lg.connect(bp.frequency);
+  nsrc.connect(bp); bp.connect(windGain); out(windGain, 1, 0.3); nsrc.start(); lfo.start();
+}
+function schedule() {
+  if (!ac) return;
+  const now = ac.currentTime, ahead = now + 0.35;
+  const soft = phase === 'end' ? 0.55 : 1;
+  while (tanNext < ahead) {
+    const t = tanNext;
+    pluck(tan.pa, t, 0.2 * soft); pluck(tan.sa, t + 0.66, 0.17 * soft); pluck(tan.sa, t + 1.32, 0.17 * soft); pluck(tan.lo, t + 1.98, 0.24 * soft);
+    tanNext += 2.9;
+  }
+  if (drumsOn) {
+    if (drumNext < now) drumNext = now + 0.05;
+    const stuck = phase === 'stuck';
+    const bpm = stuck ? 128 : 70 + ringsBroken * 9;
+    const beat = 60 / bpm;
+    while (drumNext < ahead) {
+      drum(drumNext, stuck ? 0.5 : 0.42, 110, 42, 0.6);
+      if (ringsBroken >= 2 || stuck) tak(drumNext + beat * 0.5, 0.09, 900);
+      if (stuck) drum(drumNext + beat * 0.25, 0.22, 90, 40, 0.3);
+      drumNext += beat;
+    }
+  }
+}
+function sfx(fn, ...a) { if (ac) fn(ac.currentTime + 0.01, ...a); }
+function setMute(m) {
+  muted = m;
+  if (ac && master) master.gain.setTargetAtTime(muted ? 0 : 0.95, ac.currentTime, 0.05);
+}
+function setMuffle(on) {
+  if (ac && lowpass) lowpass.frequency.setTargetAtTime(on ? 700 : 18000, ac.currentTime, 0.12);
+}
+document.addEventListener('visibilitychange', () => { if (!ac) return; if (document.hidden) ac.suspend(); else ac.resume(); });
+
+/* ─────────────────────────────  story  ───────────────────────────── */
+const RING_LINES = [
+  null,
+  'The Pāṇḍavas cannot follow him in.',
+  'He fights on alone.',
+  'Princes and kings fall before a boy of sixteen.',
+  'Droṇa praises his skill, even as he plans his end.',
+  'Six rings broken.'
+];
+
+function begin() {
+  if (phase !== 'start') return;
+  audioStart();
+  if (ac && ac.state === 'suspended') ac.resume();
+  resetWorld();
+  go('carve');
+  sfx(shankh);
+}
+function restart() {
+  resetWorld();
+  go('carve');
+  sfx(shankh);
+}
+function doBreak(i) {
+  broken.push({ ring: i, a: BREAK_A[i], w: 0.2 });
+  const bx = WALLS[i] * Math.cos(BREAK_A[i]), by = WALLS[i] * Math.sin(BREAK_A[i]);
+  debris(bx, by, 46);
+  embers(bx, by, WALL_H, 70, 0.55, i % 2 ? C.gold : '#F08A2C');
+  for (const w of warriors) {
+    if (w.st) continue;
+    if ((w.c === i && angDist(w.a, BREAK_A[i]) < 0.32) || (w.c === i - 1 && angDist(w.a, BREAK_A[i]) < 0.16)) { w.st = 1; w.a += rnd(-0.03, 0.03); w.r += rnd(-0.01, 0.01); }
+  }
+  shake = 0.55; flash = 0.28;
+  ringsBroken = i + 1;
+  if (navigator.vibrate) { try { navigator.vibrate(35); } catch (e) {} }
+  sfx(drum, 1.0, 150, 36, 1.3); sfx(clash, 0.24);
+  if (i === 0) {
+    for (const p of pandavas) p.tr = 1.06;
+    later(1.9, () => { barrier = 0.001; sfx(drum, 0.7, 90, 34, 1.2); say('Behind him, Jayadratha seals the breach.'); });
+  } else if (RING_LINES[i]) later(0.5, () => say(RING_LINES[i]));
+}
+function openReveal() { if (revealOpen) return; revealOpen = true; revealSeen = true; setMuffle(true); sfx(bell, 520, 0.12); }
+function closeReveal() { if (!revealOpen) return; revealOpen = false; revealClosedAt = pt; setMuffle(false); }
+
+/* ─────────────────────────────  update  ───────────────────────────── */
+let lampX = 0, lampY = 0, lampTX = 0, lampTY = 0;
+const ptr = { x: 0, y: 0, t: -99 };
+let abX = 0, abY = 0, abK = 1, chiselX = 0, chiselY = 0;
+
+function update(dt) {
+  clock += dt; pt += dt;
+  for (let i = pend.length - 1; i >= 0; i--) { pend[i].t -= dt; if (pend[i].t <= 0) { const f = pend[i].fn; pend.splice(i, 1); f(); } }
+  if (cap.text) cap.t += dt;
+
+  const tilt = portrait ? 0.8 : 0.98;
+  if (phase === 'carve') {
+    for (let i = 0; i < 7; i++) wallProg[i] = ease((pt - 0.8 - i * 0.85) / 0.85);
+    const cur = Math.min(6, Math.floor(Math.max(0, pt - 0.8) / 0.85));
+    if (wallProg[6] < 1 && pt > 0.8) {
+      const pr = wallProg[cur];
+      let x, y;
+      if (cur < 6) { const a = A0 + TAU * pr; x = WALLS[cur] * Math.cos(a); y = WALLS[cur] * Math.sin(a); }
+      else { const a = SP.a0 + SP.turns * TAU * pr; const r = spiralR(a); x = r * Math.cos(a); y = r * Math.sin(a); }
+      chiselX = x; chiselY = y;
+      if (Math.random() < dt * 40) embers(x, y, WALL_H, 1, 0.3, C.gold);
+      if (ac && Math.random() < dt * 9) sfx(tak, 0.07, rnd(2200, 3200));
+    }
+    Object.assign(camT, { yaw: 0.6 * (1 - ease(pt / 9.5)), pitch: 0, zoom: 0.92 + 0.06 * ease(pt / 9.5), tx: 0, ty: 0, cy: 0.5 });
+    at('t', 7.9, () => say('Droṇa has drawn the Kaurava army into a wheel of seven rings.', 5));
+    if (pt > 9.6) { go('army'); windStart(); }
+  } else if (phase === 'army') {
+    wallProg.fill(1);
+    warriorAlpha = ease(pt / 3.2); wheel = ease(pt / 4);
+    Object.assign(camT, { yaw: -0.22, pitch: tilt, zoom: portrait ? 1.42 : 1.2, tx: 0, ty: 0, cy: portrait ? 0.5 : 0.53 });
+    at('a', 3.2, () => say('Arjuna, who knows how to break it, has been lured away to the south.', 4.6));
+    if (pt > 8.2) { go('ride'); drumsOn = true; }
+  } else if (phase === 'ride') {
+    warriorAlpha = 1; wheel = 1;
+    abhiI = Math.min(1, abhiI + dt * 0.8);
+    at('a', 0.2, () => say('His son Abhimanyu is sixteen.', 3.4));
+    at('b', 3.6, () => say('He knows the way in. He does not know the way out.', 4.6));
+    const autoGo = !heldEver && idle > 11;
+    const want = holding ? 1 : (autoGo || (heldEver && idle > 7) ? 0.5 : 0);
+    if (holding) { idle = 0; heldEver = true; } else idle += dt;
+    const atWall = nextBreak < 6 && s >= breakL[nextBreak] - 1e-5;
+    if (atWall) {
+      s = breakL[nextBreak]; vel = 0;
+      charge += dt * want * 1.35;
+      if (want > 0 && Math.random() < dt * 16) {
+        const a = BREAK_A[nextBreak], r = WALLS[nextBreak];
+        embers(r * Math.cos(a), r * Math.sin(a), WALL_H * 0.6, 2, 0.35, Math.random() < 0.5 ? C.gold : C.sindoor);
+        if (clock - lastClash > 0.14) { lastClash = clock; sfx(clash, 0.12); }
+      }
+      if (charge >= 1) { doBreak(nextBreak); nextBreak++; charge = 0; }
+    } else {
+      vel += (want * 0.52 - vel) * Math.min(1, dt * 5);
+      const lim = nextBreak < 6 ? breakL[nextBreak] : endL;
+      const before = s;
+      s = Math.min(s + vel * dt, lim);
+      distAcc += s - before;
+      if (nextBreak >= 6 && s >= spiralL && !fired.has('ride:sp')) { fired.add('ride:sp'); say('The seventh ring turns inward, and closes.', 4.6); }
+      if (s >= endL - 1e-5 && nextBreak >= 6) { go('stuck'); }
+    }
+    pathAt(s);
+    // warriors he rides through
+    if (s > breakL[0]) {
+      let cor = 6; for (let i = 0; i < 6; i++) { if (s >= breakL[i] && (i === 5 ? s < spiralL : s < breakL[i + 1])) cor = i; }
+      for (const w of warriors) {
+        if (w.st || (w.c !== cor && !(cor === 5 && w.c === 6))) continue;
+        const wx = w.c === 6 ? w.x : w.r * Math.cos(w.a), wy = w.c === 6 ? w.y : w.r * Math.sin(w.a);
+        if ((wx - px) * (wx - px) + (wy - py) * (wy - py) < 0.0021) {
+          w.st = 1; if (w.c === 6) { w.fa = w.a; }
+          if (Math.random() < 0.5) embers(wx, wy, 0.02, 2, 0.25, C.gold);
+          if (clock - lastClash > 0.11 && Math.random() < 0.6) { lastClash = clock; sfx(clash, rnd(0.07, 0.14)); }
+        }
+      }
+    }
+    if (clock % 0.04 < dt) { trail.push([px, py]); if (trail.length > 46) trail.shift(); }
+    const follow = 0.35 + 0.07 * ringsBroken;
+    const inSpiral = s > spiralL;
+    Object.assign(camT, {
+      yaw: (-PI / 2 - pa) * 0.72 - 0.22 * (1 - Math.min(1, s / 1.2)),
+      pitch: tilt + 0.02 * ringsBroken,
+      zoom: (portrait ? 1.5 : 1.24) + 0.1 * ringsBroken + (inSpiral ? 0.25 : 0),
+      tx: px * follow, ty: py * follow, cy: 0.54
+    });
+  } else if (phase === 'stuck') {
+    abhiI = 1;
+    pathAt(endL);
+    at('a', 0.5, () => say('Six great warriors come at him together.', 4.4));
+    at('b', 4.8, () => { say('Why did no one follow him in?', 7.5); hotspot = true; sfx(bell, 660, 0.08); });
+    for (const x of six) { x.on = Math.min(1, x.on + dt * 0.5); x.rad = lerp(x.rad, 0.13, dt * 0.35); x.ang += dt * 0.3; }
+    if (holding) {
+      if (!stuckHint) { stuckHint = true; later(0.6, () => { if (phase === 'stuck' && !revealOpen) say('The seventh ring does not break.', 3); }); }
+      stuckPush = Math.min(1, stuckPush + dt * 2);
+      if (Math.random() < dt * 22) embers(px + rnd(-0.02, 0.02), py + rnd(-0.02, 0.02), 0.02, 2, 0.4, Math.random() < 0.5 ? C.sindoor : C.gold);
+      if (clock - lastClash > 0.16) { lastClash = clock; sfx(clash, 0.12); }
+      shake = Math.max(shake, 0.12);
+    } else stuckPush = Math.max(0, stuckPush - dt * 2);
+    Object.assign(camT, { yaw: (-PI / 2 - pa) * 0.72 + pt * 0.03, pitch: tilt + 0.16, zoom: portrait ? 2.4 : 2.05, tx: px * 0.85, ty: py * 0.85, cy: 0.56 });
+    const done = revealSeen ? (!revealOpen && pt - revealClosedAt > 1.8) : pt > 16;
+    if (done) { hotspot = false; go('fall'); }
+  } else if (phase === 'fall') {
+    pathAt(endL);
+    at('a', 0.4, () => say('They cut his bow. His horses fall. His charioteer falls.', 4));
+    at('b', 4.6, () => { say('Weaponless, he lifts a chariot wheel and fights on.', 5); sfx(drum, 0.9, 140, 40, 1.2); });
+    if (pt > 4.6 && pt < 9.4) wheelGlyph = Math.min(1, wheelGlyph + dt * 1.2);
+    for (const x of six) { x.rad = lerp(x.rad, pt > 9.4 ? 0.012 : 0.085, dt * (pt > 9.4 ? 1.4 : 0.5)); x.ang += dt * 0.45; }
+    if (pt > 9.4) {
+      if (!fired.has('fall:out')) { fired.add('fall:out'); drumsOn = false; sfx(drum, 1.0, 100, 30, 2.2); shake = 0.4; embers(px, py, 0.03, 90, 0.5, C.sindoor); if (ac && windGain) windGain.gain.setTargetAtTime(0.015, ac.currentTime, 1.2); }
+      flameOut = Math.min(1, flameOut + dt * 0.7);
+      wheelGlyph = Math.max(0, wheelGlyph - dt * 0.8);
+    }
+    at('c', 12.4, () => sfx(bell, 330, 0.24));
+    Object.assign(camT, { yaw: (-PI / 2 - pa) * 0.72 + 0.14 + pt * 0.02, pitch: tilt + 0.2, zoom: portrait ? 2.6 : 2.25, tx: px * 0.9, ty: py * 0.9, cy: 0.56 });
+    if (pt > 13.6) go('end');
+  } else if (phase === 'end') {
+    pathAt(endL);
+    sunset = Math.min(1, sunset + dt * 0.25);
+    endUI = Math.min(1, Math.max(0, (pt - 6.6) * 0.8));
+    at('a', 0.6, () => say('Sunset, the thirteenth day.', 4));
+    Object.assign(camT, { yaw: pt * 0.02, pitch: 0.3, zoom: portrait ? 0.74 : 0.6, tx: 0, ty: 0, cy: portrait ? 0.29 : 0.3 });
+    if (Math.random() < dt * 8) embers(rnd(-0.9, 0.9), rnd(-0.9, 0.9), 0.02, 1, 0.12, Math.random() < 0.5 ? C.gold : '#F08A2C');
+  }
+
+  // the wheel turns
+  const turn = wheel * (phase === 'stuck' || phase === 'fall' ? 1.8 : 1);
+  for (const w of warriors) {
+    if (w.c < 6) { if (!w.st) w.a += OMEGA[w.c] * turn * dt; }
+    else {
+      if (!w.st) { w.u += dt * 0.03 * turn; if (w.u > 2.08) w.u -= 2.08; }
+      const a = SP.a0 + w.u * TAU + 0.06;
+      const r = spiralR(a) - SP.pitch * 0.5 + w.off;
+      if (!w.st) { w.a = a; w.x = r * Math.cos(a); w.y = r * Math.sin(a); }
+    }
+  }
+  // the Pandavas at the gate
+  for (const p of pandavas) p.r = lerp(p.r, p.tr, dt * 1.1);
+  if (barrier > 0) barrier = Math.min(1, barrier + dt * 0.8);
+
+  // particles
+  for (let i = parts.length - 1; i >= 0; i--) {
+    const q = parts[i];
+    q.life += dt;
+    if (q.life >= q.max) { parts[i] = parts[parts.length - 1]; parts.pop(); continue; }
+    if (q.k === 0) { q.vx *= 0.985; q.vy *= 0.985; q.vz = q.vz * 0.99 + 0.07 * dt; }
+    else { q.vz -= 2.4 * dt; if (q.z < 0) { q.z = 0; q.vz *= -0.28; q.vx *= 0.55; q.vy *= 0.55; } }
+    q.x += q.vx * dt; q.y += q.vy * dt; q.z += q.vz * dt;
+  }
+  if (parts.length > 1400) parts.splice(0, parts.length - 1400);
+
+  // camera
+  const kk = 1 - Math.exp(-dt * (reduceMotion ? 1.0 : 1.7));
+  for (const key in camT) cam[key] += (camT[key] - cam[key]) * kk;
+  shake = Math.max(0, shake - dt * 1.3);
+  if (!reduceMotion && shake > 0) { shx = rnd(-1, 1) * shake * 12; shy = rnd(-1, 1) * shake * 12; } else { shx = shy = 0; }
+  flash = Math.max(0, flash - dt * 1.4);
+}
+
+/* ─────────────────────────────  drawing  ───────────────────────────── */
+function isBroken(ring, j) {
+  if (!broken.length) return false;
+  const a = A0 + TAU * j / SEG;
+  for (const b of broken) if (b.ring === ring && angDist(a, b.a) < b.w * 0.5) return true;
+  return false;
+}
+function strokeWall(i, z, dr, color, width) {
+  const r = WALLS[i] + dr, lim = Math.floor(SEG * wallProg[i]);
+  if (lim < 1) return;
+  ctx.beginPath(); let pen = false;
+  for (let j = 0; j <= lim; j++) {
+    if (isBroken(i, j)) { pen = false; continue; }
+    P(r * COS[j], r * SIN[j], z);
+    if (pen) ctx.lineTo(_x, _y); else { ctx.moveTo(_x, _y); pen = true; }
+  }
+  ctx.strokeStyle = color; ctx.lineWidth = width; ctx.stroke();
+}
+function strokeSpiral(z, dr, color, width, prog = wallProg[6]) {
+  const lim = Math.floor(SPN * prog);
+  if (lim < 1) return;
+  ctx.beginPath();
+  for (let j = 0; j <= lim; j++) {
+    const a = SP.a0 + SP.turns * TAU * j / SPN, r = spiralR(a) + dr;
+    P(r * Math.cos(a), r * Math.sin(a), z);
+    if (j) ctx.lineTo(_x, _y); else ctx.moveTo(_x, _y);
+  }
+  ctx.strokeStyle = color; ctx.lineWidth = width; ctx.stroke();
+}
+function notches(i, z) {
+  const lim = Math.floor(SEG * wallProg[i]);
+  ctx.beginPath();
+  for (let j = 0; j <= lim; j += 4) {
+    if (isBroken(i, j)) continue;
+    P((WALLS[i] + 0.012) * COS[j], (WALLS[i] + 0.012) * SIN[j], z); ctx.moveTo(_x, _y);
+    P((WALLS[i] - 0.012) * COS[j], (WALLS[i] - 0.012) * SIN[j], z); ctx.lineTo(_x, _y);
+  }
+  ctx.strokeStyle = 'rgba(16,17,13,0.9)'; ctx.lineWidth = 1.1; ctx.stroke();
+}
+
+function drawGround() {
+  P(0, 0, 0); const cx = _x, cy = _y, k = _k;
+  const R = 1.9 * k;
+  const g = ctx.createRadialGradient(cx, cy, R * 0.05, cx, cy, R);
+  g.addColorStop(0, '#3A3427'); g.addColorStop(0.45, '#2B271E'); g.addColorStop(0.8, 'rgba(24,23,18,0.6)'); g.addColorStop(1, 'rgba(13,14,11,0)');
+  ctx.beginPath();
+  for (let j = 0; j <= 96; j++) { const a = TAU * j / 96; P(2.2 * Math.cos(a), 2.2 * Math.sin(a), 0); if (j) ctx.lineTo(_x, _y); else ctx.moveTo(_x, _y); }
+  ctx.fillStyle = g; ctx.fill();
+  ctx.fillStyle = 'rgba(210,190,150,0.16)';
+  for (const d of dust) { P(d[0], d[1], 0); const sz = Math.max(0.8, _k * 0.004 * (0.5 + d[2])); ctx.fillRect(_x, _y, sz, sz); }
+}
+function drawWalls() {
+  P(0, 0, 0); const k0 = _k;
+  const w = Math.max(1.6, WALL_T * k0), notchZ = WALL_H;
+  const layers = [[0, '#121310'], [WALL_H * 0.33, '#1F201A'], [WALL_H * 0.66, '#2D2F27'], [WALL_H, '#3F4136']];
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  for (let i = 0; i < 6; i++) {
+    strokeWall(i, 0, 0.006, 'rgba(0,0,0,0.55)', w * 1.5);
+    for (const [z, col] of layers) strokeWall(i, z, 0, col, w);
+    strokeWall(i, WALL_H + 0.001, -0.009, 'rgba(206,172,104,0.55)', Math.max(0.8, w * 0.14));
+    notches(i, notchZ + 0.001);
+  }
+  strokeSpiral(0, 0.006, 'rgba(0,0,0,0.55)', w * 1.5);
+  for (const [z, col] of layers) strokeSpiral(z, 0, col, w);
+  strokeSpiral(WALL_H + 0.001, -0.009, 'rgba(206,172,104,0.55)', Math.max(0.8, w * 0.14));
+  // debris sits on the ground, among the walls
+  for (const q of parts) {
+    if (q.k !== 1) continue;
+    P(q.x, q.y, q.z);
+    const sz = Math.max(1, q.s * _k), a = 1 - q.life / q.max;
+    ctx.fillStyle = `rgba(88,86,72,${a})`; ctx.fillRect(_x - sz / 2, _y - sz / 2, sz, sz * 0.7);
+  }
+}
+function drawWarriors() {
+  if (warriorAlpha <= 0) return;
+  P(0, 0, 0); const k0 = _k;
+  ctx.lineCap = 'round';
+  // the fallen
+  ctx.beginPath();
+  for (const w of warriors) {
+    if (!w.st) continue;
+    const a = w.a, r = w.c === 6 ? Math.hypot(w.x, w.y) : w.r;
+    const tx = -Math.sin(a) * 0.009, ty = Math.cos(a) * 0.009;
+    const x = r * Math.cos(a), y = r * Math.sin(a);
+    P(x - tx, y - ty, 0.002); ctx.moveTo(_x, _y); P(x + tx, y + ty, 0.002); ctx.lineTo(_x, _y);
+  }
+  ctx.strokeStyle = C.fallen; ctx.lineWidth = clamp(k0 * 0.005, 1, 2.6); ctx.stroke();
+  // the standing army: a host of spears, in two tones
+  const lw = clamp(k0 * 0.0042, 1, 2.1);
+  for (const tone of [true, false]) {
+    ctx.beginPath();
+    for (const w of warriors) {
+      if (w.st || w.dark !== tone) continue;
+      const x = w.c === 6 ? w.x : w.r * Math.cos(w.a), y = w.c === 6 ? w.y : w.r * Math.sin(w.a);
+      P(x, y, 0); ctx.moveTo(_x, _y); P(x, y, WARRIOR_H * w.h); ctx.lineTo(_x, _y);
+    }
+    ctx.strokeStyle = tone ? `rgba(112,96,68,${0.9 * warriorAlpha})` : `rgba(178,152,106,${0.95 * warriorAlpha})`;
+    ctx.lineWidth = lw; ctx.stroke();
+  }
+  ctx.fillStyle = `rgba(236,196,120,${0.75 * warriorAlpha})`;
+  for (const w of warriors) {
+    if (w.st || !w.glint) continue;
+    const x = w.c === 6 ? w.x : w.r * Math.cos(w.a), y = w.c === 6 ? w.y : w.r * Math.sin(w.a);
+    P(x, y, WARRIOR_H * w.h + 0.004); const sz = clamp(_k * 0.004, 1, 2.4);
+    ctx.fillRect(_x - sz / 2, _y - sz / 2, sz, sz);
+  }
+}
+function drawHeat() {
+  // the wall glows as he charges it; the seventh ring burns when it closes
+  ctx.globalCompositeOperation = 'lighter';
+  if (phase === 'ride' && nextBreak < 6 && charge > 0) {
+    const a = BREAK_A[nextBreak], r = WALLS[nextBreak];
+    ctx.beginPath();
+    for (let j = -12; j <= 12; j++) { const aa = a + j * 0.012; P(r * Math.cos(aa), r * Math.sin(aa), WALL_H); if (j > -12) ctx.lineTo(_x, _y); else ctx.moveTo(_x, _y); }
+    ctx.strokeStyle = `rgba(222,80,40,${0.2 + charge * 0.7})`; ctx.lineWidth = Math.max(2, _k * 0.03 * (0.4 + charge)); ctx.stroke();
+  }
+  const closing = phase === 'stuck' ? ease(pt / 5) : phase === 'fall' ? 1 - ease((pt - 9) / 3) : (phase === 'ride' && s > spiralL ? 0.25 : 0);
+  if (closing > 0.01) {
+    P(0, 0, 0); const w = Math.max(1.5, WALL_T * _k * 0.6);
+    strokeSpiral(WALL_H, -0.004, `rgba(200,57,31,${0.4 * closing})`, w, 1);
+  }
+  ctx.globalCompositeOperation = 'source-over';
+}
+function drawDark() {
+  let dark = { carve: 0.9, army: 0.8, ride: 0.84, stuck: 0.86, fall: 0.88, end: 0.5 }[phase] || 0.8;
+  dark = lerp(dark, 0.42, sunset);
+  let tx = W * 0.5, ty = H * 0.52;
+  if (phase === 'carve') { P(chiselX, chiselY, WALL_H); tx = _x; ty = _y; }
+  else if (phase === 'ride' || phase === 'stuck' || phase === 'fall') { tx = abX; ty = abY; }
+  if (finePointer && clock - ptr.t < 2.5 && phase !== 'carve') { tx = lerp(tx, ptr.x, 0.7); ty = lerp(ty, ptr.y, 0.7); }
+  lampTX = tx; lampTY = ty;
+  lampX = lerp(lampX || tx, lampTX, 0.08); lampY = lerp(lampY || ty, lampTY, 0.08);
+  const flick = reduceMotion ? 1 : 1 + Math.sin(clock * 11.3) * 0.025 + Math.sin(clock * 23.7) * 0.018 + (Math.random() - 0.5) * 0.02;
+  const R = Math.max(W, H) * (phase === 'carve' ? 0.42 : phase === 'army' || phase === 'end' ? 0.62 : 0.5) * flick;
+  const g = ctx.createRadialGradient(lampX, lampY, R * 0.04, lampX, lampY, R);
+  g.addColorStop(0, 'rgba(13,14,11,0)'); g.addColorStop(0.5, `rgba(13,14,11,${dark * 0.55})`); g.addColorStop(1, `rgba(13,14,11,${dark})`);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  ctx.globalCompositeOperation = 'lighter';
+  const g2 = ctx.createRadialGradient(lampX, lampY, 0, lampX, lampY, R * 0.6);
+  g2.addColorStop(0, 'rgba(236,150,60,0.13)'); g2.addColorStop(1, 'rgba(236,150,60,0)');
+  ctx.fillStyle = g2; ctx.fillRect(0, 0, W, H);
+  ctx.globalCompositeOperation = 'source-over';
+}
+function drawLights() {
+  ctx.globalCompositeOperation = 'lighter';
+  // embers
+  for (const q of parts) {
+    if (q.k !== 0) continue;
+    P(q.x, q.y, q.z);
+    const a = 1 - q.life / q.max, sz = clamp(q.s * _k * (0.5 + a * 0.5), 1, 3.2);
+    ctx.globalAlpha = a; ctx.fillStyle = q.col; ctx.fillRect(_x - sz / 2, _y - sz / 2, sz, sz);
+  }
+  ctx.globalAlpha = 1;
+  // the Pandavas, held at the gate
+  if (phase !== 'start' && phase !== 'carve' && phase !== 'end') {
+    for (const p of pandavas) {
+      P(p.r * Math.cos(p.a), p.r * Math.sin(p.a), 0.03);
+      const r = Math.max(6, _k * 0.05);
+      ctx.globalAlpha = warriorAlpha * 0.9; ctx.drawImage(glowSilver, _x - r, _y - r, r * 2, r * 2);
+    }
+    ctx.globalAlpha = 1;
+  }
+  // Jayadratha's seal on the breach
+  if (barrier > 0 && phase !== 'end') {
+    ctx.beginPath();
+    for (let j = -10; j <= 10; j++) { const a = -PI / 2 + j * 0.011; P(1.0 * Math.cos(a), 1.0 * Math.sin(a), WALL_H * 0.7); if (j > -10) ctx.lineTo(_x, _y); else ctx.moveTo(_x, _y); }
+    ctx.strokeStyle = `rgba(200,57,31,${0.75 * barrier})`; ctx.lineWidth = Math.max(2, _k * 0.02); ctx.lineCap = 'round'; ctx.stroke();
+    P(0, -1.0, 0.04); const r = Math.max(8, _k * 0.08) * (1 + 0.08 * Math.sin(clock * 3));
+    ctx.globalAlpha = barrier; ctx.drawImage(glowRed, _x - r, _y - r, r * 2, r * 2); ctx.globalAlpha = 1;
+  }
+  // the six
+  if (phase === 'stuck' || phase === 'fall') {
+    for (const x of six) {
+      const wx = px + Math.cos(x.ang) * x.rad, wy = py + Math.sin(x.ang) * x.rad;
+      P(wx, wy, 0.03); const r = Math.max(9, _k * 0.05) * (1 + (reduceMotion ? 0 : Math.sin(clock * 4 + x.ang * 3) * 0.1));
+      ctx.globalAlpha = x.on * (1 - 0.6 * sunset); ctx.drawImage(glowRed, _x - r, _y - r, r * 2, r * 2);
+      ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = `rgba(60,10,4,${0.8 * x.on})`;
+      ctx.beginPath(); ctx.arc(_x, _y, r * 0.16, 0, TAU); ctx.fill(); ctx.globalCompositeOperation = 'lighter';
+    }
+    ctx.globalAlpha = 1;
+  }
+  // Abhimanyu: a flame seen with divya drishti
+  if (abhiI > 0) {
+    const inten = abhiI * (1 - flameOut);
+    if (trail.length > 1 && phase === 'ride') {
+      for (let i = 1; i < trail.length; i++) {
+        P(trail[i - 1][0], trail[i - 1][1], 0.025); const x0 = _x, y0 = _y;
+        P(trail[i][0], trail[i][1], 0.025);
+        const f = i / trail.length;
+        ctx.strokeStyle = `rgba(242,176,74,${0.5 * f * inten})`; ctx.lineWidth = Math.max(1, _k * 0.012 * f);
+        ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(_x, _y); ctx.stroke();
+      }
+    }
+    pathAt(phase === 'ride' ? s : endL);
+    P(px, py, 0.03);
+    abX = _x; abY = _y; abK = _k;
+    const pulse = 1 + (reduceMotion ? 0 : Math.sin(clock * 9) * 0.06 + (Math.random() - 0.5) * 0.08);
+    const heat = 1 + charge * 0.6 + stuckPush * 0.5;
+    const r = Math.max(16, _k * 0.2) * pulse * heat;
+    const fx = _x, fy = _y, fk = _k;
+    // firelight on the ground around him
+    P(px, py, 0);
+    ctx.save(); ctx.translate(_x, _y); ctx.scale(1, Math.max(0.3, cp));
+    const pr = fk * 0.34 * heat;
+    const pg = ctx.createRadialGradient(0, 0, 0, 0, 0, pr);
+    pg.addColorStop(0, `rgba(242,160,60,${0.34 * inten})`); pg.addColorStop(1, 'rgba(242,160,60,0)');
+    ctx.fillStyle = pg; ctx.beginPath(); ctx.arc(0, 0, pr, 0, TAU); ctx.fill(); ctx.restore();
+    ctx.globalAlpha = inten; ctx.drawImage(glowGold, fx - r, fy - r, r * 2, r * 2);
+    const r2 = r * 0.3; ctx.drawImage(glowGold, fx - r2, fy - r2, r2 * 2, r2 * 2);
+    ctx.save(); ctx.translate(fx, fy); ctx.scale(3.6, 0.14); ctx.globalAlpha = 0.55 * inten;
+    ctx.drawImage(glowGold, -r, -r, r * 2, r * 2); ctx.restore();
+    ctx.globalAlpha = 1;
+    _x = fx; _y = fy; _k = fk;
+    // the chariot wheel he lifts: eight spokes, as on the Konark wheel
+    if (wheelGlyph > 0) {
+      P(px, py, 0.085);
+      const R = Math.max(10, _k * 0.055), rot = clock * 1.1;
+      ctx.save(); ctx.translate(_x, _y); ctx.rotate(rot);
+      ctx.strokeStyle = `rgba(246,206,120,${0.9 * wheelGlyph * (1 - flameOut)})`; ctx.lineWidth = Math.max(1.2, _k * 0.005);
+      ctx.beginPath(); ctx.arc(0, 0, R, 0, TAU); ctx.stroke();
+      ctx.beginPath(); ctx.arc(0, 0, R * 0.82, 0, TAU); ctx.stroke();
+      ctx.beginPath();
+      for (let i = 0; i < 8; i++) { const a = i * TAU / 8; ctx.moveTo(Math.cos(a) * R * 0.16, Math.sin(a) * R * 0.16); ctx.lineTo(Math.cos(a) * R * 0.82, Math.sin(a) * R * 0.82); }
+      ctx.stroke();
+      ctx.beginPath(); ctx.arc(0, 0, R * 0.16, 0, TAU); ctx.stroke();
+      ctx.restore();
+    }
+  }
+  // what remains: one small lamp where he fell
+  if (phase === 'end') {
+    pathAt(endL); P(px, py, 0.02);
+    const r = Math.max(6, _k * 0.05) * (1 + (reduceMotion ? 0 : Math.sin(clock * 7) * 0.08));
+    ctx.globalAlpha = 0.85 * ease(pt / 3); ctx.drawImage(glowGold, _x - r, _y - r, r * 2, r * 2); ctx.globalAlpha = 1;
+  }
+  if (flash > 0) { ctx.fillStyle = `rgba(255,190,110,${flash * 0.35})`; ctx.fillRect(0, 0, W, H); }
+  ctx.globalCompositeOperation = 'source-over';
+}
+function drawSunset() {
+  if (sunset <= 0) return;
+  ctx.globalCompositeOperation = 'overlay';
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, `rgba(200,57,31,${0.55 * sunset})`); g.addColorStop(0.6, `rgba(227,120,40,${0.35 * sunset})`); g.addColorStop(1, `rgba(227,176,75,${0.2 * sunset})`);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  ctx.globalCompositeOperation = 'source-over';
+}
+function drawFilm() {
+  ctx.drawImage(vignette, 0, 0, W, H);
+  if (!reduceMotion) {
+    ctx.save();
+    ctx.globalAlpha = 0.07; ctx.globalCompositeOperation = 'overlay';
+    ctx.translate(Math.random() * 180 | 0, Math.random() * 180 | 0);
+    ctx.fillStyle = grainPat; ctx.fillRect(-180, -180, W + 360, H + 360);
+    ctx.restore();
+  }
+}
+
+/* ─────────────────────────────  type & interface  ───────────────────────────── */
+const hits = [];
+function addHit(x, y, w, h, fn) { hits.push({ x, y, w, h, fn }); }
+function hitAt(x, y) { for (let i = hits.length - 1; i >= 0; i--) { const h = hits[i]; if (x >= h.x && x <= h.x + h.w && y >= h.y && y <= h.y + h.h) return h; } return null; }
+function font(size, italic) { return `${italic ? 'italic ' : ''}${Math.round(size)}px ${FONT}`; }
+function wrap(text, maxW) {
+  const words = text.split(' '), lines = []; let cur = '';
+  for (const w of words) { const t = cur ? cur + ' ' + w : w; if (cur && ctx.measureText(t).width > maxW) { lines.push(cur); cur = w; } else cur = t; }
+  if (cur) lines.push(cur); return lines;
+}
+function write(text, x, y, o) {
+  ctx.save();
+  ctx.font = font(o.size, o.italic);
+  ctx.textAlign = o.align || 'center'; ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = o.color || C.parch; ctx.globalAlpha = o.alpha == null ? 1 : o.alpha;
+  if (o.glow) { ctx.shadowColor = o.glow; ctx.shadowBlur = o.blur || 18; }
+  if (o.shadow) { ctx.shadowColor = 'rgba(0,0,0,0.85)'; ctx.shadowBlur = 10; }
+  if (o.spacing && 'letterSpacing' in ctx) ctx.letterSpacing = o.spacing + 'px';
+  const lines = o.maxW ? wrap(text, o.maxW) : [text];
+  const lh = o.size * (o.lh || 1.4);
+  let yy = o.bottom ? y - (lines.length - 1) * lh : y;
+  for (const l of lines) { ctx.fillText(l, x, yy); yy += lh; }
+  ctx.restore();
+  return lines.length * lh;
+}
+function measure(text, size, maxW, italic, lh = 1.4) { ctx.save(); ctx.font = font(size, italic); const n = maxW ? wrap(text, maxW).length : 1; ctx.restore(); return n * size * lh; }
+
+function drawCaption() {
+  if (!cap.text) return;
+  const a = Math.min(1, cap.t / 0.45) * (1 - ease((cap.t - cap.dur) / 0.6));
+  if (a <= 0) return;
+  const size = clamp(S * 0.046, 17, 25);
+  write(cap.text, W / 2, H - (portrait ? 58 : 50), { size, italic: true, color: C.parch, alpha: a, maxW: Math.min(W - 56, 680), bottom: true, shadow: true, lh: 1.35 });
+}
+function drawHint() {
+  if (phase !== 'ride' || heldEver || pt < 5.5) return;
+  const a = 0.55 + 0.35 * Math.sin(clock * 2.6);
+  const text = finePointer ? 'Hold the mouse, or the space bar, to ride in' : 'Press and hold to ride in';
+  write(text, W / 2, H - (portrait ? 128 : 112), { size: clamp(S * 0.034, 15, 18), color: C.gold, alpha: a, shadow: true });
+  // a small ring pulsing around him
+  ctx.strokeStyle = `rgba(227,176,75,${0.5 * a})`; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.arc(abX, abY, 22 + 6 * Math.sin(clock * 2.6), 0, TAU); ctx.stroke();
+}
+const NUMS = ['१', '२', '३', '४', '५', '६', '७'];
+function drawRings() {
+  if (!['ride', 'stuck', 'fall'].includes(phase)) return;
+  const size = clamp(S * 0.034, 15, 19), gap = size * 1.55, x0 = W / 2 - gap * 3, y = 42;
+  const appear = phase === 'ride' ? ease(pt / 1.5) : 1;
+  for (let i = 0; i < 7; i++) {
+    let col = C.ash, al = 0.5 * appear;
+    if (i < ringsBroken) { col = C.gold; al = appear; }
+    if (i === 6 && (phase === 'stuck' || phase === 'fall')) { col = C.sindoor; al = 0.75 + 0.25 * Math.sin(clock * 5); }
+    write(NUMS[i], x0 + i * gap, y, { size, color: col, alpha: al });
+  }
+}
+function drawMute() {
+  const x = W - 60, y = 14, sz = 44;
+  addHit(x, y, sz, sz, () => setMute(!muted));
+  ctx.save(); ctx.translate(x + 12, y + 14);
+  ctx.strokeStyle = C.ash; ctx.fillStyle = C.ash; ctx.lineWidth = 1.5; ctx.lineJoin = 'round';
+  ctx.beginPath(); ctx.moveTo(0, 5); ctx.lineTo(5, 5); ctx.lineTo(11, 0); ctx.lineTo(11, 16); ctx.lineTo(5, 11); ctx.lineTo(0, 11); ctx.closePath(); ctx.stroke();
+  ctx.beginPath();
+  if (muted) { ctx.moveTo(15, 4); ctx.lineTo(23, 12); ctx.moveTo(23, 4); ctx.lineTo(15, 12); }
+  else { ctx.arc(12, 8, 5, -0.9, 0.9); ctx.moveTo(19.5, 1.5); ctx.arc(12, 8, 9, -0.8, 0.8); }
+  ctx.stroke(); ctx.restore();
+}
+function drawTitle() {
+  if (phase !== 'carve') return;
+  const a = ease((pt - 1.4) / 1.4) * (1 - ease((pt - 6.4) / 1.3));
+  if (a <= 0) return;
+  const size = clamp(S * 0.15, 56, 132);
+  ctx.save(); ctx.fillStyle = `rgba(8,8,6,${0.5 * a})`; ctx.fillRect(0, 0, W, H); ctx.restore();
+  write('चक्रव्यूह', W / 2, H * 0.5 + size * 0.2, { size, color: C.gold, alpha: a, glow: 'rgba(227,150,60,0.55)', blur: 28 });
+  write('Kurukṣetra, the thirteenth day', W / 2, H * 0.5 + size * 0.2 + clamp(S * 0.06, 26, 44), { size: clamp(S * 0.035, 16, 22), italic: true, color: C.parch, alpha: a * 0.9 });
+}
+function drawHotspot() {
+  if (!hotspot || revealOpen || phase !== 'stuck') return;
+  P(0, -1.0, 0.04);
+  const x = _x, y = _y, ph = (clock * 0.9) % 1;
+  const onScreen = x > 24 && x < W - 24 && y > 70 && y < H - 150;
+  if (onScreen) {
+    ctx.strokeStyle = `rgba(239,230,210,${0.9 * (1 - ph)})`; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(x, y, 14 + ph * 22, 0, TAU); ctx.stroke();
+    ctx.fillStyle = C.parch; ctx.beginPath(); ctx.arc(x, y, 5, 0, TAU); ctx.fill();
+    addHit(x - 34, y - 34, 68, 68, openReveal);
+  }
+  const by = H - (portrait ? 150 : 128);
+  ctx.save(); ctx.globalAlpha = ease(pt - 4.8);
+  pill('See who held the gate', W / 2, by, openReveal, C.parch, 'rgba(10,10,8,0.55)');
+  ctx.restore();
+}
+function pill(label, cx, cy, fn, ink, fill) {
+  ctx.save(); ctx.font = font(17, false);
+  const w = Math.max(150, ctx.measureText(label).width + 44), h = 46, x = cx - w / 2, y = cy - h / 2;
+  ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(x, y, w, h, 23); else ctx.rect(x, y, w, h);
+  if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+  ctx.strokeStyle = ink; ctx.lineWidth = 1.2; ctx.stroke();
+  ctx.fillStyle = ink; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(label, cx, cy + 1);
+  ctx.restore();
+  addHit(x, y, w, h, fn);
+}
+
+function drawReveal() {
+  if (!revealOpen) return;
+  ctx.fillStyle = 'rgba(6,6,5,0.66)'; ctx.fillRect(0, 0, W, H);
+  // a palm-leaf page: the way these texts were kept for centuries
+  const pw = Math.min(W - 24, 620), pad = portrait ? 34 : 56, inner = pw - pad * 2;
+  const INK = '#2B1D0E', RED = '#7A2A14', FADED = '#4A361B';
+  const blocks = [
+    ['Jayadratha, king of Sindhu, stood at the mouth of the wheel.', 18, false, INK, 1.5],
+    ['Years before, humbled by the Pāṇḍavas in the forest, he did penance to Śiva and won a boon: for one day he could hold back every Pāṇḍava brother except Arjuna.', 18, false, INK, 1.5],
+    ['This was the day. Arjuna was far to the south.', 18, false, INK, 1.5],
+    ['Vyāsa, Mahābhārata: the boon in the Vana Parva, the gate in the Droṇa Parva.', 15, true, FADED, 1.45]
+  ];
+  const hs = blocks.map(b => measure(b[0], b[1], inner, b[2], b[4]));
+  const privT = 'From your collection: [the detail only your books hold, cited to book, chapter and verse]';
+  const privH = measure(privT, 16, inner - 28, true, 1.45) + 22;
+  let hgt = pad + 44 + 30 + 18;
+  hs.forEach(h => { hgt += h + 10; });
+  hgt += 10 + privH + 22 + 46 + pad * 0.8;
+  const x = (W - pw) / 2, y = Math.max(16, (H - hgt) / 2);
+  ctx.save();
+  ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(x, y, pw, hgt, 30); else ctx.rect(x, y, pw, hgt);
+  const lg = ctx.createLinearGradient(0, y, 0, y + hgt);
+  lg.addColorStop(0, '#D9B97C'); lg.addColorStop(0.5, '#CDA766'); lg.addColorStop(1, '#BC9352');
+  ctx.fillStyle = lg; ctx.fill();
+  ctx.clip();
+  for (let yy = y + 3; yy < y + hgt; yy += 4) {
+    ctx.strokeStyle = `rgba(92,62,24,${0.05 + 0.05 * Math.abs(Math.sin(yy * 12.9898))})`; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, yy + 0.5); ctx.lineTo(x + pw, yy + 0.5); ctx.stroke();
+  }
+  const eg = ctx.createLinearGradient(x, 0, x + pw, 0);
+  eg.addColorStop(0, 'rgba(92,60,24,0.35)'); eg.addColorStop(0.08, 'rgba(92,60,24,0)'); eg.addColorStop(0.92, 'rgba(92,60,24,0)'); eg.addColorStop(1, 'rgba(92,60,24,0.35)');
+  ctx.fillStyle = eg; ctx.fillRect(x, y, pw, hgt);
+  ctx.restore();
+  // the two binding holes
+  for (const hx of [x + pad * 0.42, x + pw - pad * 0.42]) {
+    ctx.fillStyle = 'rgba(30,20,10,0.85)'; ctx.beginPath(); ctx.arc(hx, y + hgt / 2, 5, 0, TAU); ctx.fill();
+    ctx.strokeStyle = 'rgba(92,60,24,0.6)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(hx, y + hgt / 2, 7.5, 0, TAU); ctx.stroke();
+  }
+  let yy = y + pad + 30;
+  write('द्वार', x + pad, yy, { size: 40, color: RED, align: 'left' });
+  yy += 32;
+  write('The gate', x + pad, yy, { size: 20, italic: true, color: RED, align: 'left' });
+  yy += 18 + 20;
+  blocks.forEach((b, i) => { write(b[0], x + pad, yy, { size: b[1], italic: b[2], color: b[3], align: 'left', maxW: inner, lh: b[4] }); yy += hs[i] + 10; });
+  yy += 4;
+  ctx.save(); ctx.setLineDash([5, 4]); ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(122,42,20,0.7)';
+  ctx.strokeRect(x + pad + 0.5, yy - 18 + 0.5, inner, privH); ctx.restore();
+  write(privT, x + pad + 14, yy + 6, { size: 16, italic: true, color: RED, align: 'left', maxW: inner - 28, lh: 1.45 });
+  yy += privH + 14;
+  pill('Back to the scene', W / 2, yy + 23, closeReveal, INK, null);
+}
+
+function drawEnd() {
+  if (phase !== 'end') return;
+  const a1 = ease((pt - 3) / 2.2);
+  const big = clamp(S * 0.085, 32, 68), cy = H * (portrait ? 0.56 : 0.6);
+  if (a1 > 0) {
+    const sg = ctx.createRadialGradient(W / 2, cy + 60, 0, W / 2, cy + 60, Math.max(W, H) * 0.5);
+    sg.addColorStop(0, `rgba(8,7,5,${0.72 * a1})`); sg.addColorStop(1, 'rgba(8,7,5,0)');
+    ctx.fillStyle = sg; ctx.fillRect(0, 0, W, H);
+    write('यतो धर्मस्ततो जयः', W / 2, cy, { size: big, color: C.gold, alpha: a1, glow: 'rgba(227,150,60,0.5)', blur: 24 });
+    write('yato dharmas tato jayaḥ', W / 2, cy + big * 0.72, { size: clamp(S * 0.03, 15, 18), italic: true, color: C.ash, alpha: a1 });
+    write('Where there is dharma, there is victory.', W / 2, cy + big * 0.72 + 34, { size: clamp(S * 0.04, 18, 24), color: C.parch, alpha: a1, maxW: W - 56 });
+  }
+  if (endUI > 0) {
+    const y0 = cy + big * 0.72 + (portrait ? 104 : 92);
+    ctx.save(); ctx.globalAlpha = endUI;
+    write('Next: The vow', W / 2, y0, { size: 22, color: C.gold });
+    const h = write('Arjuna swears that Jayadratha will not live to see another sunset. Unlocks tomorrow at 7 pm.', W / 2, y0 + 30, { size: 16, color: C.ash, maxW: Math.min(W - 56, 460), lh: 1.45 });
+    pill('Watch again', W / 2, y0 + 30 + h + 26, restart, C.gold, null);
+    write('An AI-made scene from Dheevara, after Vyāsa’s Mahābhārata, Droṇa Parva.', W / 2, H - 22, { size: 13, color: C.ash, alpha: 0.85, maxW: W - 40 });
+    ctx.restore();
+  }
+}
+
+function drawStart() {
+  const R = S * 0.13, cx = W / 2, cy = H * (portrait ? 0.38 : 0.36);
+  const t = clock;
+  // the Chakra-vyuha mark: six rings and a spiral, drawn in lamplight
+  ctx.save(); ctx.translate(cx, cy); ctx.rotate(t * 0.05);
+  ctx.strokeStyle = 'rgba(227,176,75,0.75)'; ctx.lineWidth = 1.1;
+  for (let i = 0; i < 6; i++) {
+    const r = R * WALLS[i], gapA = BREAK_A[i];
+    ctx.beginPath(); ctx.arc(0, 0, r, gapA + 0.18, gapA + TAU - 0.18); ctx.stroke();
+  }
+  ctx.beginPath();
+  for (let j = 0; j <= SPN; j++) { const x = SPX[j] * R, y = SPY[j] * R; if (j) ctx.lineTo(x, y); else ctx.moveTo(x, y); }
+  ctx.stroke(); ctx.restore();
+  ctx.globalCompositeOperation = 'lighter';
+  const gr = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 2.2);
+  gr.addColorStop(0, 'rgba(236,150,60,0.16)'); gr.addColorStop(1, 'rgba(236,150,60,0)');
+  ctx.fillStyle = gr; ctx.fillRect(0, 0, W, H);
+  ctx.globalCompositeOperation = 'source-over';
+  const size = clamp(S * 0.11, 44, 96);
+  write('चक्रव्यूह', cx, cy + R + size * 1.05, { size, color: C.gold, glow: 'rgba(227,150,60,0.45)', blur: 22 });
+  write('Abhimanyu, and the seventh ring', cx, cy + R + size * 1.05 + clamp(S * 0.055, 26, 42), { size: clamp(S * 0.036, 17, 22), italic: true, color: C.parch });
+  const a = 0.6 + 0.3 * Math.sin(t * 2.2);
+  write(finePointer ? 'Best with headphones. Click or press Enter to begin.' : 'Best with headphones. Tap to begin.', cx, H - 64, { size: 16, color: C.ash, alpha: a, maxW: W - 48 });
+  write('Dheevara', cx, 44, { size: 18, color: C.gold, alpha: 0.75 });
+}
+
+function render() {
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+  ctx.fillStyle = C.night; ctx.fillRect(0, 0, W, H);
+  hits.length = 0;
+  if (phase === 'start') { drawStart(); drawFilm(); drawMute(); return; }
+  camPrep();
+  drawGround();
+  drawWalls();
+  drawWarriors();
+  drawHeat();
+  if (abhiI > 0) { pathAt(phase === 'ride' ? s : endL); P(px, py, 0.03); abX = _x; abY = _y; }
+  drawDark();
+  drawLights();
+  drawSunset();
+  drawFilm();
+  drawTitle();
+  drawRings();
+  drawHotspot();
+  drawCaption();
+  drawHint();
+  drawEnd();
+  drawReveal();
+  drawMute();
+}
+
+/* ─────────────────────────────  input  ───────────────────────────── */
+let downHit = null;
+cv.addEventListener('pointerdown', e => {
+  cv.focus();
+  ptr.x = e.offsetX; ptr.y = e.offsetY; ptr.t = clock;
+  const h = hitAt(e.offsetX, e.offsetY);
+  if (h) { downHit = h; return; }
+  if (phase === 'start') { begin(); return; }
+  if (revealOpen) return;
+  holding = true;
+  try { cv.setPointerCapture(e.pointerId); } catch (err) {}
+});
+cv.addEventListener('pointermove', e => { ptr.x = e.offsetX; ptr.y = e.offsetY; ptr.t = clock; });
+const release = e => {
+  holding = false;
+  if (downHit && e && e.type === 'pointerup') { const h = hitAt(e.offsetX, e.offsetY); if (h && h.fn === downHit.fn) h.fn(); }
+  downHit = null;
+};
+cv.addEventListener('pointerup', release);
+cv.addEventListener('pointercancel', release);
+cv.addEventListener('contextmenu', e => e.preventDefault());
+addEventListener('keydown', e => {
+  if (e.code === 'Space') { e.preventDefault(); if (e.repeat) return; if (phase === 'start') { begin(); return; } if (!revealOpen) holding = true; return; }
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    if (phase === 'start') begin();
+    else if (revealOpen) closeReveal();
+    else if (hotspot && phase === 'stuck') openReveal();
+    else if (phase === 'end' && endUI > 0.5) restart();
+    return;
+  }
+  if (e.key === 'm' || e.key === 'M') setMute(!muted);
+  if (e.key === 'Escape' && revealOpen) closeReveal();
+});
+addEventListener('keyup', e => { if (e.code === 'Space') holding = false; });
+addEventListener('blur', () => { holding = false; });
+addEventListener('resize', resize);
+
+/* ─────────────────────────────  run  ───────────────────────────── */
+resize();
+resetWorld();
+if (document.fonts && document.fonts.load) document.fonts.load(font(48, false), 'चक्रव्यूह').catch(() => {});
+
+// Preview hooks: #at=SECONDS fast-forwards, #auto holds for you, #reveal opens the sheet.
+if (args.has('at')) {
+  phase = 'carve'; pt = 0;
+  const auto = args.has('auto'), target = parseFloat(args.get('at')) || 0;
+  let t = 0;
+  while (t < target) { holding = auto; if (args.has('reveal') && hotspot && !revealSeen) openReveal(); update(1 / 30); t += 1 / 30; }
+  holding = false;
+}
+
+let last = performance.now();
+function frame(now) {
+  let dt = Math.min(0.05, (now - last) / 1000); last = now;
+  if (revealOpen) dt *= 0.25;
+  update(dt);
+  render();
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "dheevara",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.28.0",
+  "scripts": {
+    "mockups:shoot": "node design/mockups/shoot.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.56.1"
+  }
+}

@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dheevara Mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Tiro+Devanagari+Sanskrit:ital@0;1&family=Tiro+Tamil&family=Tiro+Telugu&family=Tiro+Kannada&family=Tiro+Bangla&family=Tiro+Gurmukhi&family=Noto+Serif+Gujarati:wght@500&family=Noto+Serif+Malayalam:wght@500&family=Noto+Serif+Oriya:wght@500&display=swap">
+<style>
+:root{
+  --night:#0D0E0B; --s1:#15140F; --s2:#1E1C15; --s3:#2A271D;
+  --line:rgba(239,230,210,.12); --line2:rgba(239,230,210,.22);
+  --parch:#EFE6D2; --ash:#A39B88; --ash2:#7C7564; --gold:#E3B04B; --flame:#FBE3A4; --sindoor:#E0563A; --sindoor-deep:#C8391F;
+  --leaf1:#D9B97C; --leaf2:#CDA766; --leaf3:#BC9352; --ink:#2B1D0E; --ink2:#4A361B; --leafred:#7A2A14;
+  --serif:"Tiro Devanagari Sanskrit",Georgia,serif;
+  --sans:"Figtree",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#070806;color:var(--parch);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+.wall{padding:56px 40px 80px;max-width:1900px;margin:0 auto}
+.wall>header{margin-bottom:40px}
+.wall>header h1{font-family:var(--serif);font-weight:400;font-size:40px;color:var(--gold)}
+.wall>header p{color:var(--ash);max-width:760px;margin-top:8px;line-height:1.5}
+.act{margin:56px 0 18px;display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--line);padding-top:22px}
+.act h2{font-family:var(--serif);font-weight:400;font-size:26px}
+.act span{color:var(--ash);font-size:14px}
+.row{display:flex;flex-wrap:wrap;gap:36px}
+.cell{display:flex;flex-direction:column;gap:12px}
+.cell>.cap{width:390px;font-size:13px;color:var(--ash);line-height:1.45}
+.cell>.cap b{color:var(--parch);font-weight:600;display:block;font-size:14px;margin-bottom:2px}
+
+/* phone */
+.phone{position:relative;width:390px;height:844px;background:var(--night);overflow:hidden;border-radius:44px;box-shadow:0 0 0 1px #2a2820,0 30px 80px rgba(0,0,0,.6);isolation:isolate}
+.sb{position:absolute;top:0;left:0;right:0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 30px 0 34px;font:600 15px var(--sans);z-index:20;color:var(--parch)}
+.sb i{display:inline-flex;gap:5px;align-items:center;font-style:normal}
+.sb i::before{content:"";width:17px;height:10px;border-radius:2px;background:linear-gradient(90deg,var(--parch) 0 22%,transparent 22% 30%,var(--parch) 30% 52%,transparent 52% 60%,var(--parch) 60% 82%,transparent 82%)}
+.sb i::after{content:"";width:24px;height:11px;border:1.4px solid var(--parch);border-radius:3px;background:linear-gradient(90deg,var(--parch) 70%,transparent 70%) 2px 2px/calc(100% - 4px) calc(100% - 4px) no-repeat;opacity:.9}
+.home-ind{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:var(--parch);opacity:.85;z-index:30}
+.pad{position:absolute;inset:50px 0 0 0;padding:8px 20px 0}
+.grain::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");z-index:15}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:-1}
+.scrim-b{position:absolute;inset:auto 0 0 0;height:60%;background:linear-gradient(180deg,rgba(13,14,11,0),rgba(13,14,11,.92) 62%,var(--night));z-index:0}
+.scrim-t{position:absolute;inset:0 0 auto 0;height:180px;background:linear-gradient(180deg,rgba(13,14,11,.85),rgba(13,14,11,0));z-index:0}
+
+/* type */
+.dev{font-family:var(--serif)}
+.eyebrow{font:600 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--ash)}
+.h1{font-family:var(--serif);font-size:34px;line-height:1.12;font-weight:400}
+.h2{font-family:var(--serif);font-size:24px;line-height:1.2;font-weight:400}
+.h3{font:600 17px/1.3 var(--sans)}
+.body{font-size:15px;line-height:1.5;color:var(--parch)}
+.muted{color:var(--ash)}
+.small{font-size:13px;line-height:1.45}
+.tiny{font-size:11.5px;line-height:1.4}
+.gold{color:var(--gold)}
+.it{font-style:italic}
+
+/* controls */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;height:52px;border-radius:26px;font:600 16px var(--sans);border:1px solid var(--line2);color:var(--parch);background:transparent}
+.btn.primary{background:var(--gold);color:#1A1406;border-color:var(--gold)}
+.btn.ghost{border-color:var(--line2)}
+.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:15px;border:1px solid var(--line2);font:500 13px var(--sans);color:var(--parch);white-space:nowrap}
+.chip.on{background:var(--parch);color:var(--night);border-color:var(--parch)}
+.chip.gold{border-color:rgba(227,176,75,.5);color:var(--gold)}
+.ai{position:absolute;top:58px;left:16px;z-index:25;display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:12px;background:rgba(13,14,11,.62);border:1px solid var(--line2);font:600 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--parch);backdrop-filter:blur(6px)}
+.ai::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.ibtn{width:44px;height:44px;border-radius:22px;display:flex;align-items:center;justify-content:center;color:var(--parch)}
+.ibtn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:18px}
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:84px;background:rgba(13,14,11,.94);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding-top:10px;z-index:22;backdrop-filter:blur(10px)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:4px;font:500 11px var(--sans);color:var(--ash2);width:72px}
+.tab svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.tab.on{color:var(--gold)}
+.beats{position:absolute;top:56px;left:72px;right:72px;display:flex;gap:4px;z-index:25}
+.beats span{flex:1;height:3px;border-radius:2px;background:rgba(239,230,210,.22);position:relative;overflow:hidden}
+.beats span.done{background:var(--parch)}
+.beats span.cur::after{content:"";position:absolute;inset:0;width:var(--p,40%);background:var(--parch)}
+.cite{display:inline-flex;align-items:center;gap:6px;font:500 12px var(--sans);color:var(--gold)}
+.cite::before{content:"";width:12px;height:12px;border:1.4px solid currentColor;border-radius:2px 2px 2px 6px}
+.divider{height:1px;background:var(--line);margin:14px 0}
+.lock{display:inline-block;width:12px;height:12px;vertical-align:-1px}
+.mark{display:block}
+.bg.crop{inset:-74px 0 0 0}
+</style>
+</head>
+<body>
+<div class="wall">
+<header>
+  <h1>Dheevara — product surface</h1>
+  <p>Every screen of the phone app and the two studio tools, at 390×844 and 1440×900. Chapter content is s1e3, “The seventh ring”, Droṇa Parva. Scene imagery is captured from the Chakravyūha JS experience; video frames will replace it once renders exist. Verse references are drafts until scholar proofing (DHE-4).</p>
+</header>
+
+<!-- ═════════════ ACT 1: FIRST OPEN ═════════════ -->
+<div class="act"><h2>1 · First open</h2><span>Splash, language, the three promises</span></div>
+<div class="row">
+
+<div class="cell">
+<section class="phone grain" id="s01-splash">
+  <div class="sb"><span>9:41</span><i></i></div>
+  <div style="position:absolute;inset:0;background:radial-gradient(60% 38% at 50% 40%,rgba(236,150,60,.16),transparent 70%)"></div>
+  <svg viewBox="-60 -60 120 120" style="position:absolute;left:50%;top:300px;width:150px;margin-left:-75px;transform:translateY(-50%)">
+    <g fill="none" stroke="#E3B04B" stroke-width="1.1" opacity=".85">
+      <path d="M-46 8 C-30 26 30 26 46 8"/><path d="M-36 18 C-20 32 20 32 36 18" opacity=".6"/>
+      <path d="M-50 -4 L50 -4" opacity=".35"/>
+      <path d="M0 -40 C10 -28 10 -14 0 -6 C-10 -14 -10 -28 0 -40Z"/>
+      <circle cx="0" cy="-22" r="2.4" fill="#FBE3A4" stroke="none"/>
+    </g>
+  </svg>
+  <div style="position:absolute;top:388px;left:0;right:0;text-align:center">
+    <div class="dev" style="font-size:52px;color:var(--gold);text-shadow:0 0 28px rgba(227,150,60,.45)">धीवर</div>
+    <div style="font:600 13px var(--sans);letter-spacing:.42em;text-transform:uppercase;margin-top:6px;color:var(--parch)">Dheevara</div>
+    <div class="dev it muted" style="font-size:17px;margin-top:18px">Stand beside the story.</div>
+  </div>
+  <div class="muted small" style="position:absolute;bottom:52px;left:0;right:0;text-align:center">Best with headphones</div>
+  <div class="home-ind"></div>
+</section>
+<div class="cap"><b>01 · Splash</b>A lamp on water: the fisherman who carries the story across. Two seconds, then straight into language. No sign-up before the first chapter.</div>
+</div>
+
+<div class="cell">
+<section class="phone grain" id="s02-language">
+  <div class="sb"><span>9:41</span><i></i></div>
+  <div class="pad">
+    <div class="eyebrow" style="margin-top:22px">Step 1 of 2</div>
+    <div class="h1" style="margin-top:10px">Which language do you hear stories in?</div>
+    <div class="muted small" style="margin-top:10px">Narration, captions and the regional telling follow your choice. You can change it on any chapter.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px">
+      <div class="lang on"><b style="font-family:var(--serif)">English</b><span>English</span></div>
+      <div class="lang"><b style="font-family:var(--serif)">हिन्दी</b><span>Hindi</span></div>
+      <div class="lang"><b style="font-family:'Tiro Tamil'">தமிழ்</b><span>Tamil</span></div>
+      <div class="lang"><b style="font-family:'Tiro Telugu'">తెలుగు</b><span>Telugu</span></div>
+      <div class="lang"><b style="font-family:'Tiro Kannada'">ಕನ್ನಡ</b><span>Kannada</span></div>
+      <div class="lang"><b style="font-family:'Tiro Bangla'">বাংলা</b><span>Bengali</span></div>
+      <div class="lang"><b style="font-family:'Noto Serif Malayalam'">മലയാളം</b><span>Malayalam</span></div>
+      <div class="lang"><b style="font-family:var(--serif)">मराठी</b><span>Marathi</span></div>
+      <div class="lang"><b style="font-family:'Noto Serif Gujarati'">ગુજરાતી</b><span>Gujarati</span></div>
+      <div class="lang"><b style="font-family:'Tiro Gurmukhi'">ਪੰਜਾਬੀ</b><span>Punjabi</span></div>
+      <div class="lang"><b style="font-family:'Noto Serif Oriya'">ଓଡ଼ିଆ</b><span>Odia</span></div>
+      <div class="lang soon"><b>+</b><span>More soon</span></div>
+    </div>
+    <div class="small muted" style="margin-top:16px;display:flex;gap:10px;align-items:flex-start"><span class="dev gold" style="font-size:18px;line-height:1">ॐ</span><span>Ślokas are always chanted in Sanskrit, with a translation in your language beneath.</span></div>
+  </div>
+  <div style="position:absolute;left:20px;right:20px;bottom:34px"><div class="btn primary">Continue</div></div>
+  <div class="home-ind"></div>
+  <style>
+    .lang{height:62px;border-radius:14px;border:1px solid var(--line);background:var(--s1);display:flex;flex-direction:column;justify-content:center;padding:0 14px}
+    .lang b{font-weight:400;font-size:19px;line-height:1.2}
+    .lang span{font-size:11.5px;color:var(--ash);margin-top:2px}
+    .lang.on{border-color:var(--gold);background:rgba(227,176,75,.08);box-shadow:inset 0 0 0 1px var(--gold)}
+    .lang.soon{opacity:.5;border-style:dashed}
+  </style>
+</section>
+<div class="cap"><b>02 · Language</b>All eleven Bulbul languages in their own script, set in a matching serif. The pilot ships five; the rest light up as reviewers clear them.</div>
+</div>
+
+<div class="cell">
+<section class="phone grain" id="s03-promise">
+  <div class="sb"><span>9:41</span><i></i></div>
+  <div class="pad">
+    <div class="eyebrow" style="margin-top:22px">Step 2 of 2</div>
+    <div class="h1" style="margin-top:10px">How a chapter works</div>
+    <div style="margin-top:26px;display:flex;flex-direction:column;gap:22px">
+      <div class="prom"><div class="pi"><svg viewBox="0 0 24 24"><path d="M4 5h7a2 2 0 0 1 2 2v12a2 2 0 0 0-2-2H4z"/><path d="M20 5h-7a2 2 0 0 0-2 2v12a2 2 0 0 1 2-2h7z"/></svg></div><div><div class="h3">A page opens into a scene</div><div class="small muted" style="margin-top:3px">Each chapter begins on the verse, chanted, then the page turns into the moment it describes. Two minutes.</div></div></div>
+      <div class="prom"><div class="pi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/></svg></div><div><div class="h3">You are a witness</div><div class="small muted" style="margin-top:3px">You stand beside the event, with Sañjaya, a charioteer, a vānara in the army. Never inside a deity.</div></div></div>
+      <div class="prom"><div class="pi"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h7M9 17h5"/></svg></div><div><div class="h3">Every claim shows its source</div><div class="small muted" style="margin-top:3px">Tap the leaf to set the popular telling beside the text itself, with book, chapter and verse, and the page it comes from.</div></div></div>
+      <div class="prom"><div class="pi"><svg viewBox="0 0 24 24"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><rect x="3" y="14" width="4" height="7" rx="1.5"/><rect x="17" y="14" width="4" height="7" rx="1.5"/></svg></div><div><div class="h3">Works with the screen off</div><div class="small muted" style="margin-top:3px">Every chapter is complete as audio. Lock your phone and keep listening.</div></div></div>
+    </div>
+  </div>
+  <div style="position:absolute;left:20px;right:20px;bottom:34px;display:flex;flex-direction:column;gap:10px">
+    <div class="btn primary">Begin the first chapter, free</div>
+    <div class="tiny muted" style="text-align:center">Scenes are made with AI and labelled as such. Text is reviewed by a Sanskrit scholar.</div>
+  </div>
+  <div class="home-ind"></div>
+  <style>
+    .prom{display:flex;gap:14px;align-items:flex-start}
+    .pi{flex:none;width:44px;height:44px;border-radius:22px;border:1px solid rgba(227,176,75,.4);display:flex;align-items:center;justify-content:center;color:var(--gold)}
+    .pi svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+</section>
+<div class="cap"><b>03 · The promise</b>The four product rules, stated to the viewer as reasons to trust us. First chapter is free and starts without an account.</div>
+</div>
+</div>
+
+<!-- ═════════════ ACT 2: BROWSE ═════════════ -->
+<div class="act"><h2>2 · Browse</h2><span>Home, season</span></div>
+<div class="row">
+
+<div class="cell">
+<section class="phone grain" id="s04-home">
+  <div class="sb"><span>9:41</span><i></i></div>
+  <div class="pad" style="padding-bottom:90px;overflow:hidden">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+      <div><span class="dev gold" style="font-size:24px">धीवर</span></div>
+      <div style="display:flex;gap:4px"><div class="chip" style="height:32px">EN <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><path d="m6 9 6 6 6-6"/></svg></div></div>
+    </div>
+    <!-- continue -->
+    <div style="position:relative;height:236px;border-radius:22px;overflow:hidden;margin-top:14px;border:1px solid var(--line)">
+      <div class="bg" style="background-image:url(frames/ride2.png);background-position:50% 42%"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,14,11,.1) 30%,rgba(13,14,11,.95))"></div>
+      <div style="position:absolute;left:16px;right:16px;bottom:14px">
+        <div class="eyebrow" style="color:var(--flame)">Continue · Chapter 3 of 10</div>
+        <div class="h2" style="margin-top:4px">The seventh ring</div>
+        <div class="small muted">Droṇa Parva · witnessed with Sañjaya</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:10px">
+          <div style="flex:1;height:3px;border-radius:2px;background:rgba(239,230,210,.2)"><div style="width:38%;height:100%;background:var(--gold);border-radius:2px"></div></div>
+          <span class="tiny muted">1:12 left</span>
+        </div>
+      </div>
+      <div style="position:absolute;right:14px;top:14px;width:48px;height:48px;border-radius:24px;background:var(--gold);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:#1A1406"><path d="M8 5v14l11-7z"/></svg></div>
+    </div>
+    <!-- tonight -->
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:22px"><div class="h3">Tonight at 7 pm</div><span class="tiny muted">new chapter</span></div>
+    <div class="card" style="display:flex;gap:12px;padding:10px;margin-top:10px;align-items:center">
+      <div style="width:64px;height:64px;border-radius:12px;background:url(frames/end.png) 50% 22%/220% no-repeat;flex:none"></div>
+      <div style="flex:1;min-width:0"><div style="font:600 15px var(--sans)">4 · The vow</div><div class="tiny muted" style="margin-top:2px">Arjuna returns to find the wheel broken.</div></div>
+      <div class="chip" style="height:32px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21h4"/></svg>Remind</div>
+    </div>
+    <!-- seasons -->
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:22px"><div class="h3">Seasons</div><span class="tiny gold">All</span></div>
+    <div style="display:flex;gap:12px;margin-top:10px;overflow:hidden">
+      <div class="season" style="background-image:linear-gradient(180deg,transparent 40%,rgba(13,14,11,.95)),url(frames/army.png)"><div class="eyebrow" style="color:var(--flame)">Mahābhārata</div><div class="dev" style="font-size:19px;line-height:1.15">The thirteenth day</div><div class="tiny muted">10 chapters</div></div>
+      <div class="season" style="background:radial-gradient(70% 60% at 50% 30%,#2b4a5a 0%,#10181b 60%,#0b0d0c 100%)"><svg viewBox="0 0 100 100" style="position:absolute;left:0;top:10px;width:100%;opacity:.7"><path d="M10 70 Q30 40 50 58 T90 50" fill="none" stroke="#FBE3A4" stroke-width=".8"/><circle cx="62" cy="30" r="3" fill="#FBE3A4"/></svg><div class="eyebrow" style="color:var(--flame)">Rāmāyaṇa</div><div class="dev" style="font-size:19px;line-height:1.15">The leap</div><div class="tiny muted">Sundara Kāṇḍa · soon</div></div>
+    </div>
+    <div class="card" style="margin-top:16px;padding:12px 14px;display:flex;gap:12px;align-items:center;border-color:rgba(200,57,31,.4);background:linear-gradient(90deg,rgba(200,57,31,.14),rgba(200,57,31,.03))">
+      <div class="dev" style="font-size:26px;color:var(--sindoor)">९</div>
+      <div style="flex:1"><div style="font:600 14px var(--sans)">Navarātri drop · 9 nights, 9 chapters</div><div class="tiny muted">Begins 11 Oct. Give it as a gift.</div></div>
+    </div>
+  </div>
+  <nav class="tabbar">
+    <div class="tab on"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7v9h-6v-6H9v6H3z"/></svg>Home</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M8 7.5 10.8 16M16 7.5 13.2 16M8.4 6h7.2"/></svg>Lineage</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4"/><path d="M5 20h14"/></svg>Saved</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>You</div>
+  </nav>
+  <div class="home-ind"></div>
+  <style>.season{position:relative;flex:none;width:158px;height:200px;border-radius:18px;border:1px solid var(--line);background-size:cover;background-position:center;padding:12px;display:flex;flex-direction:column;justify-content:flex-end;gap:3px;overflow:hidden}</style>
+</section>
+<div class="cap"><b>04 · Home</b>One job: resume. The next chapter has a time, not a coin. Seasons are story arcs. Festival drops sit on the calendar the audience already keeps.</div>
+</div>
+
+<div class="cell">
+<section class="phone grain" id="s05-season">
+  <div class="sb"><span>9:41</span><i></i></div>
+  <div style="position:absolute;inset:0 0 auto 0;height:330px"><div class="bg" style="background-image:url(frames/army.png);background-position:50% 55%"></div><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,14,11,.35),var(--night) 96%)"></div></div>
+  <div class="ibtn" style="position:absolute;top:52px;left:10px;z-index:3"><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></svg></div>
+  <div class="pad" style="padding-top:150px">
+    <div class="eyebrow" style="color:var(--flame)">Mahābhārata · Droṇa Parva</div>
+    <div class="h1" style="margin-top:6px">The thirteenth day</div>
+    <div class="small muted" style="margin-top:8px">Droṇa draws the Kaurava army into a wheel no Pāṇḍava can break. Ten chapters, witnessed with Sañjaya, who sees the war with divine sight.</div>
+    <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+      <span class="chip gold">Source: Vyāsa, critical edition</span><span class="chip">22 min</span><span class="chip">5 languages</span>
+    </div>
+    <div style="margin-top:18px;display:flex;flex-direction:column">
+      <div class="ep done"><span class="n">1</span><div><b>The wheel is drawn</b><span>Droṇa promises Duryodhana a Pāṇḍava king</span></div><em>1:48</em></div>
+      <div class="ep done"><span class="n">2</span><div><b>Arjuna is drawn away</b><span>The Saṃśaptakas call him south</span></div><em>1:52</em></div>
+      <div class="ep cur"><span class="n">3</span><div><b>The seventh ring</b><span>A boy of sixteen rides in</span></div><em>1:56</em></div>
+      <div class="ep"><span class="n">4</span><div><b>The vow</b><span>Tonight at 7 pm</span></div><em><svg class="lock" viewBox="0 0 24 24" style="stroke:var(--ash);fill:none;stroke-width:2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></em></div>
+      <div class="ep"><span class="n">5</span><div><b>Jayadratha hides</b><span>Members</span></div><em><svg class="lock" viewBox="0 0 24 24" style="stroke:var(--ash);fill:none;stroke-width:2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></em></div>
+    </div>
+  </div>
+  <div class="home-ind"></div>
+  <style>
+    .ep{display:flex;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+    .ep .n{font-family:var(--serif);font-size:22px;width:24px;color:var(--ash2);text-align:center}
+    .ep div{flex:1;display:flex;flex-direction:column;gap:2px}
+    .ep b{font:600 15px var(--sans)}
+    .ep div span{font-size:12.5px;color:var(--ash)}
+    .ep em{font-style:normal;font-size:12.5px;color:var(--ash)}
+    .ep.done .n{color:var(--gold)}
+    .ep.done b{color:var(--ash)}
+    .ep.cur{background:linear-gradient(90deg,rgba(227,176,75,.1),transparent);margin:0 -20px;padding:12px 20px;border-bottom-color:transparent}
+    .ep.cur .n{color:var(--gold)}
+  </style>
+</section>
+<div class="cap"><b>05 · Season</b>A season is one arc, ten chapters. The source edition is named before you press play. Locked chapters show a time or “Members”, never a price per episode.</div>
+</div>
+</div>
+
+<!-- ═════════════ ACT 3: THE CHAPTER ═════════════ -->
+<div class="act"><h2>3 · The chapter</h2><span>Book page → witness scene → hidden detail → lineage → cliffhanger</span></div>
+<div class="row">
+
+<div class="cell">
+<section class="phone grain" id="s06-bookpage">
+  <div class="sb"><span>9:41</span><i></i></div>
+  <div class="beats"><span class="cur" style="--p:70%"></span><span></span><span></span><span></span><span></span></div>
+  <div class="ibtn" style="position:absolute;top:44px;left:10px;z-index:26"><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div>
+  <div class="ibtn" style="position:absolute;top:44px;right:10px;z-index:26"><svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></div>
+  <!-- the page -->
+  <div style="position:absolute;left:14px;right:14px;top:104px;bottom:150px;border-radius:26px;background:linear-gradient(180deg,var(--leaf1),var(--leaf2) 50%,var(--leaf3));box-shadow:0 20px 60px rgba(0,0,0,.6);overflow:hidden;color:var(--ink)">
+    <div style="position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(92,62,24,.07) 0 1px,transparent 1px 4px)"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(92,60,24,.35),transparent 8%,transparent 92%,rgba(92,60,24,.35))"></div>
+    <div class="hole" style="left:16px"></div><div class="hole" style="right:16px"></div>
+    <div style="position:relative;padding:30px 38px">
+      <div style="font:600 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--leafred)">Droṇa Parva · Abhimanyu speaks</div>
+      <div class="dev" style="font-size:25px;line-height:1.55;margin-top:18px;color:var(--ink)">उपदिष्टो हि मे पित्रा<br>योगोऽनीकस्य भेदने ।<br><span class="sung">नोत्सहे तु विनिर्गन्तुम्</span><br>अहं कस्यांचिदापदि ॥</div>
+      <div class="dev it" style="font-size:15px;line-height:1.5;margin-top:14px;color:var(--ink2)">upadiṣṭo hi me pitrā yogo ’nīkasya bhedane / notsahe tu vinirgantum ahaṃ kasyāṃcid āpadi</div>
+      <div style="height:1px;background:rgba(43,29,14,.25);margin:16px 0"></div>
+      <div style="font:500 16px/1.5 var(--sans);color:var(--ink)">“My father taught me how to break into the formation. But if danger comes, I cannot find the way out.”</div>
+      <div style="font:500 12px var(--sans);color:var(--leafred);margin-top:12px">Mahābhārata 7.34.19 · critical edition (BORI)</div>
+    </div>
+  </div>
+  <!-- chant bar -->
+  <div style="position:absolute;left:20px;right:20px;bottom:56px;display:flex;align-items:center;gap:12px">
+    <div style="width:44px;height:44px;border-radius:22px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:var(--parch)"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></div>
+    <div style="flex:1">
+      <div class="wave"></div>
+      <div class="tiny muted" style="display:flex;justify-content:space-between;margin-top:6px"><span>Chanted · anuṣṭubh</span><span>Tap the page to turn</span></div>
+    </div>
+  </div>
+  <div class="home-ind"></div>
+  <style>
+    .hole{position:absolute;top:50%;width:10px;height:10px;border-radius:50%;background:rgba(30,20,10,.85);box-shadow:0 0 0 3px rgba(92,60,24,.35)}
+    .sung{background:linear-gradient(transparent 62%,rgba(200,57,31,.28) 62%)}
+    .wave{height:28px;background:
+      linear-gradient(90deg,var(--gold) 0 54%,rgba(239,230,210,.35) 54%);
+      -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='108' height='28'><g fill='black'><rect x='0' y='11' width='3' height='6' rx='1.5'/><rect x='6' y='8' width='3' height='12' rx='1.5'/><rect x='12' y='4' width='3' height='20' rx='1.5'/><rect x='18' y='9' width='3' height='10' rx='1.5'/><rect x='24' y='2' width='3' height='24' rx='1.5'/><rect x='30' y='6' width='3' height='16' rx='1.5'/><rect x='36' y='10' width='3' height='8' rx='1.5'/><rect x='42' y='5' width='3' height='18' rx='1.5'/><rect x='48' y='3' width='3' height='22' rx='1.5'/><rect x='54' y='8' width='3' height='12' rx='1.5'/><rect x='60' y='11' width='3' height='6' rx='1.5'/><rect x='66' y='6' width='3' height='16' rx='1.5'/><rect x='72' y='2' width='3' height='24' rx='1.5'/><rect x='78' y='7' width='3' height='14' rx='1.5'/><rect x='84' y='10' width='3' height='8' rx='1.5'/><rect x='90' y='4' width='3' height='20' rx='1.5'/><rect x='96' y='9' width='3' height='10' rx='1.5'/><rect x='102' y='12' width='3' height='4' rx='1.5'/></g></svg>") 0 0/104px 28px repeat-x;
+      mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='108' height='28'><g fill='black'><rect x='0' y='11' width='3' height='6' rx='1.5'/><rect x='6' y='8' width='3' height='12' rx='1.5'/><rect x='12' y='4' width='3' height='20' rx='1.5'/><rect x='18' y='9' width='3' height='10' rx='1.5'/><rect x='24' y='2' width='3' height='24' rx='1.5'/><rect x='30' y='6' width='3' height='16' rx='1.5'/><rect x='36' y='10' width='3' height='8' rx='1.5'/><rect x='42' y='5' width='3' height='18' rx='1.5'/><rect x='48' y='3' width='3' height='22' rx='1.5'/><rect x='54' y='8' width='3' height='12' rx='1.5'/><rect x='60' y='11' width='3' height='6' rx='1.5'/><rect x='66' y='6' width='3' height='16' rx='1.5'/><rect x='72' y='2' width='3' height='24' rx='1.5'/><rect x='78' y='7' width='3' height='14' rx='1.5'/><rect x='84' y='10' width='3' height='8' rx='1.5'/><rect x='90' y='4' width='3' height='20' rx='1.5'/><rect x='96' y='9' width='3' height='10' rx='1.5'/><rect x='102' y='12' width='3' height='4' rx='1.5'/></g></svg>") 0 0/104px 28px repeat-x}
+  </style>
+</section>
+<div class="cap"><b>06 · Book page</b>Beat 1. The verse in Devanagari, transliteration, translation and citation, chanted (Vāgdhenu). The line being sung is underlined in sindoor. The page turns into the scene.</div>
+</div>
+
+<div class="cell">
+<section class="phone grain" id="s07-scene">
+  <div class="sb"><span>9:41</span><i></i></div>
+  <div class="bg crop" style="background-image:url(frames/ride.png)"></div>
+  <div class="scrim-t"></div><div class="scrim-b"></div>
+  <div class="beats"><span class="done"></span><span class="cur" style="--p:46%"></span><span></span><span></span><span></span></div>
+  <div class="ai">AI-made scene</div>
+  <div class="ibtn" style="position:absolute;top:44px;right:10px;z-index:26"><svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg></div>
+  <!-- witness tag -->
+  <div style="position:absolute;top:96px;left:16px;z-index:5;display:flex;align-items:center;gap:8px">
+    <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--flame);fill:none;stroke-width:1.6"><circle cx="12" cy="12" r="3"/><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/></svg>
+    <span class="small" style="color:var(--flame)">You see it as Sañjaya sees it</span>
+  </div>
+  <!-- hotspot on the gate -->
+  <div style="position:absolute;left:216px;top:322px;z-index:6">
+    <div style="position:absolute;left:-26px;top:-26px;width:52px;height:52px;border-radius:50%;border:1.5px solid rgba(239,230,210,.75)"></div>
+    <div style="position:absolute;left:-36px;top:-36px;width:72px;height:72px;border-radius:50%;border:1px solid rgba(239,230,210,.3)"></div>
+    <div style="position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;background:var(--parch)"></div>
+  </div>
+  <!-- caption + claim -->
+  <div style="position:absolute;left:24px;right:24px;bottom:150px;z-index:5;text-align:center">
+    <div class="dev it" style="font-size:22px;line-height:1.35;text-shadow:0 2px 10px #000">He knows the way in.<br>He does not know the way out.</div>
+    <div class="cite" style="margin-top:12px;justify-content:center">7.34.19</div>
+  </div>
+  <!-- the leaf -->
+  <div style="position:absolute;left:20px;right:20px;bottom:46px;z-index:5;display:flex;gap:10px;align-items:center">
+    <div class="btn" style="flex:1;background:rgba(13,14,11,.6);border-color:rgba(217,185,124,.6);color:var(--leaf1);backdrop-filter:blur(8px)"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.6"><path d="M4 12c4-8 12-8 16 0-4 8-12 8-16 0z"/><path d="M4 12h16"/></svg>What does the text say?</div>
+    <div class="ibtn" style="border:1px solid var(--line2);background:rgba(13,14,11,.6)"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M8 7.5 10.8 16M16 7.5 13.2 16M8.4 6h7.2"/></svg></div>
+  </div>
+  <div class="home-ind"></div>
+</section>
+<div class="cap"><b>07 · Witness scene</b>Beat 2, full-bleed. The AI label never leaves. The witness is named. Every caption carries its verse. The leaf button is the hidden detail; the ring on the gate is a tappable person; the graph icon opens lineage.</div>
+</div>
+
+<div class="cell">
+<section class="phone grain" id="s08-reveal">
+  <div class="sb"><span>9:41</span><i></i></div>
+  <div class="bg crop" style="background-image:url(frames/ride.png);filter:blur(3px) brightness(.45)"></div>
+  <div class="ai">AI-made scene</div>
+  <div style="position:absolute;left:10px;right:10px;top:96px;bottom:24px;border-radius:28px;background:linear-gradient(180deg,var(--leaf1),var(--leaf2) 50%,var(--leaf3));color:var(--ink);overflow:hidden;box-shadow:0 -10px 50px rgba(0,0,0,.5)">
+    <div style="position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(92,62,24,.07) 0 1px,transparent 1px 4px)"></div>
+    <div style="position:absolute;top:8px;left:50%;width:40px;height:4px;margin-left:-20px;border-radius:2px;background:rgba(43,29,14,.35)"></div>
+    <div style="position:relative;padding:26px 24px 20px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span class="dev" style="font-size:34px;color:var(--leafred)">गुरु</span><span class="dev it" style="font-size:18px;color:var(--leafred)">Who taught him</span></div>
+      <div class="tier"><div class="tl" style="color:#6b5a3e">The popular telling</div><div class="tb">Abhimanyu learned the way into the wheel while still in his mother’s womb, hearing Arjuna describe it to Subhadrā. She fell asleep before the way out.</div><div class="ts">Retold in film, television and family storytelling</div></div>
+      <div class="tier src"><div class="tl">What the text says</div><div class="tb">Abhimanyu tells Yudhiṣṭhira that his father taught him how to break in, and that he cannot get out. There is no womb in the verse.</div><div class="ts">Vyāsa, Mahābhārata 7.34.19, critical edition · <u>see the page</u></div></div>
+      <div class="tier own"><div class="tl">From our collection</div><div class="tb">[The detail only Dheevara’s books hold, cited to book, chapter and verse.]</div><div class="ts">Pending digitisation · DHE-4</div></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:16px;font:500 12px var(--sans);color:var(--ink2)"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7"><path d="M20 6 9 17l-5-5"/></svg>Checked by Dr. ——, Sanskrit scholar · 28 Sep 2026</div>
+    </div>
+    <div style="position:absolute;left:24px;right:24px;bottom:22px;display:flex;gap:10px">
+      <div class="btn" style="flex:1;border-color:rgba(43,29,14,.4);color:var(--ink)">Share this</div>
+      <div class="btn" style="flex:1.3;background:var(--ink);border-color:var(--ink);color:var(--leaf1)">Back to scene</div>
+    </div>
+  </div>
+  <div class="home-ind"></div>
+  <style>
+    .tier{margin-top:16px;padding-top:14px;border-top:1px solid rgba(43,29,14,.2)}
+    .tl{font:700 11px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+    .tb{font:500 15.5px/1.5 var(--sans);margin-top:6px;color:var(--ink)}
+    .ts{font:italic 13px var(--serif);margin-top:6px;color:var(--ink2)}
+    .tier:first-of-type .tb{color:#54452c}
+    .tier.src .tl{color:var(--leafred)}
+    .tier.own{border:1.2px dashed rgba(122,42,20,.6);border-radius:14px;padding:12px 14px;margin-top:16px}
+    .tier.own .tl,.tier.own .tb{color:var(--leafred)}
+    .tier.own .tb{font-style:italic;font-weight:400}
+  </style>
+</section>
+<div class="cap"><b>08 · Hidden detail</b>Beat 3, the reveal. Three tiers, always in this order: what people say, what the text says, what only our books hold. The scene keeps playing slowed underneath, muffled. Scholar name and date on every sheet.</div>
+</div>
+
+<div class="cell">
+<section class="phone" id="s09-source" style="background:#0a0a08">
+  <div class="sb"><span>9:41</span><i></i></div>
+  <div style="position:absolute;top:50px;left:0;right:0;height:52px;display:flex;align-items:center;padding:0 8px;gap:4px;z-index:5">
+    <div class="ibtn"><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></svg></div>
+    <div style="flex:1"><div style="font:600 15px var(--sans)">The page</div><div class="tiny muted">Droṇa Parva, adhyāya 34</div></div>
+    <div class="ibtn"><svg viewBox="0 0 24 24"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 6l-4-4-4 4M12 2v14"/></svg></div>
+  </div>
+  <!-- scanned page -->
+  <div style="position:absolute;left:14px;right:14px;top:112px;height:470px;border-radius:6px;background:#E9DFC6;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.6);transform:rotate(-.4deg)">
+    <div style="position:absolute;inset:0;background:radial-gradient(120% 80% at 30% 20%,rgba(255,255,255,.25),transparent 60%),radial-gradient(80% 60% at 90% 100%,rgba(120,90,40,.25),transparent 70%)"></div>
+    <div style="position:relative;padding:22px 24px;color:#2a2318">
+      <div style="text-align:center;font:600 10px var(--sans);letter-spacing:.2em;color:#6d5f47">द्रोणपर्व · ३४</div>
+      <div class="scan">
+        <p>युधिष्ठिर उवाच ।</p>
+        <p>एहि वत्स भिन्धि व्यूहं द्रोणस्यामित्रकर्शन ।</p>
+        <p>यथा नोऽभिमुखं यान्ति कुरवः संशितव्रताः ॥</p>
+        <p>अभिमन्युरुवाच ।</p>
+        <p class="hl">उपदिष्टो हि मे पित्रा योगोऽनीकस्य भेदने ।<br>नोत्सहे तु विनिर्गन्तुमहं कस्यांचिदापदि ॥ १९ ॥</p>
+        <p>युधिष्ठिर उवाच ।</p>
+        <p>भिन्ध्यनीकं युधां श्रेष्ठ द्वारं संजनयस्व नः ।</p>
+        <p>वयं त्वानुगमिष्यामो येन त्वं तात यास्यसि ॥</p>
+        <p>धनंजयसमं युद्धे त्वां वयं तात संयुगे ।</p>
+        <p>प्रणिधायानुयास्यामो रक्षन्तः सर्वतोमुखाः ॥</p>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:20px;right:20px;top:600px">
+    <div class="small"><b style="font-weight:600">The Mahābhārata, critical edition.</b> <span class="muted">Vol. 8, Droṇaparvan. Bhandarkar Oriental Research Institute, Poona. Page 211, verse 19.</span></div>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+      <span class="chip gold">Public domain text</span><span class="chip">Proofed · double-keyed</span><span class="chip">IIIF</span>
+    </div>
+    <div class="tiny muted" style="margin-top:14px">Pinch to zoom. The highlighted verse is the one the scene cites.</div>
+  </div>
+  <div class="home-ind"></div>
+  <style>
+    .scan{font-family:var(--serif);font-size:15.5px;line-height:1.85;margin-top:12px;filter:contrast(1.05)}
+    .scan p{margin:0}
+    .scan .hl{background:rgba(227,176,75,.38);box-shadow:0 0 0 4px rgba(227,176,75,.38);border-radius:2px;margin:4px 0}
+  </style>
+</section>
+<div class="cap"><b>09 · The page itself</b>From any citation, the actual page the verse comes from (IIIF), highlighted, with edition, page and proof status. Provenance people can see. Edition metadata shown is a placeholder until DHE-1.</div>
+</div>
+
+<div class="cell">
+<section class="phone grain" id="s10-lineage">
+  <div class="sb"><span>9:41</span><i></i></div>
+  <div style="position:absolute;top:50px;left:0;right:0;height:52px;display:flex;align-items:center;padding:0 8px;z-index:5">
+    <div class="ibtn"><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div>
+    <div style="flex:1;text-align:center;font:600 15px var(--sans)">Lineage</div>
+    <div class="ibtn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></div>
+  </div>
+  <!-- graph -->
+  <svg viewBox="0 0 390 330" style="position:absolute;top:100px;left:0;width:390px;height:330px">
+    <g stroke="rgba(239,230,210,.28)" stroke-width="1" fill="none">
+      <path d="M195 170 L110 70"/><path d="M195 170 L280 70"/><path d="M195 170 L80 250"/><path d="M195 170 L195 290"/><path d="M195 170 L315 250"/>
+      <path d="M110 70 L280 70" stroke-dasharray="3 4"/>
+    </g>
+    <g font-family="Figtree" font-size="12" fill="#A39B88" text-anchor="middle">
+      <circle cx="110" cy="70" r="24" fill="#15140F" stroke="#E3B04B" stroke-opacity=".5"/><text x="110" y="74" fill="#EFE6D2" font-family="Tiro Devanagari Sanskrit" font-size="15">अ</text><text x="110" y="112">Arjuna · father</text>
+      <circle cx="280" cy="70" r="24" fill="#15140F" stroke="#E3B04B" stroke-opacity=".5"/><text x="280" y="74" fill="#EFE6D2" font-family="Tiro Devanagari Sanskrit" font-size="15">सु</text><text x="280" y="112">Subhadrā · mother</text>
+      <circle cx="80" cy="250" r="22" fill="#15140F" stroke="rgba(239,230,210,.3)"/><text x="80" y="255" fill="#EFE6D2" font-family="Tiro Devanagari Sanskrit" font-size="15">उ</text><text x="80" y="290">Uttarā · wife</text>
+      <circle cx="195" cy="290" r="22" fill="#15140F" stroke="rgba(239,230,210,.3)"/><text x="195" y="295" fill="#EFE6D2" font-family="Tiro Devanagari Sanskrit" font-size="15">प</text><text x="195" y="326">Parīkṣit · son, born after</text>
+      <circle cx="315" cy="250" r="22" fill="#15140F" stroke="#C8391F" stroke-opacity=".7"/><text x="315" y="255" fill="#EFE6D2" font-family="Tiro Devanagari Sanskrit" font-size="15">द्रो</text><text x="315" y="290">Droṇa · drew the wheel</text>
+      <circle cx="195" cy="170" r="38" fill="rgba(227,176,75,.14)" stroke="#E3B04B" stroke-width="1.5"/><text x="195" y="178" fill="#E3B04B" font-family="Tiro Devanagari Sanskrit" font-size="22">अभि</text>
+    </g>
+  </svg>
+  <!-- node card -->
+  <div class="card" style="position:absolute;left:12px;right:12px;bottom:24px;padding:18px 18px 16px;border-radius:24px;background:var(--s1)">
+    <div style="display:flex;align-items:baseline;gap:10px"><span class="h2">Abhimanyu</span><span class="dev muted" style="font-size:18px">अभिमन्यु</span></div>
+    <div class="small muted" style="margin-top:4px">Son of Arjuna and Subhadrā. Sixteen on the thirteenth day.</div>
+    <div class="eyebrow" style="margin-top:16px">Where he appears</div>
+    <div style="display:flex;flex-direction:column;gap:9px;margin-top:9px">
+      <div class="ln"><span class="dot b"></span><div><b>Before</b> Marries Uttarā, princess of Virāṭa<i>Virāṭa Parva · 4.67</i></div></div>
+      <div class="ln"><span class="dot n"></span><div><b>Now</b> Breaks six rings of the wheel<i>Droṇa Parva · 7.34–7.48</i></div></div>
+      <div class="ln"><span class="dot a"></span><div><b>After</b> His son Parīkṣit is born, and saved<i>Āśvamedhika Parva</i></div></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:16px"><div class="btn" style="flex:1;height:46px;font-size:14px">Open in full graph</div><div class="btn primary" style="flex:1;height:46px;font-size:14px">Chapters with him</div></div>
+  </div>
+  <div class="home-ind"></div>
+  <style>
+    .ln{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.4}
+    .ln b{font-weight:600;margin-right:6px;color:var(--ash)}
+    .ln i{display:block;font:italic 12.5px var(--serif);color:var(--gold);margin-top:1px}
+    .dot{flex:none;width:8px;height:8px;border-radius:50%;margin-top:5px}
+    .dot.b{background:var(--ash)}.dot.n{background:var(--gold);box-shadow:0 0 0 3px rgba(227,176,75,.2)}.dot.a{border:1.4px solid var(--ash)}
+  </style>
+</section>
+<div class="cap"><b>10 · Lineage explorer</b>Beat 4. Any person, place or event in the scene opens its node: who, before, after, and the passage behind each edge. Sindoor marks an adversary. Built from the canon graph export.</div>
+</div>
+
+<div class="cell">
+<section class="phone grain" id="s11-cliffhanger">
+  <div class="sb"><span>9:41</span><i></i></div>
+  <div class="bg" style="background-image:url(frames/end.png);background-position:50% 0;background-size:390px auto;background-repeat:no-repeat"></div>
+  <div style="position:absolute;inset:300px 0 0 0;background:linear-gradient(180deg,rgba(13,14,11,0),var(--night) 22%)"></div><div class="scrim-t" style="height:110px;background:linear-gradient(180deg,var(--night) 55%,rgba(13,14,11,0))"></div>
+  <div class="beats"><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="cur" style="--p:100%"></span></div>
+  <div class="ai">AI-made scene</div>
+  <div style="position:absolute;left:24px;right:24px;top:320px;text-align:center">
+    <div class="dev it" style="font-size:26px;line-height:1.3">No one followed him in.<br>Who held the gate?</div>
+  </div>
+  <div style="position:absolute;left:20px;right:20px;top:470px">
+    <div class="card" style="padding:14px;display:flex;gap:14px;align-items:center;border-color:rgba(227,176,75,.35)">
+      <div style="width:76px;height:76px;border-radius:14px;background:url(frames/stuck.png) 50% 40%/260% no-repeat;flex:none"></div>
+      <div style="flex:1"><div class="eyebrow" style="color:var(--gold)">Next · Chapter 4</div><div style="font:600 17px var(--sans);margin-top:3px">The vow</div><div class="tiny muted" style="margin-top:3px">Arjuna swears Jayadratha will not see another sunset.</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;margin-top:16px">
+      <div style="position:relative;width:52px;height:52px;flex:none"><svg viewBox="0 0 52 52" style="position:absolute;inset:0"><circle cx="26" cy="26" r="24" fill="none" stroke="rgba(239,230,210,.2)" stroke-width="2"/><circle cx="26" cy="26" r="24" fill="none" stroke="#E3B04B" stroke-width="2" stroke-dasharray="150.8" stroke-dashoffset="60" transform="rotate(-90 26 26)" stroke-linecap="round"/></svg><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:600 16px var(--sans)">5</div></div>
+      <div class="btn primary" style="flex:1">Play chapter 4</div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:12px">
+      <div class="btn" style="flex:1;height:46px;font-size:14px"><svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 6l-4-4-4 4M12 2v14"/></svg>Send to family</div>
+      <div class="btn" style="flex:1;height:46px;font-size:14px">Watch again</div>
+    </div>
+    <div class="tiny muted" style="text-align:center;margin-top:16px">An AI-made scene from Dheevara, after Vyāsa’s Mahābhārata, Droṇa Parva. Reviewed by a Sanskrit scholar.</div>
+  </div>
+  <div class="home-ind"></div>
+</section>
+<div class="cap"><b>11 · Cliffhanger</b>Beat 5. The last shot asks the question the next chapter answers. Auto-advance in five seconds; sharing is a first-class action because WhatsApp is the channel.</div>
+</div>
+</div>
+
+<!-- ═════════════ ACT 4: AUDIO, MEMBERSHIP, YOU ═════════════ -->
+<div class="act"><h2>4 · Around the chapter</h2><span>Screen off, membership, saved, settings, share</span></div>
+<div class="row">
+
+<div class="cell">
+<section class="phone" id="s12-audio" style="background:#050504">
+  <div style="position:absolute;inset:0;background:radial-gradient(90% 50% at 50% 30%,rgba(120,70,20,.35),transparent 70%)"></div>
+  <div class="sb"><span></span><i></i></div>
+  <div style="position:absolute;top:96px;left:0;right:0;text-align:center">
+    <div style="font:300 84px var(--sans);letter-spacing:-.02em">9:41</div>
+    <div style="font:500 17px var(--sans);color:var(--ash)">Friday 3 October</div>
+  </div>
+  <div style="position:absolute;left:12px;right:12px;top:300px;border-radius:26px;padding:16px;background:rgba(40,36,28,.65);backdrop-filter:blur(20px);border:1px solid rgba(239,230,210,.08)">
+    <div style="display:flex;gap:12px;align-items:center">
+      <div style="width:54px;height:54px;border-radius:12px;background:url(frames/ride2.png) 50% 45%/300% no-repeat"></div>
+      <div style="flex:1"><div style="font:600 15px var(--sans)">3 · The seventh ring</div><div class="small muted">Dheevara · Tamil narration</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-top:14px"><span class="tiny muted">0:44</span><div style="flex:1;height:4px;border-radius:2px;background:rgba(239,230,210,.2)"><div style="width:38%;height:100%;border-radius:2px;background:var(--parch)"></div></div><span class="tiny muted">-1:12</span></div>
+    <div style="display:flex;justify-content:space-around;align-items:center;margin-top:12px">
+      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--parch);fill:none;stroke-width:1.6"><path d="M11 17 6 12l5-5M18 17l-5-5 5-5"/></svg>
+      <svg viewBox="0 0 24 24" style="width:36px;height:36px;fill:var(--parch)"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--parch);fill:none;stroke-width:1.6"><path d="m13 17 5-5-5-5M6 17l5-5-5-5"/></svg>
+    </div>
+  </div>
+  <div style="position:absolute;left:12px;right:12px;top:520px;border-radius:22px;padding:14px 16px;background:rgba(40,36,28,.55);backdrop-filter:blur(20px)">
+    <div class="eyebrow" style="font-size:10px">Now · Audio chapter markers</div>
+    <div style="display:flex;flex-direction:column;gap:7px;margin-top:8px;font-size:13.5px">
+      <div class="muted">✓ The page · chanted</div>
+      <div style="color:var(--flame)">● The wheel closes</div>
+      <div class="muted">○ Who taught him <span class="tiny">(spoken reveal)</span></div>
+      <div class="muted">○ The question</div>
+    </div>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:44px;display:flex;justify-content:space-between;padding:0 46px">
+    <div style="width:50px;height:50px;border-radius:25px;background:rgba(40,36,28,.7)"></div><div style="width:50px;height:50px;border-radius:25px;background:rgba(40,36,28,.7)"></div>
+  </div>
+  <div class="home-ind"></div>
+</section>
+<div class="cap"><b>12 · Screen off</b>Audio-first economics made visible: lock-screen controls with chapter markers. The hidden detail is spoken as its own marker, so the reveal survives without a screen. Narration here is Tamil.</div>
+</div>
+
+<div class="cell">
+<section class="phone grain" id="s13-paywall">
+  <div class="sb"><span>9:41</span><i></i></div>
+  <div class="ibtn" style="position:absolute;top:52px;right:10px;z-index:3"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></div>
+  <div class="pad">
+    <div style="text-align:center;margin-top:40px"><span class="dev gold" style="font-size:40px">धीवर</span></div>
+    <div class="h1" style="text-align:center;margin-top:6px;font-size:30px">Every chapter, every season, in your language</div>
+    <div class="small muted" style="text-align:center;margin-top:10px;padding:0 10px">Chapter 1 of every season stays free. Members get the rest, offline audio, and the family profile.</div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:24px">
+      <div class="plan on"><div><b>Yearly</b><span>$39 a year · $3.25 a month</span></div><em>Save 35%</em></div>
+      <div class="plan"><div><b>Monthly</b><span>$4.99 a month</span></div></div>
+    </div>
+    <div class="card" style="margin-top:14px;padding:12px 14px;display:flex;gap:12px;align-items:center">
+      <span class="dev" style="font-size:24px;color:var(--sindoor)">दी</span>
+      <div style="flex:1"><div style="font:600 14px var(--sans)">Give a season</div><div class="tiny muted">A festival gift: one season, sent on WhatsApp</div></div>
+      <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--ash);fill:none;stroke-width:2"><path d="m9 6 6 6-6 6"/></svg>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:7px;margin-top:18px" class="small">
+      <div style="display:flex;gap:10px"><span class="gold">✓</span>No coins, no pay-per-episode. Ever.</div>
+      <div style="display:flex;gap:10px"><span class="gold">✓</span>Cancel in two taps. Refund in your first 7 days.</div>
+      <div style="display:flex;gap:10px"><span class="gold">✓</span>Up to 5 family profiles, each in its own language.</div>
+    </div>
+  </div>
+  <div style="position:absolute;left:20px;right:20px;bottom:34px">
+    <div class="btn primary">Start 7 days free</div>
+    <div class="tiny muted" style="text-align:center;margin-top:10px">Prices shown for the United States. In India: ₹149 a month or ₹999 a year.</div>
+  </div>
+  <div class="home-ind"></div>
+  <style>
+    .plan{display:flex;justify-content:space-between;align-items:center;height:68px;border-radius:16px;border:1px solid var(--line2);padding:0 18px}
+    .plan div{display:flex;flex-direction:column;gap:2px}.plan b{font:600 16px var(--sans)}.plan span{font-size:13px;color:var(--ash)}
+    .plan em{font:600 12px var(--sans);font-style:normal;color:#1A1406;background:var(--gold);padding:4px 9px;border-radius:10px}
+    .plan.on{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold);background:rgba(227,176,75,.07)}
+  </style>
+</section>
+<div class="cap"><b>13 · Membership</b>Two price cohorts set by region (diaspora $4.99/$39, India ₹149/₹999). The anti-slot-machine promise is on the paywall itself. Gift a season is the festival product.</div>
+</div>
+
+<div class="cell">
+<section class="phone grain" id="s14-saved">
+  <div class="sb"><span>9:41</span><i></i></div>
+  <div class="pad" style="padding-bottom:90px">
+    <div class="h1" style="margin-top:16px;font-size:30px">Saved</div>
+    <div style="display:flex;gap:8px;margin-top:14px"><span class="chip on">Downloads</span><span class="chip">Reveals</span><span class="chip">People</span></div>
+    <div class="card" style="margin-top:16px;padding:12px 14px;display:flex;align-items:center;gap:12px">
+      <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.6"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><rect x="3" y="14" width="4" height="7" rx="1.5"/><rect x="17" y="14" width="4" height="7" rx="1.5"/></svg>
+      <div style="flex:1"><div style="font:600 14px var(--sans)">Audio only saves space</div><div class="tiny muted">3 chapters · 4 MB audio · 61 MB with video</div></div>
+      <div style="width:44px;height:26px;border-radius:13px;background:var(--gold);position:relative"><div style="position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:10px;background:#1A1406"></div></div>
+    </div>
+    <div style="margin-top:12px">
+      <div class="dl"><div class="th" style="background-image:url(frames/army.png)"></div><div class="tx"><b>1 · The wheel is drawn</b><span>English · Hindi · 1.4 MB</span></div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <div class="dl"><div class="th" style="background-image:url(frames/carve.png)"></div><div class="tx"><b>2 · Arjuna is drawn away</b><span>English · 1.3 MB</span></div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <div class="dl"><div class="th" style="background-image:url(frames/ride2.png)"></div><div class="tx"><b>3 · The seventh ring</b><span>Tamil · downloading 62%</span><div style="height:3px;border-radius:2px;background:rgba(239,230,210,.15);margin-top:6px"><div style="width:62%;height:100%;background:var(--gold);border-radius:2px"></div></div></div><svg viewBox="0 0 24 24" style="stroke:var(--ash)"><rect x="7" y="7" width="10" height="10" rx="1"/></svg></div>
+    </div>
+    <div class="eyebrow" style="margin-top:22px">Reveals you kept</div>
+    <div style="margin-top:10px;border-radius:16px;padding:14px 16px;background:linear-gradient(180deg,var(--leaf1),var(--leaf3));color:var(--ink)">
+      <div style="font:700 10.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--leafred)">Who taught him</div>
+      <div style="font:500 14px/1.45 var(--sans);margin-top:4px">Not the womb: the text says his father taught him.</div>
+      <div style="font:italic 12px var(--serif);color:var(--ink2);margin-top:4px">Mahābhārata 7.34.19</div>
+    </div>
+  </div>
+  <nav class="tabbar">
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7v9h-6v-6H9v6H3z"/></svg>Home</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M8 7.5 10.8 16M16 7.5 13.2 16M8.4 6h7.2"/></svg>Lineage</div>
+    <div class="tab on"><svg viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4"/><path d="M5 20h14"/></svg>Saved</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>You</div>
+  </nav>
+  <div class="home-ind"></div>
+  <style>
+    .dl{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+    .dl .th{width:54px;height:54px;border-radius:10px;background-size:cover;background-position:center;flex:none}
+    .dl .tx{flex:1;display:flex;flex-direction:column;gap:2px}.dl b{font:600 14px var(--sans)}.dl span{font-size:12px;color:var(--ash)}
+    .dl svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2}
+  </style>
+</section>
+<div class="cap"><b>14 · Saved</b>Downloads default to audio only (a few MB a chapter, built for mid-range Androids and flights). Reveals can be kept like quotes; they are the most shareable thing we make.</div>
+</div>
+
+<div class="cell">
+<section class="phone grain" id="s15-settings">
+  <div class="sb"><span>9:41</span><i></i></div>
+  <div class="pad">
+    <div style="display:flex;align-items:center;gap:14px;margin-top:16px">
+      <div style="width:56px;height:56px;border-radius:28px;background:var(--s2);display:flex;align-items:center;justify-content:center" class="dev gold"><span style="font-size:24px">म</span></div>
+      <div style="flex:1"><div class="h3">Meera’s family</div><div class="tiny muted">Member · Yearly · 3 profiles</div></div>
+    </div>
+    <div class="eyebrow" style="margin-top:24px">Language</div>
+    <div class="set"><span>Narration</span><em>தமிழ் Tamil</em></div>
+    <div class="set"><span>Captions</span><em>English</em></div>
+    <div class="set"><span>Regional telling</span><em>Follow narration</em></div>
+    <div class="set"><span>Narrator voice</span><em>Voice 2 · warmer</em></div>
+    <div class="eyebrow" style="margin-top:22px">Watching</div>
+    <div class="set"><span>Keep the AI label on screen<br><i>Always shown on scenes; this keeps it on every frame</i></span><b class="tg on"></b></div>
+    <div class="set"><span>Reduce motion<br><i>Fewer camera moves, no parallax</i></span><b class="tg"></b></div>
+    <div class="set"><span>Chant volume</span><em>Full</em></div>
+    <div class="eyebrow" style="margin-top:22px">About the sources</div>
+    <div class="set"><span>Our editions and scholars</span><em></em></div>
+    <div class="set"><span>Report a mistake in a chapter</span><em></em></div>
+  </div>
+  <nav class="tabbar">
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7v9h-6v-6H9v6H3z"/></svg>Home</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M8 7.5 10.8 16M16 7.5 13.2 16M8.4 6h7.2"/></svg>Lineage</div>
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4"/><path d="M5 20h14"/></svg>Saved</div>
+    <div class="tab on"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>You</div>
+  </nav>
+  <div class="home-ind"></div>
+  <style>
+    .set{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:50px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+    .set span i{font-style:normal;font-size:12px;color:var(--ash)}
+    .set em{font-style:normal;color:var(--ash);font-size:14px;display:flex;align-items:center;gap:6px}
+    .set em::after{content:"›";font-size:20px;color:var(--ash2)}
+    .tg{flex:none;width:46px;height:28px;border-radius:14px;background:var(--s3);position:relative}
+    .tg::after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:11px;background:var(--ash)}
+    .tg.on{background:var(--gold)}.tg.on::after{left:21px;background:#1A1406}
+  </style>
+</section>
+<div class="cap"><b>15 · You</b>Narration and captions are separate settings (a Tamil grandmother and an English-reading child on one profile). The continuous AI label is a user switch backed by the player flag. “Report a mistake” feeds the scholar queue.</div>
+</div>
+
+<div class="cell">
+<section class="phone" id="s16-share" style="background:#0b141a">
+  <div class="sb"><span>9:41</span><i></i></div>
+  <div style="position:absolute;top:50px;left:0;right:0;height:56px;background:#1f2c33;display:flex;align-items:center;gap:10px;padding:0 12px;z-index:3">
+    <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#e9edef;fill:none;stroke-width:2"><path d="m15 6-6 6 6 6"/></svg>
+    <div style="width:36px;height:36px;border-radius:18px;background:#6a7175"></div>
+    <div><div style="font:600 15px var(--sans);color:#e9edef">Family 🙏</div><div style="font-size:12px;color:#8696a0">Amma, Appa, Kavya, you</div></div>
+  </div>
+  <div style="position:absolute;top:120px;left:0;right:0;padding:0 12px;display:flex;flex-direction:column;gap:8px">
+    <div style="align-self:flex-end;max-width:300px;background:#005c4b;border-radius:10px 2px 10px 10px;padding:4px;color:#e9edef">
+      <div style="border-radius:8px;overflow:hidden;background:var(--night);position:relative;height:300px">
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,var(--leaf1),var(--leaf3));color:var(--ink);padding:22px 20px">
+          <div style="font:700 10px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--leafred)">Did you know</div>
+          <div class="dev" style="font-size:24px;line-height:1.25;margin-top:10px">Abhimanyu did not learn the chakravyūha in the womb.</div>
+          <div style="font:500 14px/1.45 var(--sans);margin-top:12px">In the text, he says his father taught him how to break in. No one taught him the way out.</div>
+          <div style="font:italic 13px var(--serif);color:var(--ink2);margin-top:12px">Mahābhārata 7.34.19, critical edition</div>
+          <div style="position:absolute;left:20px;right:20px;bottom:16px;display:flex;justify-content:space-between;align-items:center"><span class="dev" style="color:var(--leafred);font-size:18px">धीवर</span><span style="font:600 11px var(--sans);color:var(--ink2)">Watch the chapter ›</span></div>
+        </div>
+      </div>
+      <div style="padding:6px 6px 2px;font-size:14px;line-height:1.4">Kavya asked about this yesterday 😮 2 min chapter, worth it</div>
+      <div style="text-align:right;font-size:11px;color:#8bbfb2;padding:0 6px 2px">9:41 ✓✓</div>
+    </div>
+    <div style="align-self:flex-start;max-width:260px;background:#1f2c33;border-radius:2px 10px 10px 10px;padding:8px 10px;color:#e9edef;font-size:14px">Wait, what?! Sending to my class group</div>
+  </div>
+  <div class="home-ind"></div>
+</section>
+<div class="cap"><b>16 · Share card</b>What travels on WhatsApp is the reveal, not the trailer: the corrected belief, the verse, and one tap back to the chapter. The card links to chapter 1 free for anyone it reaches.</div>
+</div>
+</div>
+
+<!-- ═════════════ ACT 5: STUDIO ═════════════ -->
+<div class="act"><h2>5 · Studio</h2><span>Internal tools at 1440×900: shot review board, retention by shot</span></div>
+<div class="row" style="flex-direction:column">
+
+<div class="cell">
+<section class="desk" id="s17-shots">
+  <aside class="nav"><div class="dev gold" style="font-size:22px">धीवर <span style="font:600 11px var(--sans);letter-spacing:.2em;color:var(--ash)">STUDIO</span></div>
+    <div class="ni on">Shots</div><div class="ni">Retention</div><div class="ni">Canon</div><div class="ni">Scholar queue <b>4</b></div><div class="ni">Ledger</div><div class="ni">Languages</div></aside>
+  <main>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end">
+      <div><div class="eyebrow">s1e3 · The seventh ring · draft pass</div><div class="h2" style="margin-top:4px">Shots</div></div>
+      <div style="display:flex;gap:10px;align-items:center"><span class="small muted">12 shots · 7 approved · 3 in QC · 1 retry · 1 human</span><div class="btn" style="height:38px;font-size:13px;padding:0 16px">Edit lock</div><div class="btn primary" style="height:38px;font-size:13px;padding:0 16px;opacity:.45">Final pass · needs Avi</div></div>
+    </div>
+    <div style="display:flex;gap:16px;margin-top:16px">
+      <div class="kpi"><span>Spend this run</span><b>$9.84</b><i>of $15.00 cap</i></div>
+      <div class="kpi"><span>Attempts / shot</span><b>1.6</b><i>hero beats 2.7</i></div>
+      <div class="kpi"><span>Territory breaches</span><b style="color:#7fbf7f">0</b><i>all hosted, worldwide</i></div>
+      <div class="kpi"><span>Claims resolved</span><b>23 / 23</b><i>every caption cited</i></div>
+      <div class="kpi"><span>Draft wall-clock</span><b>11m 40s</b><i>fal queue p50 48s</i></div>
+    </div>
+    <div class="grid">
+      <div class="shot ok"><div class="fr" style="background-image:url(frames/carve.png)"></div><div class="meta"><b>01 · cold open</b><span>Kling 3.0 · 6s · seed 4411</span><span class="v ok">QC pass · approved</span><em>$0.54</em></div></div>
+      <div class="shot ok"><div class="fr" style="background-image:url(frames/army.png)"></div><div class="meta"><b>02 · stakes</b><span>Wan 3.0 · 8s · seed 1902</span><span class="v ok">QC pass · approved</span><em>$0.40</em></div></div>
+      <div class="shot ok"><div class="fr" style="background-image:url(frames/ride.png)"></div><div class="meta"><b>03 · witness</b><span>H3 ref+LoRA · 8s · seed 77</span><span class="v ok">QC pass · approved</span><em>$0.96</em></div></div>
+      <div class="shot qc"><div class="fr" style="background-image:url(frames/ride2.png)"></div><div class="meta"><b>04 · breach</b><span>Kling 3.0 · 10s · seed 5120</span><span class="v qc">In QC · 3 frames sampled</span><em>$0.90</em></div></div>
+      <div class="shot retry"><div class="fr" style="background-image:url(frames/stuck.png)"></div><div class="meta"><b>05 · reveal</b><span>Kling 3.0 · 8s · attempt 2</span><span class="v retry">Fail: modern helmet visible, f 2/3 → retrying with fix_hint</span><em>$1.44</em></div></div>
+      <div class="shot human"><div class="fr" style="background-image:url(frames/fall.png)"></div><div class="meta"><b>06 · the wheel</b><span>Wan 3.0 · 8s · attempt 3</span><span class="v human">3 strikes · to human: deity face too close</span><em>$1.20</em></div></div>
+    </div>
+  </main>
+  <aside class="insp">
+    <div class="eyebrow">Shot 05 · contract</div>
+    <pre>{
+  "id": "s1e3-05",
+  "beat": "reveal",
+  "witness": "sanjaya",
+  "camera": "slow push, high angle",
+  "duration_s": 8,
+  "refs": ["loc:chakravyuha-gate",
+           "char:jayadratha"],
+  "claims": ["claim:mbh-7.41-gate",
+             "claim:mbh-3.256-boon"],
+  "forbidden": ["deity_face_closeup",
+                "pov_inside_deity",
+                "modern_objects"],
+  "territory": "worldwide",
+  "quality": "draft"
+}</pre>
+    <div class="eyebrow" style="margin-top:14px">QC verdict · attempt 1</div>
+    <div class="small" style="margin-top:6px;line-height:1.5">Frame 2 of 3 shows a riveted helmet with a visor, a medieval European form; not period. Blocking and refs match. <b class="gold">fix_hint:</b> “bronze conical helmets, no visors, cloth turbans for foot soldiers”.</div>
+    <div class="eyebrow" style="margin-top:14px">Ledger</div>
+    <div class="tiny muted" style="margin-top:6px;line-height:1.6">row written 18:02:11 before submit · fal req 7f3a… · licence: hosted, commercial OK · territory: worldwide · $0.72 × 2</div>
+  </aside>
+  <style>
+    .desk{width:1440px;height:900px;background:var(--night);border-radius:14px;overflow:hidden;display:grid;grid-template-columns:200px 1fr 330px;box-shadow:0 0 0 1px #2a2820,0 30px 80px rgba(0,0,0,.6)}
+    .desk .nav{border-right:1px solid var(--line);padding:22px 16px;display:flex;flex-direction:column;gap:4px}
+    .ni{padding:10px 12px;border-radius:10px;font:500 14px var(--sans);color:var(--ash);display:flex;justify-content:space-between}
+    .ni b{background:var(--sindoor-deep);color:#fff;font-size:11px;border-radius:9px;padding:1px 7px}
+    .ni.on{background:var(--s2);color:var(--parch)}
+    .nav>div:first-child{margin-bottom:22px;padding:0 6px}
+    .desk main{padding:26px 28px;overflow:hidden}
+    .kpi{flex:1;background:var(--s1);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+    .kpi span{font-size:12px;color:var(--ash)}.kpi b{font:600 22px var(--sans)}.kpi i{font-style:normal;font-size:11.5px;color:var(--ash2)}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+    .shot{background:var(--s1);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+    .shot .fr{height:170px;background-size:cover;background-position:center 45%}
+    .shot .meta{padding:10px 12px 12px;display:flex;flex-direction:column;gap:3px;position:relative}
+    .shot .meta b{font:600 14px var(--sans)}.shot .meta span{font-size:12px;color:var(--ash)}
+    .shot .meta em{position:absolute;right:12px;top:10px;font-style:normal;font-size:12px;color:var(--ash)}
+    .v{font-weight:600}.v.ok{color:#8fc98f!important}.v.qc{color:var(--gold)!important}.v.retry{color:#e59a54!important}.v.human{color:var(--sindoor)!important}
+    .shot.human{border-color:rgba(224,86,58,.5)}
+    .insp{border-left:1px solid var(--line);padding:26px 22px;background:var(--s1)}
+    .insp pre{margin-top:8px;font:12px/1.5 ui-monospace,Menlo,monospace;color:var(--flame);background:#0b0b09;border:1px solid var(--line);border-radius:10px;padding:12px;white-space:pre}
+  </style>
+</section>
+<div class="cap" style="width:1440px"><b>17 · Studio: shots</b>Each card is a shot contract and its latest render: model, seed, cost, QC verdict. Retry and three-strikes are visible states. The final pass button is disabled until a human presses it. The inspector shows contract, verdict and ledger row. Numbers here are illustrative.</div>
+</div>
+
+<div class="cell">
+<section class="desk" id="s18-retention">
+  <aside class="nav"><div class="dev gold" style="font-size:22px">धीवर <span style="font:600 11px var(--sans);letter-spacing:.2em;color:var(--ash)">STUDIO</span></div>
+    <div class="ni">Shots</div><div class="ni on">Retention</div><div class="ni">Canon</div><div class="ni">Scholar queue <b>4</b></div><div class="ni">Ledger</div><div class="ni">Languages</div></aside>
+  <main style="grid-column:2 / span 2">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end">
+      <div><div class="eyebrow">s1e3 · 10,412 views · first 7 days</div><div class="h2" style="margin-top:4px">Who stayed, second by second</div></div>
+      <div style="display:flex;gap:8px"><span class="chip on">All</span><span class="chip">English</span><span class="chip">हिन्दी</span><span class="chip">தமிழ்</span><span class="chip">తెలుగు</span><span class="chip">ಕನ್ನಡ</span></div>
+    </div>
+    <div style="display:flex;gap:16px;margin-top:16px">
+      <div class="kpi"><span>Completion</span><b>64%</b><i>gate 60% · pass</i></div>
+      <div class="kpi"><span>Next-chapter carry</span><b>41%</b><i>gate 45% · below</i></div>
+      <div class="kpi"><span>Reveal taps</span><b>47%</b><i>gate 40% · pass</i></div>
+      <div class="kpi"><span>Shares per 100 views</span><b>3.8</b><i>reveal card 71% of shares</i></div>
+    </div>
+    <div class="card" style="margin-top:16px;padding:18px 20px 12px;position:relative">
+      <svg viewBox="0 0 1150 300" style="width:100%;height:300px">
+        <g stroke="rgba(239,230,210,.08)"><line x1="40" y1="20" x2="1140" y2="20"/><line x1="40" y1="85" x2="1140" y2="85"/><line x1="40" y1="150" x2="1140" y2="150"/><line x1="40" y1="215" x2="1140" y2="215"/><line x1="40" y1="280" x2="1140" y2="280"/></g>
+        <g font-family="Figtree" font-size="11" fill="#7C7564"><text x="0" y="24">100%</text><text x="6" y="154">50%</text><text x="14" y="284">0</text></g>
+        <!-- beat bands -->
+        <g font-family="Figtree" font-size="11" fill="#A39B88">
+          <rect x="40" y="20" width="150" height="260" fill="rgba(217,185,124,.06)"/><text x="48" y="36">Book page</text>
+          <rect x="190" y="20" width="560" height="260" fill="rgba(239,230,210,.02)"/><text x="198" y="36">Witness scene</text>
+          <rect x="750" y="20" width="150" height="260" fill="rgba(227,176,75,.07)"/><text x="758" y="36">Reveal</text>
+          <rect x="900" y="20" width="120" height="260" fill="rgba(239,230,210,.02)"/><text x="908" y="36">Lineage</text>
+          <rect x="1020" y="20" width="120" height="260" fill="rgba(200,57,31,.07)"/><text x="1028" y="36">Cliffhanger</text>
+        </g>
+        <path d="M40 22 C70 30 90 48 120 58 S180 66 200 68 S300 74 340 78 L380 80 C420 82 440 104 470 112 S560 118 600 120 S700 124 750 126 C790 128 830 128 900 132 S990 140 1020 144 S1100 150 1140 154" fill="none" stroke="#E3B04B" stroke-width="2.4"/>
+        <path d="M40 22 C70 34 90 60 120 76 S180 88 200 92 S300 100 340 104 L380 106 C420 110 440 128 470 136 S560 140 600 142 S700 146 750 150 C790 152 830 154 900 158 S990 166 1020 170 S1100 176 1140 180" fill="none" stroke="#A39B88" stroke-width="1.6" stroke-dasharray="5 5"/>
+        <g><line x1="420" y1="20" x2="420" y2="280" stroke="#E0563A" stroke-dasharray="3 3"/><circle cx="440" cy="104" r="5" fill="#E0563A"/></g>
+        <g font-family="Figtree" font-size="12"><text x="452" y="96" fill="#E0563A">−9% in 6 s · shot 06 “the wheel”</text></g>
+        <g font-family="Figtree" font-size="11" fill="#7C7564"><text x="40" y="298">0:00</text><text x="560" y="298">0:58</text><text x="1110" y="298">1:56</text></g>
+      </svg>
+      <div style="display:flex;gap:18px;font-size:12px;color:var(--ash);margin-top:4px"><span><b style="display:inline-block;width:18px;height:2px;background:var(--gold);vertical-align:middle;margin-right:6px"></b>Cold open A · “The wheel is drawn in fire”</span><span><b style="display:inline-block;width:18px;border-top:2px dashed var(--ash);vertical-align:middle;margin-right:6px"></b>Cold open B · “A boy of sixteen”</span><span style="margin-left:auto">A beats B on 30-s hold by 6.1 pts (95% CI 2.3–9.9, n = 10,412)</span></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px">
+      <div class="card" style="padding:14px 16px"><div class="eyebrow">Biggest drop</div><div style="font:600 15px var(--sans);margin-top:6px">Shot 06 · the wheel</div><div class="small muted" style="margin-top:4px">Wan 3.0 body shot, 8 s with no caption change. Suggest: split, add Sañjaya’s line at 0:34.</div></div>
+      <div class="card" style="padding:14px 16px"><div class="eyebrow">Language cohorts</div><div style="font:600 15px var(--sans);margin-top:6px">Tamil completes highest</div><div class="small muted" style="margin-top:4px">தமிழ் 71% · ಕನ್ನಡ 66% · हिन्दी 63% · English 61% · తెలుగు 60%</div></div>
+      <div class="card" style="padding:14px 16px"><div class="eyebrow">Gate · 12 Jan</div><div style="font:600 15px var(--sans);margin-top:6px">2 of 3 passing</div><div class="small muted" style="margin-top:4px">Carry is 4 pts short. The cliffhanger loses 3% before the next card shows.</div></div>
+    </div>
+  </main>
+</section>
+<div class="cap" style="width:1440px"><b>18 · Studio: retention</b>The retention curve is drawn over the chapter’s five beats and tied to shot ids, so a drop names a shot. Cold-open A/B with the confidence stated. The three gate numbers sit on top. Data shown is illustrative.</div>
+</div>
+</div>
+
+</div>
+</body>
+</html>
