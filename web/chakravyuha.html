@@ -371,9 +371,9 @@ const RING_LINES = [
   null,
   'The Pāṇḍavas cannot follow him in.',
   'He fights on alone.',
-  'Princes and kings fall before a boy of sixteen.',
+  'Princes and kings fall before a boy not yet grown.',
   'Droṇa praises his skill, even as he plans his end.',
-  'Six rings broken.'
+  'He breaks through, again and again.'
 ];
 
 function begin() {
@@ -434,7 +434,7 @@ function update(dt) {
       if (ac && Math.random() < dt * 9) sfx(tak, 0.07, rnd(2200, 3200));
     }
     Object.assign(camT, { yaw: 0.6 * (1 - ease(pt / 9.5)), pitch: 0, zoom: 0.92 + 0.06 * ease(pt / 9.5), tx: 0, ty: 0, cy: 0.5 });
-    at('t', 7.9, () => say('Droṇa has drawn the Kaurava army into a wheel of seven rings.', 5));
+    at('t', 7.9, () => say('Droṇa has set the Kaurava army in a wheel.', 5));
     if (pt > 9.6) { go('army'); windStart(); }
   } else if (phase === 'army') {
     wallProg.fill(1);
@@ -466,7 +466,7 @@ function update(dt) {
       const before = s;
       s = Math.min(s + vel * dt, lim);
       distAcc += s - before;
-      if (nextBreak >= 6 && s >= spiralL && !fired.has('ride:sp')) { fired.add('ride:sp'); say('The seventh ring turns inward, and closes.', 4.6); }
+      if (nextBreak >= 6 && s >= spiralL && !fired.has('ride:sp')) { fired.add('ride:sp'); say('The wheel turns inward, and closes.', 4.6); }
       if (s >= endL - 1e-5 && nextBreak >= 6) { go('stuck'); }
     }
     pathAt(s);
@@ -496,7 +496,7 @@ function update(dt) {
     abhiI = 1;
     pathAt(endL);
     at('a', 0.5, () => say('Six great warriors come at him together.', 4.4));
-    at('b', 4.8, () => { say('Why did no one follow him in?', 7.5); hotspot = true; sfx(bell, 660, 0.08); });
+    at('b', 4.8, () => { say('Why could they not follow him in?', 7.5); hotspot = true; sfx(bell, 660, 0.08); });
     for (const x of six) { x.on = Math.min(1, x.on + dt * 0.5); x.rad = lerp(x.rad, 0.13, dt * 0.35); x.ang += dt * 0.3; }
     if (holding) {
       if (!stuckHint) { stuckHint = true; later(0.6, () => { if (phase === 'stuck' && !revealOpen) say('The seventh ring does not break.', 3); }); }
@@ -931,9 +931,9 @@ function drawReveal() {
   const INK = '#2B1D0E', RED = '#7A2A14', FADED = '#4A361B';
   const blocks = [
     ['Jayadratha, king of Sindhu, stood at the mouth of the wheel.', 18, false, INK, 1.5],
-    ['Years before, humbled by the Pāṇḍavas in the forest, he did penance to Śiva and won a boon: for one day he could hold back every Pāṇḍava brother except Arjuna.', 18, false, INK, 1.5],
+    ['Years before, humbled by the Pāṇḍavas in the forest, he did penance to Śiva and won a boon: he could hold back every Pāṇḍava brother except Arjuna.', 18, false, INK, 1.5],
     ['This was the day. Arjuna was far to the south.', 18, false, INK, 1.5],
-    ['Vyāsa, Mahābhārata: the boon in the Vana Parva, the gate in the Droṇa Parva.', 15, true, FADED, 1.45]
+    ['Mahābhārata, critical edition: the boon at 3.256, the gate at 7.41–42.', 15, true, FADED, 1.45]
   ];
   const hs = blocks.map(b => measure(b[0], b[1], inner, b[2], b[4]));
   const privT = 'From your collection: [the detail only your books hold, cited to book, chapter and verse]';
@@ -983,17 +983,17 @@ function drawEnd() {
     const sg = ctx.createRadialGradient(W / 2, cy + 60, 0, W / 2, cy + 60, Math.max(W, H) * 0.5);
     sg.addColorStop(0, `rgba(8,7,5,${0.72 * a1})`); sg.addColorStop(1, 'rgba(8,7,5,0)');
     ctx.fillStyle = sg; ctx.fillRect(0, 0, W, H);
-    write('यतो धर्मस्ततो जयः', W / 2, cy, { size: big, color: C.gold, alpha: a1, glow: 'rgba(227,150,60,0.5)', blur: 24 });
-    write('yato dharmas tato jayaḥ', W / 2, cy + big * 0.72, { size: clamp(S * 0.03, 15, 18), italic: true, color: C.ash, alpha: a1 });
-    write('Where there is dharma, there is victory.', W / 2, cy + big * 0.72 + 34, { size: clamp(S * 0.04, 18, 24), color: C.parch, alpha: a1, maxW: W - 56 });
+    write('एकोऽयं निहतः शेते', W / 2, cy, { size: big, color: C.gold, alpha: a1, glow: 'rgba(227,150,60,0.5)', blur: 24 });
+    write('eko ’yaṃ nihataḥ śete naiṣa dharmo mato hi naḥ', W / 2, cy + big * 0.72, { size: clamp(S * 0.03, 15, 18), italic: true, color: C.ash, alpha: a1 });
+    write('One alone, he lies slain. This, we hold, was not dharma. (7.48)', W / 2, cy + big * 0.72 + 34, { size: clamp(S * 0.04, 18, 24), color: C.parch, alpha: a1, maxW: W - 56 });
   }
   if (endUI > 0) {
     const y0 = cy + big * 0.72 + (portrait ? 104 : 92);
     ctx.save(); ctx.globalAlpha = endUI;
     write('Next: The vow', W / 2, y0, { size: 22, color: C.gold });
-    const h = write('Arjuna swears that Jayadratha will not live to see another sunset. Unlocks tomorrow at 7 pm.', W / 2, y0 + 30, { size: 16, color: C.ash, maxW: Math.min(W - 56, 460), lh: 1.45 });
+    const h = write('Arjuna vows to kill Jayadratha before tomorrow’s sunset. Unlocks tomorrow at 7 pm.', W / 2, y0 + 30, { size: 16, color: C.ash, maxW: Math.min(W - 56, 460), lh: 1.45 });
     pill('Watch again', W / 2, y0 + 30 + h + 26, restart, C.gold, null);
-    write('An AI-made scene from Dheevara, after Vyāsa’s Mahābhārata, Droṇa Parva.', W / 2, H - 22, { size: 13, color: C.ash, alpha: 0.85, maxW: W - 40 });
+    write('An AI-made scene from Dheevara, after the Mahābhārata (critical edition), Droṇa Parva.', W / 2, H - 22, { size: 13, color: C.ash, alpha: 0.85, maxW: W - 40 });
     ctx.restore();
   }
 }
@@ -1018,7 +1018,7 @@ function drawStart() {
   ctx.globalCompositeOperation = 'source-over';
   const size = clamp(S * 0.11, 44, 96);
   write('चक्रव्यूह', cx, cy + R + size * 1.05, { size, color: C.gold, glow: 'rgba(227,150,60,0.45)', blur: 22 });
-  write('Abhimanyu, and the seventh ring', cx, cy + R + size * 1.05 + clamp(S * 0.055, 26, 42), { size: clamp(S * 0.036, 17, 22), italic: true, color: C.parch });
+  write('Abhimanyu, and the way in', cx, cy + R + size * 1.05 + clamp(S * 0.055, 26, 42), { size: clamp(S * 0.036, 17, 22), italic: true, color: C.parch });
   const a = 0.6 + 0.3 * Math.sin(t * 2.2);
   write(finePointer ? 'Best with headphones. Click or press Enter to begin.' : 'Best with headphones. Tap to begin.', cx, H - 64, { size: 16, color: C.ash, alpha: a, maxW: W - 48 });
   write('Dheevara', cx, 44, { size: 18, color: C.gold, alpha: 0.75 });
