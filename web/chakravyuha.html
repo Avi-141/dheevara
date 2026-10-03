@@ -28,6 +28,7 @@ const C = {
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer = matchMedia('(pointer: fine)').matches;
 const args = new URLSearchParams(location.hash.slice(1));
+const clean = args.has('clean'); // preview hook: scene only, no type or controls
 
 document.body.style.userSelect = 'none';
 document.body.style.webkitUserSelect = 'none';
@@ -1039,6 +1040,7 @@ function render() {
   drawLights();
   drawSunset();
   drawFilm();
+  if (clean) return;
   drawTitle();
   drawRings();
   drawHotspot();
@@ -1092,7 +1094,7 @@ resize();
 resetWorld();
 if (document.fonts && document.fonts.load) document.fonts.load(font(48, false), 'चक्रव्यूह').catch(() => {});
 
-// Preview hooks: #at=SECONDS fast-forwards, #auto holds for you, #reveal opens the sheet.
+// Preview hooks: #at=SECONDS fast-forwards, #auto holds for you, #reveal opens the sheet, #clean hides type and controls.
 if (args.has('at')) {
   phase = 'carve'; pt = 0;
   const auto = args.has('auto'), target = parseFloat(args.get('at')) || 0;
