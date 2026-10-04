@@ -52,7 +52,9 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: linux-reports
-          path: apps/dheevara/**/build/reports/
+          path: |
+            apps/dheevara/**/build/reports/
+            apps/dheevara/**/build/outputs/roborazzi/
 
   ios:
     name: iOS framework and simulator tests
