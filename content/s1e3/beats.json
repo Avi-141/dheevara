@@ -1,0 +1,81 @@
+{
+  "chapter": "s1e3",
+  "season": "mbh-s1",
+  "title": { "en": "The way in", "hi": "भीतर का रास्ता" },
+  "witness": "sanjaya",
+  "status": "draft: planned in session from the critical edition and the style bible; not signed off (rule 9)",
+  "durationMs": 114000,
+  "beats": [
+    {
+      "kind": "cold_open",
+      "startMs": 0,
+      "endMs": 8000,
+      "purpose": "State the stakes before anything else: Droṇa's vow over the forming wheel.",
+      "shots": [ { "id": "s1e3-sh01", "lines": ["n00-disclosure", "n01"] } ]
+    },
+    {
+      "kind": "verse",
+      "startMs": 8000,
+      "endMs": 26000,
+      "verse": "mbh.7.34.19",
+      "purpose": "The source, chanted. No video: the leaf on night with the chant (style bible section 5).",
+      "chant": { "status": "pending", "note": "Vāgdhenu on a GPU box (VAGDHENU_URL unset); nothing else speaks the verse (rule 7)." },
+      "shots": []
+    },
+    {
+      "kind": "scene",
+      "startMs": 26000,
+      "endMs": 84000,
+      "purpose": "The event from Sañjaya's vantage: Arjuna drawn away, the wheel, the way in, the gap closing, the fall.",
+      "shots": [
+        { "id": "s1e3-sh02", "lines": ["n02"] },
+        { "id": "s1e3-sh03", "lines": ["n03"] },
+        { "id": "s1e3-sh04", "lines": ["n04"] },
+        { "id": "s1e3-sh05", "lines": ["n05"] },
+        { "id": "s1e3-sh06", "lines": ["n06"] },
+        { "id": "s1e3-sh07", "lines": ["n07"] },
+        { "id": "s1e3-sh08", "lines": ["n08"] },
+        { "id": "s1e3-sh09", "lines": ["n09"] },
+        { "id": "s1e3-sh10", "lines": ["n10", "n11"] }
+      ]
+    },
+    {
+      "kind": "reveal",
+      "startMs": 84000,
+      "endMs": 102000,
+      "reveal": "who-taught-him",
+      "purpose": "The hidden detail on one carved object: who taught him, by the text.",
+      "shots": [
+        { "id": "s1e3-sh11", "lines": ["n12"] },
+        { "id": "s1e3-sh12", "lines": [] }
+      ]
+    },
+    {
+      "kind": "question",
+      "startMs": 102000,
+      "endMs": 114000,
+      "purpose": "The question chapter 4 (The gatekeeper) answers.",
+      "holdMs": 2000,
+      "shots": [ { "id": "s1e3-sh13", "lines": ["n13"] } ]
+    }
+  ],
+  "reveals": [
+    {
+      "id": "who-taught-him",
+      "title": { "en": "Who taught him?", "hi": "उसे किसने सिखाया?" },
+      "popular": {
+        "text": { "en": "Abhimanyu learned the way in while still in his mother's womb, as Arjuna described it to Subhadrā. In some tellings she falls asleep; in others Kṛṣṇa interrupts before the way out." },
+        "source": { "label": "Popular telling: regional retellings, kathā, folk theatre, film and television" }
+      },
+      "text": {
+        "text": { "en": "Abhimanyu tells Yudhiṣṭhira his father taught him to break in, but that he cannot get out (7.34.19). Elsewhere he learns arms from Arjuna as a boy (1.213.65). The critical edition's text does not tell the womb story." },
+        "claims": ["mbh.7.34.19", "mbh.1.213.65"]
+      },
+      "collection": { "status": "none" },
+      "scholarNote": "Some manuscripts (K1–2) carry the womb story as star passage *259 after 7.34.18, printed in the apparatus. Wording of tier 2 awaits the scholar (docs/research/canon-check-s1e3.md)."
+    }
+  ],
+  "people": ["abhimanyu", "arjuna", "subhadra", "yudhishthira", "drona", "jayadratha", "krishna", "pradyumna", "uttara", "virata", "parikshit", "daushasani", "duhshasana", "sanjaya"],
+  "next": { "id": "s1e4", "releaseLocal": "19:00" },
+  "experience": "web/chakravyuha.html"
+}

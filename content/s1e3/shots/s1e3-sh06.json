@@ -1,0 +1,43 @@
+{
+  "$schema": "../../../schema/shot-contract.schema.json",
+  "id": "s1e3-sh06",
+  "chapter": "s1e3",
+  "beat": "scene",
+  "retention": "stakes",
+  "witness": "sanjaya",
+  "camera": {
+    "framing": "insert",
+    "move": "push_in",
+    "height": "eye",
+    "lensMm": 90
+  },
+  "setting": "Close on carved basalt in raking lamp-warm light",
+  "blocking": "Abhimanyu's hands string his bow and draw an arrow from the quiver, carved stone fingers moving with weight. Hands and bow only; no face in frame.",
+  "durationS": 6,
+  "references": [
+    "char.abhimanyu",
+    "obj.bow",
+    "style.relief_basalt_lamp"
+  ],
+  "claims": [
+    "mbh.7.34.19"
+  ],
+  "forbidden": [
+    "deity_face_closeup",
+    "pov_inside_deity",
+    "face_closeup",
+    "lip_movement",
+    "deity_on_field",
+    "modern_objects",
+    "visor_helmet",
+    "plate_armour",
+    "chain_mail",
+    "stirrups",
+    "firearms",
+    "text_in_frame",
+    "photoreal_skin",
+    "lens_flare"
+  ],
+  "territory": "worldwide",
+  "quality": "draft"
+}

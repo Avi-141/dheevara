@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../schema/shot-contract.schema.json",
+  "id": "s1e3-sh01",
+  "chapter": "s1e3",
+  "beat": "cold_open",
+  "retention": "hook",
+  "witness": "sanjaya",
+  "camera": {
+    "framing": "extreme_wide",
+    "move": "push_in",
+    "height": "high",
+    "lensMm": 24
+  },
+  "setting": "Kurukṣetra at dawn on the day of the cakravyūha; a low sun rakes across a field carved like dark basalt relief under a smoke-coloured sky",
+  "blocking": "Seen from far above, as if by divine sight: the Kaurava host turns rank by rank into a great wheel around a still centre, chariots and banners carved in stone. Droṇa's chariot stands small at its head. No face resolves.",
+  "durationS": 8,
+  "references": [
+    "loc.kurukshetra",
+    "obj.chariot",
+    "style.relief_basalt_lamp"
+  ],
+  "claims": [
+    "mbh.7.32.12",
+    "mbh.7.33"
+  ],
+  "forbidden": [
+    "deity_face_closeup",
+    "pov_inside_deity",
+    "face_closeup",
+    "lip_movement",
+    "deity_on_field",
+    "modern_objects",
+    "visor_helmet",
+    "plate_armour",
+    "chain_mail",
+    "stirrups",
+    "firearms",
+    "text_in_frame",
+    "photoreal_skin",
+    "lens_flare",
+    "counted_rings"
+  ],
+  "territory": "worldwide",
+  "quality": "draft"
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../schema/shot-contract.schema.json",
+  "id": "s1e3-sh11",
+  "chapter": "s1e3",
+  "beat": "reveal",
+  "retention": "reveal",
+  "witness": "sanjaya",
+  "camera": {
+    "framing": "insert",
+    "move": "static",
+    "height": "eye",
+    "lensMm": 100
+  },
+  "setting": "A carved temple panel lit by one oil lamp from the left",
+  "blocking": "Macro on a relief: a man's hand guides a boy's hands on a bow, both carved in basalt. The lamp flickers slightly; the bowstring catches gold, the one place a claim lives.",
+  "durationS": 9,
+  "references": [
+    "char.arjuna",
+    "char.abhimanyu",
+    "obj.bow",
+    "style.relief_basalt_lamp"
+  ],
+  "claims": [
+    "mbh.1.213.65"
+  ],
+  "forbidden": [
+    "deity_face_closeup",
+    "pov_inside_deity",
+    "face_closeup",
+    "lip_movement",
+    "deity_on_field",
+    "modern_objects",
+    "visor_helmet",
+    "plate_armour",
+    "chain_mail",
+    "stirrups",
+    "firearms",
+    "text_in_frame",
+    "photoreal_skin",
+    "lens_flare"
+  ],
+  "territory": "worldwide",
+  "quality": "draft"
+}

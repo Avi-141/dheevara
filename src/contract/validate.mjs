@@ -2,7 +2,7 @@
 // Errors are plain sentences naming the field and, where one applies, the rule it enforces.
 import { readFileSync } from 'node:fs';
 import { Ajv2020 } from 'ajv/dist/2020.js';
-import { SCHEMA, REVERED, CLOSE_FRAMINGS, FIELD_RULE } from './rules.mjs';
+import { SCHEMA, REVERED, CLOSE_FRAMINGS, CLOSER_THAN_MEDIUM_WIDE, FIELD_RULE } from './rules.mjs';
 
 const ajv = new Ajv2020({ allErrors: true, strict: true, verbose: true });
 const checkSchema = ajv.compile(SCHEMA);
@@ -55,6 +55,12 @@ export function validateContract(contract, { resolveClaim, revered = [] } = {}) 
       if (kind === 'char' && never.has(name)) {
         errors.push(issue('/forbidden', `/camera/framing "${contract.camera.framing}" with ${ref} is a facial close-up of a revered figure`));
       }
+    }
+  }
+  if (CLOSER_THAN_MEDIUM_WIDE.includes(contract.camera.framing)) {
+    const people = contract.references.filter((r) => r.startsWith('char.'));
+    if (people.length) {
+      errors.push(issue('/camera', `/camera/framing "${contract.camera.framing}" frames ${people.join(', ')}; medium_wide is the closest framing on a person (style bible section 7)`));
     }
   }
   if (resolveClaim) {

@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../schema/shot-contract.schema.json",
+  "id": "s1e3-sh04",
+  "chapter": "s1e3",
+  "beat": "scene",
+  "retention": "stakes",
+  "witness": "sanjaya",
+  "camera": {
+    "framing": "medium_wide",
+    "move": "push_in",
+    "height": "high",
+    "lensMm": 35
+  },
+  "setting": "The Pāṇḍava lines before the array in late morning; warm sun on carved stone",
+  "blocking": "Yudhiṣṭhira stands in his chariot and turns toward the young Abhimanyu beside him, one arm raised toward the distant wheel; banners stand behind them. The push stops at medium-wide.",
+  "durationS": 7,
+  "references": [
+    "char.yudhishthira",
+    "char.abhimanyu",
+    "obj.chariot",
+    "style.relief_basalt_lamp"
+  ],
+  "claims": [
+    "mbh.7.34.15",
+    "mbh.7.34.17-21"
+  ],
+  "forbidden": [
+    "deity_face_closeup",
+    "pov_inside_deity",
+    "face_closeup",
+    "lip_movement",
+    "deity_on_field",
+    "modern_objects",
+    "visor_helmet",
+    "plate_armour",
+    "chain_mail",
+    "stirrups",
+    "firearms",
+    "text_in_frame",
+    "photoreal_skin",
+    "lens_flare"
+  ],
+  "territory": "worldwide",
+  "quality": "draft"
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../schema/shot-contract.schema.json",
+  "id": "s1e3-sh02",
+  "chapter": "s1e3",
+  "beat": "scene",
+  "retention": "stakes",
+  "witness": "sanjaya",
+  "camera": {
+    "framing": "wide",
+    "move": "track",
+    "height": "high",
+    "lensMm": 28
+  },
+  "setting": "Morning on the southern edge of the field; dust lit gold by the low sun against basalt-dark ground",
+  "blocking": "Far below, Arjuna's chariot turns south after a massed line of Saṃśaptaka chariots raising challenge banners; the camera tracks with them as they draw away from the main armies.",
+  "durationS": 6,
+  "references": [
+    "loc.kurukshetra",
+    "char.arjuna",
+    "obj.chariot",
+    "style.relief_basalt_lamp"
+  ],
+  "claims": [
+    "mbh.7.32.15"
+  ],
+  "forbidden": [
+    "deity_face_closeup",
+    "pov_inside_deity",
+    "face_closeup",
+    "lip_movement",
+    "deity_on_field",
+    "modern_objects",
+    "visor_helmet",
+    "plate_armour",
+    "chain_mail",
+    "stirrups",
+    "firearms",
+    "text_in_frame",
+    "photoreal_skin",
+    "lens_flare"
+  ],
+  "territory": "worldwide",
+  "quality": "draft"
+}

@@ -23,5 +23,8 @@ export const REVERED = [
 /** Framings that read as a facial close-up. */
 export const CLOSE_FRAMINGS = ['close', 'medium_close'];
 
+/** Style bible section 7: medium_wide is the closest framing for any person in frame. */
+export const CLOSER_THAN_MEDIUM_WIDE = ['medium', 'medium_close', 'close'];
+
 /** Which of the nine rules a contract field carries, for error messages. */
-export const FIELD_RULE = { witness: 1, forbidden: 1, claims: 2, territory: 4, quality: 6 };
+export const FIELD_RULE = { witness: 1, forbidden: 1, claims: 2, territory: 4, quality: 6, camera: 1 };

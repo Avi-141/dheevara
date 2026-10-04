@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../schema/shot-contract.schema.json",
+  "id": "s1e3-sh07",
+  "chapter": "s1e3",
+  "beat": "scene",
+  "retention": "stakes",
+  "witness": "sanjaya",
+  "camera": {
+    "framing": "wide",
+    "move": "track",
+    "height": "high",
+    "lensMm": 28
+  },
+  "setting": "Midday at the edge of the wheel; dust caught in gold light",
+  "blocking": "Abhimanyu's chariot drives into the outer band of the wheel and breaks through it in several places at once; carved warriors fall back. A half-second shake at the breach, then steady.",
+  "durationS": 5,
+  "references": [
+    "char.abhimanyu",
+    "obj.chariot",
+    "loc.kurukshetra",
+    "style.relief_basalt_lamp"
+  ],
+  "claims": [
+    "mbh.7.32.18"
+  ],
+  "forbidden": [
+    "deity_face_closeup",
+    "pov_inside_deity",
+    "face_closeup",
+    "lip_movement",
+    "deity_on_field",
+    "modern_objects",
+    "visor_helmet",
+    "plate_armour",
+    "chain_mail",
+    "stirrups",
+    "firearms",
+    "text_in_frame",
+    "photoreal_skin",
+    "lens_flare"
+  ],
+  "territory": "worldwide",
+  "quality": "draft"
+}

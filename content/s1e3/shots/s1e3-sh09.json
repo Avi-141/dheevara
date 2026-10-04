@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../schema/shot-contract.schema.json",
+  "id": "s1e3-sh09",
+  "chapter": "s1e3",
+  "beat": "scene",
+  "retention": "stakes",
+  "witness": "sanjaya",
+  "camera": {
+    "framing": "wide",
+    "move": "orbit",
+    "height": "high",
+    "lensMm": 28
+  },
+  "setting": "Inside the wheel in late afternoon; long shadows across the carved ground",
+  "blocking": "Six great chariots close a ring around Abhimanyu; his bow is broken and his chariot stilled. He lifts a chariot wheel above his head in both hands, a carved silhouette against the low sun.",
+  "durationS": 7,
+  "references": [
+    "char.abhimanyu",
+    "obj.chariot",
+    "obj.chariot_wheel",
+    "style.relief_basalt_lamp"
+  ],
+  "claims": [
+    "mbh.7.32.19",
+    "mbh.7.47.38-39"
+  ],
+  "forbidden": [
+    "deity_face_closeup",
+    "pov_inside_deity",
+    "face_closeup",
+    "lip_movement",
+    "deity_on_field",
+    "modern_objects",
+    "visor_helmet",
+    "plate_armour",
+    "chain_mail",
+    "stirrups",
+    "firearms",
+    "text_in_frame",
+    "photoreal_skin",
+    "lens_flare"
+  ],
+  "territory": "worldwide",
+  "quality": "draft"
+}
