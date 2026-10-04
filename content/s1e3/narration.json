@@ -1,0 +1,164 @@
+{
+  "chapter": "s1e3",
+  "status": "draft: written in session from the critical edition; hi-IN awaits a native reviewer; not signed off (rule 9)",
+  "languages": [
+    "en-IN",
+    "hi-IN"
+  ],
+  "disclosure": {
+    "note": "Spoken before AI narration (style bible section 13). Not a claim about the text, so it carries none.",
+    "text": {
+      "en-IN": "This narration is AI-generated.",
+      "hi-IN": "यह वर्णन एआई द्वारा बनाया गया है।"
+    }
+  },
+  "lines": [
+    {
+      "id": "n01",
+      "beat": "cold_open",
+      "claims": [
+        "mbh.7.32.12"
+      ],
+      "text": {
+        "en-IN": "Droṇa makes a vow. Today he will bring down one of the Pāṇḍavas' greatest warriors.",
+        "hi-IN": "द्रोण प्रतिज्ञा करते हैं। आज वे पांडवों के एक महान योद्धा को गिराएँगे।"
+      }
+    },
+    {
+      "id": "n02",
+      "beat": "scene",
+      "claims": [
+        "mbh.7.32.15"
+      ],
+      "text": {
+        "en-IN": "To draw Arjuna away, the Saṃśaptakas challenge him and lead him south.",
+        "hi-IN": "अर्जुन को दूर ले जाने के लिए संशप्तक उन्हें ललकारते हैं और दक्षिण की ओर ले जाते हैं।"
+      }
+    },
+    {
+      "id": "n03",
+      "beat": "scene",
+      "claims": [
+        "mbh.7.33"
+      ],
+      "text": {
+        "en-IN": "Droṇa sets the army in the cakravyūha, the wheel, with kings and princes inside it.",
+        "hi-IN": "द्रोण सेना को चक्रव्यूह में सजाते हैं, जिसके भीतर राजा और राजकुमार खड़े हैं।"
+      }
+    },
+    {
+      "id": "n04",
+      "beat": "scene",
+      "claims": [
+        "mbh.7.34.15"
+      ],
+      "text": {
+        "en-IN": "Only four could break it, Yudhiṣṭhira says: Arjuna, Kṛṣṇa, Pradyumna, or Abhimanyu. And Arjuna is gone.",
+        "hi-IN": "युधिष्ठिर कहते हैं, इसे केवल चार तोड़ सकते हैं: अर्जुन, कृष्ण, प्रद्युम्न या अभिमन्यु। और अर्जुन यहाँ नहीं हैं।"
+      }
+    },
+    {
+      "id": "n05",
+      "beat": "scene",
+      "claims": [
+        "mbh.7.34.17-21",
+        "mbh.7.32.21-23"
+      ],
+      "text": {
+        "en-IN": "So he turns to Abhimanyu, a boy not yet grown.",
+        "hi-IN": "तब वे अभिमन्यु की ओर देखते हैं, जो अभी युवा भी नहीं हुआ है।"
+      }
+    },
+    {
+      "id": "n06",
+      "beat": "scene",
+      "claims": [
+        "mbh.7.34.19"
+      ],
+      "text": {
+        "en-IN": "Abhimanyu answers. His father taught him how to break in. But if trouble comes, he cannot get out.",
+        "hi-IN": "अभिमन्यु उत्तर देता है। पिता ने उसे व्यूह तोड़कर भीतर जाना सिखाया है। पर संकट आने पर वह बाहर नहीं निकल पाएगा।"
+      }
+    },
+    {
+      "id": "n07",
+      "beat": "scene",
+      "claims": [
+        "mbh.7.32.18"
+      ],
+      "text": {
+        "en-IN": "He breaks the wheel in many places and rides in alone.",
+        "hi-IN": "वह चक्रव्यूह को कई जगह से तोड़ देता है और अकेला भीतर चला जाता है।"
+      }
+    },
+    {
+      "id": "n08",
+      "beat": "scene",
+      "claims": [
+        "mbh.7.42.6"
+      ],
+      "text": {
+        "en-IN": "Behind him, the gap closes. No one can follow.",
+        "hi-IN": "उसके पीछे दरार भर दी जाती है। कोई उसके पीछे नहीं जा पाता।"
+      }
+    },
+    {
+      "id": "n09",
+      "beat": "scene",
+      "claims": [
+        "mbh.7.32.19",
+        "mbh.7.47.38-39"
+      ],
+      "text": {
+        "en-IN": "Six great warriors close in around him. When his weapons are gone, he lifts a chariot wheel.",
+        "hi-IN": "छह महारथी उसे घेर लेते हैं। जब उसके शस्त्र नहीं रहते, तो वह रथ का पहिया उठा लेता है।"
+      }
+    },
+    {
+      "id": "n10",
+      "beat": "scene",
+      "claims": [
+        "mbh.7.48.3"
+      ],
+      "text": {
+        "en-IN": "They cut it to pieces.",
+        "hi-IN": "वे उस पहिए के भी टुकड़े कर देते हैं।"
+      }
+    },
+    {
+      "id": "n11",
+      "beat": "scene",
+      "claims": [
+        "mbh.7.48.21"
+      ],
+      "text": {
+        "en-IN": "One against six, he falls. And the voices in the sky say: this was not dharma.",
+        "hi-IN": "छह के विरुद्ध अकेला, वह गिर जाता है। और आकाश से स्वर उठते हैं: यह धर्म नहीं था।"
+      }
+    },
+    {
+      "id": "n12",
+      "beat": "reveal",
+      "claims": [
+        "mbh.7.34.19",
+        "mbh.1.213.65"
+      ],
+      "text": {
+        "en-IN": "Many grew up hearing that he learned the wheel in his mother's womb. The critical edition tells it differently: his father taught him to break in, and he learned arms from Arjuna as a boy.",
+        "hi-IN": "बहुतों ने सुना है कि उसने चक्रव्यूह माँ के गर्भ में सीखा था। समीक्षात्मक संस्करण कुछ और कहता है: पिता ने उसे भीतर जाना सिखाया, और बचपन में उसने अर्जुन से शस्त्र-विद्या सीखी।"
+      }
+    },
+    {
+      "id": "n13",
+      "beat": "question",
+      "claims": [
+        "mbh.7.42.6",
+        "mbh.7.41"
+      ],
+      "text": {
+        "en-IN": "They could not follow him in. Who held the gate?",
+        "hi-IN": "वे उसके पीछे भीतर नहीं जा सके। द्वार किसने रोका था?"
+      }
+    }
+  ]
+}

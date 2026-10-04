@@ -1,0 +1,8 @@
+{
+  "note": "Canon words that are not people, in every form the narration uses, for the pronunciation dictionary (src/voice/dictionary.mjs). Add a form when pnpm voice:check shows Bulbul mispronouncing it.",
+  "terms": [
+    { "id": "cakravyuha", "forms": ["cakravyūha", "Cakravyūha"] },
+    { "id": "samshaptaka", "forms": ["Saṃśaptaka", "Saṃśaptakas"] },
+    { "id": "pandava", "forms": ["Pāṇḍava", "Pāṇḍavas", "Pāṇḍavas'"] }
+  ]
+}
