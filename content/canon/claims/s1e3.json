@@ -1,0 +1,167 @@
+{
+  "$schema": "../../../schema/claim.schema.json",
+  "claims": [
+    {
+      "id": "mbh.7.32.12",
+      "edition": "bori-ce",
+      "statement": "Droṇa tells Duryodhana that today he will fell a foremost great warrior of the Pāṇḍavas.",
+      "status": "etext",
+      "flags": ["The handoff and scholar review had this vow at c. v.13; the e-text places it at 7.32.12, with the array at 7.32.13."]
+    },
+    {
+      "id": "mbh.7.32.13",
+      "edition": "bori-ce",
+      "statement": "Droṇa will form an array the gods themselves cannot break, provided Arjuna is drawn away by some means.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.7.32.15",
+      "edition": "bori-ce",
+      "statement": "The Saṃśaptakas challenge Arjuna and draw him away to the south.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.7.32.18",
+      "edition": "bori-ce",
+      "statement": "At the word of his eldest uncle, Yudhiṣṭhira, Abhimanyu breaks the hard-to-break cakravyūha in many places (anekadhā).",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.7.32.19",
+      "edition": "bori-ce",
+      "statement": "Having done a hard deed and slain warriors by the thousand, Abhimanyu, caught among six warriors, falls into the power of Duḥśāsana's son.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.7.32.21-23",
+      "edition": "bori-ce",
+      "statement": "Dhṛtarāṣṭra calls Abhimanyu not yet come of age (aprāptayauvana) and a boy (bāla), struck down by many skilled in arms.",
+      "status": "etext",
+      "flags": ["The handoff lists śiśu under 7.32 as well; in the e-text śiśu appears at 7.34.26 and 7.48.32, not in 7.32."]
+    },
+    {
+      "id": "mbh.7.33",
+      "edition": "bori-ce",
+      "statement": "The arrangement of the cakravyūha: kings and princes set around Duryodhana, Droṇa at the head of the army and Jayadratha, king of Sindhu, standing firm beside him. The adhyāya gives no count of rings.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.7.34.15",
+      "edition": "bori-ce",
+      "statement": "Yudhiṣṭhira says only Abhimanyu, Arjuna, Kṛṣṇa or Pradyumna could break the cakravyūha; no fifth is found.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.7.34.17-21",
+      "edition": "bori-ce",
+      "statement": "Yudhiṣṭhira asks Abhimanyu to break Droṇa's array; Abhimanyu agrees, says his father taught him how to break in but that he cannot get out if trouble comes; Yudhiṣṭhira promises they will follow him in.",
+      "status": "etext",
+      "flags": ["The e-text reads yudhā in 7.34.20; check against the printed volume (scholar review, item 1)."]
+    },
+    {
+      "id": "mbh.7.34.19",
+      "edition": "bori-ce",
+      "statement": "Abhimanyu says his father taught him the method of breaking the array, and that he cannot come out if calamity befalls him.",
+      "translation": {
+        "en": "My father taught me the method of breaking the array, but if any calamity befalls me I cannot come out.",
+        "by": "scholar-review"
+      },
+      "status": "etext"
+    },
+    {
+      "id": "mbh.7.41",
+      "edition": "bori-ce",
+      "statement": "Saṃjaya tells how Jayadratha held back the Pāṇḍavas who tried to follow Abhimanyu, retelling Śiva's boon to him.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.7.42.6",
+      "edition": "bori-ce",
+      "statement": "Jayadratha, loosing a mass of arrows, fills the breach that Abhimanyu had torn in the array.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.7.47.38-39",
+      "edition": "bori-ce",
+      "statement": "Weaponless, Abhimanyu takes up a chariot wheel and rushes at Droṇa.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.7.48.3",
+      "edition": "bori-ce",
+      "statement": "The warriors around him cut the wheel to pieces.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.7.48.12-13",
+      "edition": "bori-ce",
+      "statement": "As Abhimanyu rises, Duḥśāsana's son strikes him on the head with a mace and he falls; thus one was slain by many.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.7.48.21",
+      "edition": "bori-ce",
+      "statement": "Slain by six great chariot-warriors led by Droṇa and Karṇa, he lies alone, and the voices in the sky hold that this was not dharma.",
+      "translation": {
+        "en": "One against six he lies slain; this, we hold, was not dharma.",
+        "by": "scholar-review"
+      },
+      "status": "etext",
+      "flags": ["The scholar review placed this at c. v.22; the e-text has eko 'yaṃ nihataḥ śete at 7.48.21c."]
+    },
+    {
+      "id": "mbh.7.48.32",
+      "edition": "bori-ce",
+      "statement": "Abhimanyu is called a mere boy (śiśuka), not yet come of age (aprāptayauvana), when he is killed.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.7.50",
+      "edition": "bori-ce",
+      "statement": "Arjuna returns from the Saṃśaptakas, senses disaster and finds his son slain.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.7.51.20",
+      "edition": "bori-ce",
+      "statement": "Arjuna vows that tomorrow he will kill Jayadratha.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.1.213.58-61",
+      "edition": "bori-ce",
+      "statement": "Subhadrā bears Abhimanyu to Arjuna.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.1.213.65",
+      "edition": "bori-ce",
+      "statement": "Abhimanyu learns the whole science of the bow, divine and human, from Arjuna.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.3.256.25-28",
+      "edition": "bori-ce",
+      "statement": "After his penance, Śiva grants Jayadratha that he will hold back all the Pāṇḍavas in battle except Arjuna. The boon carries no limit of one day.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.3.132.8-9",
+      "edition": "bori-ce",
+      "statement": "Within the epic, the unborn Aṣṭāvakra speaks from the womb to correct his father's recitation, and is cursed for it.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.4.67.7",
+      "edition": "bori-ce",
+      "statement": "Arjuna accepts Uttarā, daughter of King Virāṭa of Matsya, as his daughter-in-law.",
+      "status": "etext"
+    },
+    {
+      "id": "mbh.14.65-69",
+      "edition": "bori-ce",
+      "statement": "Abhimanyu's son Parikṣit is born dead, struck by Aśvatthāman's weapon, and Kṛṣṇa restores him to life (birth at 14.65.8, revival at 14.68.18–24 and 14.69.3).",
+      "status": "etext"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "editions": [
+    {
+      "id": "bori-ce",
+      "text": "mbh",
+      "title": "The Mahābhārata, critical edition",
+      "publisher": "Bhandarkar Oriental Research Institute, Pune",
+      "years": "1933–1966",
+      "volumes": {
+        "7": "Droṇaparvan, ed. S. K. De (1958); page numbers unverified until DHE-1"
+      },
+      "shownAs": "Mahābhārata, critical edition (BORI)",
+      "etext": {
+        "id": "gretil-mbh",
+        "description": "GRETIL e-text of the critical edition, on the basis of the text entered by Muneo Tokunaga et al., revised by John Smith; constituted text plus star passages from the apparatus",
+        "notice": "Electronic text (C) Bhandarkar Oriental Research Institute, Pune, India, 1999. THIS GRETIL TEXT FILE IS FOR REFERENCE PURPOSES ONLY! COPYRIGHT AND TERMS OF USAGE AS FOR SOURCE FILE.",
+        "files": {
+          "1": {
+            "url": "https://gretil.sub.uni-goettingen.de/gretil/1_sanskr/2_epic/mbh/mbh_01_u.htm",
+            "sha256": "b4202584cd859d1b7bcacc754af8034a88e5963934b87e0495d8d12d79b8daa2"
+          },
+          "3": {
+            "url": "https://gretil.sub.uni-goettingen.de/gretil/1_sanskr/2_epic/mbh/mbh_03_u.htm",
+            "sha256": "018668ae4468c0e14d557e4380e409144f68a53d3b76f941b345b7dba57884b8"
+          },
+          "4": {
+            "url": "https://gretil.sub.uni-goettingen.de/gretil/1_sanskr/2_epic/mbh/mbh_04_u.htm",
+            "sha256": "c117476099ffc173b74753d0689e88dc488a05fcf74bd4e93ad7278e101cdccf"
+          },
+          "7": {
+            "url": "https://gretil.sub.uni-goettingen.de/gretil/1_sanskr/2_epic/mbh/mbh_07_u.htm",
+            "sha256": "aaaf837757f8debc593a4b2764ae513525e7570abaa5eb58bc7afc581a1b3778"
+          },
+          "14": {
+            "url": "https://gretil.sub.uni-goettingen.de/gretil/1_sanskr/2_epic/mbh/mbh_14_u.htm",
+            "sha256": "1b1016860aaf9385b190f2b30b4c38bd26f61d4eac0c73a03862e94f2c7e2c3c"
+          }
+        },
+        "retrieved": "2026-10-04"
+      },
+      "rights": "Constituted text of an ancient work; both e-texts carry a BORI copyright notice, and Smith's asks that copies not be passed on. We commit only the verses our claims cite (as quotation for citation, with this attribution) and a verse-count index; the full files are fetched into the gitignored .cache/ by pnpm canon:fetch. Shipping verse text in the app needs BORI's written permission (docs/research/sources.md). The 1958 Droṇaparvan may be in copyright in India until the end of 2028. Not legal advice.",
+      "devanagariCheck": {
+        "id": "smith-ud",
+        "description": "John Smith's BORI-checked Unicode Devanagari e-text (bombay.indology.info), Book 7 last updated 22 Sep 2026. pnpm canon:build requires every cited verse's Devanagari to equal it.",
+        "notice": "Electronic text (C) Bhandarkar Oriental Research Institute, Pune, India, 1999. Please do not provide copies of the text to others.",
+        "files": {
+          "1": {
+            "url": "https://bombay.indology.info/mahabharata/text/UD/MBh01.txt",
+            "sha256": "e8a8c8f6f586f070ed8c2f24bd4888eebadd751aca9464372ec34c2200bfa592"
+          },
+          "3": {
+            "url": "https://bombay.indology.info/mahabharata/text/UD/MBh03.txt",
+            "sha256": "224b7d775a8d6170afacc5dc3e6448c0ea16b24a6442be51667e3285cf336aa9"
+          },
+          "4": {
+            "url": "https://bombay.indology.info/mahabharata/text/UD/MBh04.txt",
+            "sha256": "f757d1924cd4d3b89ac9886e1d054b67916d230600937f26e575a9f74c028d1e"
+          },
+          "7": {
+            "url": "https://bombay.indology.info/mahabharata/text/UD/MBh07.txt",
+            "sha256": "5994ea0fe5cccb5782706b4909398d22c44960d42d4593c4f782a9fbb65d4518"
+          },
+          "14": {
+            "url": "https://bombay.indology.info/mahabharata/text/UD/MBh14.txt",
+            "sha256": "21640297028d944008fae9b0eef007a984932e472f171ccb93d74918fd784fdc"
+          }
+        },
+        "retrieved": "2026-10-04"
+      }
+    }
+  ]
+}

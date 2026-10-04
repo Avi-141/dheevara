@@ -1,0 +1,568 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dheevara.app/schema/chapter-manifest.schema.json",
+  "title": "Chapter manifest",
+  "description": "What the app reads for one chapter: beats, media, captions, reveals, people and every claim they cite. Written by the pipeline to content/<chapter>/manifest.json. Stable contract with the app session; change it only additively, and record any breaking change in docs/decisions.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "season",
+    "title",
+    "edition",
+    "durationMs",
+    "witness",
+    "beats",
+    "media",
+    "captions",
+    "reveals",
+    "people",
+    "claims",
+    "next",
+    "provenance"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "$ref": "#/$defs/chapterId"
+    },
+    "season": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "title": {
+      "$ref": "#/$defs/text"
+    },
+    "edition": {
+      "description": "The edition the chapter follows, as shown to the viewer.",
+      "type": "string",
+      "minLength": 1
+    },
+    "durationMs": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "witness": {
+      "description": "Rule 1: whose vantage the chapter keeps. Same list as the shot contract.",
+      "enum": [
+        "sanjaya",
+        "vanara",
+        "charioteer"
+      ]
+    },
+    "beats": {
+      "description": "Contiguous, in order, from 0 to durationMs (checked in code).",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/beat"
+      }
+    },
+    "media": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "video",
+        "narration",
+        "chant",
+        "experience"
+      ],
+      "properties": {
+        "video": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "hls",
+            "mp4"
+          ],
+          "properties": {
+            "status": {
+              "$ref": "#/$defs/mediaStatus"
+            },
+            "hls": {
+              "$ref": "#/$defs/urlOrNull"
+            },
+            "mp4": {
+              "$ref": "#/$defs/urlOrNull"
+            }
+          }
+        },
+        "narration": {
+          "description": "One track per narration language (BCP-47 base, e.g. en, hi).",
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/lang"
+          },
+          "minProperties": 1,
+          "additionalProperties": {
+            "$ref": "#/$defs/track"
+          }
+        },
+        "chant": {
+          "$ref": "#/$defs/track"
+        },
+        "experience": {
+          "description": "Path of the chapter's JS experience under web/, or null.",
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^web/[a-z0-9-]+\\.html$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "captions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "startMs",
+          "endMs",
+          "text",
+          "claims"
+        ],
+        "properties": {
+          "startMs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "endMs": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "text": {
+            "$ref": "#/$defs/text"
+          },
+          "claims": {
+            "$ref": "#/$defs/claimList"
+          }
+        }
+      }
+    },
+    "reveals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "popular",
+          "text",
+          "collection"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/slug"
+          },
+          "title": {
+            "$ref": "#/$defs/text"
+          },
+          "popular": {
+            "description": "Tier 1: what many heard. Its source is a telling, never a canon claim.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "text",
+              "source"
+            ],
+            "properties": {
+              "text": {
+                "$ref": "#/$defs/textOrEmpty"
+              },
+              "source": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "label": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "url": {
+                    "type": "string",
+                    "pattern": "^https?://"
+                  },
+                  "retrieved": {
+                    "type": "string",
+                    "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+                  }
+                }
+              }
+            }
+          },
+          "text": {
+            "description": "Tier 2: what the text says, with its claims.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "text",
+              "claims"
+            ],
+            "properties": {
+              "text": {
+                "$ref": "#/$defs/text"
+              },
+              "claims": {
+                "$ref": "#/$defs/claimList"
+              }
+            }
+          },
+          "collection": {
+            "description": "Tier 3: from our collection.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "proofing",
+                  "ready",
+                  "none"
+                ]
+              },
+              "text": {
+                "$ref": "#/$defs/text"
+              },
+              "claims": {
+                "$ref": "#/$defs/claimList"
+              }
+            }
+          }
+        }
+      }
+    },
+    "people": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "names",
+          "edges"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/slug"
+          },
+          "names": {
+            "description": "Names by language; sa is Devanagari, en is the house romanisation with diacritics.",
+            "type": "object",
+            "required": [
+              "en"
+            ],
+            "propertyNames": {
+              "$ref": "#/$defs/lang"
+            },
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 1
+            },
+            "properties": {
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "edges": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "rel",
+                "to",
+                "claims"
+              ],
+              "properties": {
+                "rel": {
+                  "type": "string",
+                  "pattern": "^[a-z]+(_[a-z]+)*$"
+                },
+                "to": {
+                  "$ref": "#/$defs/slug"
+                },
+                "claims": {
+                  "$ref": "#/$defs/claimList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "claims": {
+      "description": "Every claim id referenced anywhere in this manifest, resolved (checked in code).",
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/claimId"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/claim"
+      }
+    },
+    "next": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "releaseLocal"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/chapterId"
+            },
+            "releaseLocal": {
+              "type": "string",
+              "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "aiLabel",
+        "signOff"
+      ],
+      "properties": {
+        "aiLabel": {
+          "description": "The AI label is always shown.",
+          "const": true
+        },
+        "signOff": {
+          "description": "Rule 9: the scholar sign-off record, or null until it exists.",
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "by",
+                "date",
+                "record"
+              ],
+              "properties": {
+                "by": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "date": {
+                  "type": "string",
+                  "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+                },
+                "record": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "chapterId": {
+      "type": "string",
+      "pattern": "^s[0-9]+e[0-9]+$"
+    },
+    "claimId": {
+      "description": "Same form as the shot contract: mbh.7.34.19, mbh.7.33, mbh.7.34.17-21.",
+      "type": "string",
+      "pattern": "^[a-z]{2,8}(\\.[0-9]+){1,3}(-[0-9]+)?$"
+    },
+    "claimList": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/claimId"
+      }
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "lang": {
+      "type": "string",
+      "pattern": "^[a-z]{2,3}$"
+    },
+    "text": {
+      "description": "Text by language; English always present.",
+      "type": "object",
+      "required": [
+        "en"
+      ],
+      "propertyNames": {
+        "$ref": "#/$defs/lang"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      },
+      "properties": {
+        "en": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "textOrEmpty": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/lang"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "mediaStatus": {
+      "enum": [
+        "pending",
+        "draft",
+        "final"
+      ]
+    },
+    "urlOrNull": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "track": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "url"
+      ],
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/mediaStatus"
+        },
+        "url": {
+          "$ref": "#/$defs/urlOrNull"
+        }
+      }
+    },
+    "beat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "startMs",
+        "endMs"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "cold_open",
+            "verse",
+            "scene",
+            "reveal",
+            "question"
+          ]
+        },
+        "startMs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "endMs": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "verse": {
+          "$ref": "#/$defs/claimId"
+        },
+        "reveal": {
+          "$ref": "#/$defs/slug"
+        }
+      },
+      "description": "A verse beat names its verse and a reveal beat its reveal (checked in code)."
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "book",
+        "adhyaya",
+        "edition",
+        "status"
+      ],
+      "properties": {
+        "book": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "adhyaya": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "verse": {
+          "description": "First verse; absent for a whole adhyāya.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "verseEnd": {
+          "description": "Last verse of a range.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "edition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "devanagari": {
+          "type": "string",
+          "minLength": 1
+        },
+        "iast": {
+          "type": "string",
+          "minLength": 1
+        },
+        "translation": {
+          "$ref": "#/$defs/text"
+        },
+        "summary": {
+          "description": "For a whole adhyāya or range: what the passage says, in brief.",
+          "$ref": "#/$defs/text"
+        },
+        "status": {
+          "description": "etext: from the e-text, not yet proofed against the printed volume; proofed: checked against print; signed: in a scholar sign-off record.",
+          "enum": [
+            "etext",
+            "proofed",
+            "signed"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "$schema": "../../../schema/chapter-manifest.schema.json",
+  "id": "s1e3",
+  "season": "mbh-s1",
+  "title": {
+    "en": "The way in"
+  },
+  "edition": "Mahābhārata, critical edition (BORI)",
+  "durationMs": 116000,
+  "witness": "sanjaya",
+  "beats": [
+    {
+      "kind": "cold_open",
+      "startMs": 0,
+      "endMs": 8000
+    },
+    {
+      "kind": "verse",
+      "startMs": 8000,
+      "endMs": 26000,
+      "verse": "mbh.7.34.19"
+    },
+    {
+      "kind": "scene",
+      "startMs": 26000,
+      "endMs": 80000
+    },
+    {
+      "kind": "reveal",
+      "startMs": 80000,
+      "endMs": 100000,
+      "reveal": "who-taught-him"
+    },
+    {
+      "kind": "question",
+      "startMs": 100000,
+      "endMs": 116000
+    }
+  ],
+  "media": {
+    "video": {
+      "status": "pending",
+      "hls": null,
+      "mp4": null
+    },
+    "narration": {
+      "en": {
+        "status": "pending",
+        "url": null
+      }
+    },
+    "chant": {
+      "status": "pending",
+      "url": null
+    },
+    "experience": "web/chakravyuha.html"
+  },
+  "captions": [
+    {
+      "startMs": 0,
+      "endMs": 4000,
+      "text": {
+        "en": "Day thirteen. Droṇa sets the wheel."
+      },
+      "claims": [
+        "mbh.7.33"
+      ]
+    }
+  ],
+  "reveals": [
+    {
+      "id": "who-taught-him",
+      "title": {
+        "en": "Who taught him?"
+      },
+      "popular": {
+        "text": {},
+        "source": {}
+      },
+      "text": {
+        "text": {
+          "en": "His father taught him to break in (7.34.19)."
+        },
+        "claims": [
+          "mbh.7.34.19",
+          "mbh.1.213.65"
+        ]
+      },
+      "collection": {
+        "status": "none"
+      }
+    }
+  ],
+  "people": [
+    {
+      "id": "abhimanyu",
+      "names": {
+        "sa": "अभिमन्यु",
+        "en": "Abhimanyu"
+      },
+      "edges": [
+        {
+          "rel": "child_of",
+          "to": "arjuna",
+          "claims": [
+            "mbh.1.213.58-61"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arjuna",
+      "names": {
+        "sa": "अर्जुन",
+        "en": "Arjuna"
+      },
+      "edges": []
+    }
+  ],
+  "claims": {
+    "mbh.7.33": {
+      "book": 7,
+      "adhyaya": 33,
+      "edition": "BORI CE",
+      "status": "etext",
+      "summary": {
+        "en": "The arrangement of the cakravyūha: kings and princes set around Duryodhana, Droṇa at the head of the army and Jayadratha, king of Sindhu, standing firm beside him. The adhyāya gives no count of rings."
+      }
+    },
+    "mbh.7.34.19": {
+      "book": 7,
+      "adhyaya": 34,
+      "verse": 19,
+      "edition": "BORI CE",
+      "status": "etext",
+      "devanagari": "उपदिष्टो हि मे पित्रा योगोऽनीकस्य भेदने । नोत्सहे तु विनिर्गन्तुमहं कस्यांचिदापदि ॥ १९ ॥",
+      "iast": "upadiṣṭo hi me pitrā yogo 'nīkasya bhedane / notsahe tu vinirgantum ahaṃ kasyāṃ cid āpadi",
+      "translation": {
+        "en": "My father taught me the method of breaking the array, but if any calamity befalls me I cannot come out."
+      }
+    },
+    "mbh.1.213.65": {
+      "book": 1,
+      "adhyaya": 213,
+      "verse": 65,
+      "edition": "BORI CE",
+      "status": "etext",
+      "devanagari": "चतुष्पादं दशविधं धनुर्वेदमरिंदमः । अर्जुनाद्वेद वेदज्ञात्सकलं दिव्यमानुषम् ॥ ६५ ॥",
+      "iast": "catuṣpādaṃ daśavidhaṃ dhanurvedam ariṃdamaḥ / arjunād veda vedajñāt sakalaṃ divyamānuṣam"
+    },
+    "mbh.1.213.58-61": {
+      "book": 1,
+      "adhyaya": 213,
+      "verse": 58,
+      "verseEnd": 61,
+      "edition": "BORI CE",
+      "status": "etext"
+    }
+  },
+  "next": {
+    "id": "s1e4",
+    "releaseLocal": "19:00"
+  },
+  "provenance": {
+    "aiLabel": true,
+    "signOff": null
+  }
+}
