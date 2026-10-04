@@ -1,0 +1,55 @@
+{
+  "_fixture": "App test fixture in the shape of docs/handoff/pipeline-session.md section 7. Not content: text the handoff does not give is left as an ellipsis. Replaced by content/s1e3/manifest.json once the pipeline writes it.",
+  "id": "s1e3",
+  "season": "mbh-s1",
+  "title": { "en": "The way in" },
+  "edition": "Mahābhārata, critical edition (BORI)",
+  "durationMs": 116000,
+  "witness": "sanjaya",
+  "beats": [
+    { "kind": "cold_open", "startMs": 0, "endMs": 8000 },
+    { "kind": "verse", "startMs": 8000, "endMs": 26000, "verse": "mbh.7.34.19" },
+    { "kind": "scene", "startMs": 26000, "endMs": 80000 },
+    { "kind": "reveal", "startMs": 80000, "endMs": 100000, "reveal": "who-taught-him" },
+    { "kind": "question", "startMs": 100000, "endMs": 116000 }
+  ],
+  "media": {
+    "video": { "status": "pending", "hls": null, "mp4": null },
+    "narration": { "en": { "status": "pending", "url": null } },
+    "chant": { "status": "pending", "url": null },
+    "experience": "web/chakravyuha.html"
+  },
+  "captions": [
+    { "startMs": 0, "endMs": 4000, "text": { "en": "…" }, "claims": ["mbh.7.33"] },
+    { "startMs": 8000, "endMs": 26000, "text": { "en": "…" }, "claims": ["mbh.7.34.19"] }
+  ],
+  "reveals": [
+    {
+      "id": "who-taught-him",
+      "title": { "en": "Who taught him?" },
+      "popular": { "text": {}, "source": {} },
+      "text": { "text": {}, "claims": ["mbh.7.34.19", "mbh.1.213"] },
+      "collection": { "status": "proofing" }
+    }
+  ],
+  "people": [
+    {
+      "id": "abhimanyu",
+      "names": { "sa": "अभिमन्यु", "en": "Abhimanyu" },
+      "edges": [{ "to": "arjuna", "kind": "taught-by", "claims": ["mbh.1.213"] }]
+    },
+    { "id": "arjuna", "names": { "sa": "अर्जुन", "en": "Arjuna" }, "edges": [] }
+  ],
+  "claims": {
+    "mbh.7.33": { "book": 7, "adhyaya": 33, "edition": "BORI CE", "translation": { "en": "…" } },
+    "mbh.7.34.19": {
+      "book": 7, "adhyaya": 34, "verse": 19, "edition": "BORI CE",
+      "devanagari": "उपदिष्टो हि मे पित्रा योगोऽनीकस्य भेदने । नोत्सहे तु विनिर्गन्तुमहं कस्यांचिदापदि ॥",
+      "iast": "…",
+      "translation": { "en": "…" }
+    },
+    "mbh.1.213": { "book": 1, "adhyaya": 213, "edition": "BORI CE", "translation": { "en": "…" } }
+  },
+  "next": { "id": "s1e4", "releaseLocal": "19:00" },
+  "provenance": { "aiLabel": true, "signOff": null }
+}

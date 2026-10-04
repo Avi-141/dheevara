@@ -2,13 +2,12 @@ name: app
 
 on:
   push:
-    paths:
+    paths: &paths
       - "apps/dheevara/**"
+      - "content/*/manifest.json"
       - ".github/workflows/app.yml"
   pull_request:
-    paths:
-      - "apps/dheevara/**"
-      - ".github/workflows/app.yml"
+    paths: *paths
 
 permissions:
   contents: read
@@ -33,7 +32,22 @@ jobs:
           distribution: temurin
           java-version: "21"
       - uses: gradle/actions/setup-gradle@v6
-      - run: ./gradlew check :androidApp:assembleDebug
+      - run: ./gradlew check :androidApp:assembleDebug :shared:core:koverLog
+      - name: Test counts
+        if: always()
+        run: |
+          python3 - >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          import glob, xml.etree.ElementTree as ET
+          rows = {}
+          for f in glob.glob("**/build/test-results/*/TEST-*.xml", recursive=True):
+              s = ET.parse(f).getroot()
+              key = f.split("/build/")[0] + " · " + f.split("/")[-2]
+              t, bad = rows.get(key, (0, 0))
+              rows[key] = (t + int(s.get("tests")), bad + int(s.get("failures")) + int(s.get("errors")))
+          print("| Tests | Run | Failed |\n|---|---|---|")
+          for k, (t, bad) in sorted(rows.items()):
+              print(f"| {k} | {t} | {bad} |")
+          EOF
       - if: failure()
         uses: actions/upload-artifact@v7
         with:
@@ -60,6 +74,21 @@ jobs:
           :shared:core:iosSimulatorArm64Test
           :shared:ui:linkDebugFrameworkIosArm64
           :shared:ui:linkDebugFrameworkIosSimulatorArm64
+      - name: Test counts
+        if: always()
+        run: |
+          python3 - >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          import glob, xml.etree.ElementTree as ET
+          rows = {}
+          for f in glob.glob("**/build/test-results/*/TEST-*.xml", recursive=True):
+              s = ET.parse(f).getroot()
+              key = f.split("/build/")[0] + " · " + f.split("/")[-2]
+              t, bad = rows.get(key, (0, 0))
+              rows[key] = (t + int(s.get("tests")), bad + int(s.get("failures")) + int(s.get("errors")))
+          print("| Tests | Run | Failed |\n|---|---|---|")
+          for k, (t, bad) in sorted(rows.items()):
+              print(f"| {k} | {t} | {bad} |")
+          EOF
       - if: failure()
         uses: actions/upload-artifact@v7
         with:
