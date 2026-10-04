@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dheevara.app/schema/shot-contract.schema.json",
+  "title": "Shot contract",
+  "description": "One shot of a chapter, the unit of work. Compile, render, QC and assembly are deterministic from it.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "chapter", "beat", "retention", "witness", "camera", "setting", "blocking", "durationS", "references", "claims", "forbidden", "territory", "quality"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": {
+      "description": "Chapter id, then the shot number: s1e3-sh01.",
+      "type": "string",
+      "pattern": "^s[0-9]+e[0-9]+-sh[0-9]{2,3}$"
+    },
+    "chapter": { "$ref": "#/$defs/chapterId" },
+    "beat": {
+      "description": "The chapter beat this shot belongs to (decision of 3 Oct: cold open, verse, scene, reveal, question).",
+      "enum": ["cold_open", "verse", "scene", "reveal", "question"]
+    },
+    "retention": {
+      "description": "What the shot does for retention. Hook, reveal and cliffhanger route to the premium model; stakes and connective to the cheaper one.",
+      "enum": ["hook", "stakes", "connective", "reveal", "cliffhanger"]
+    },
+    "witness": { "$ref": "#/$defs/witness" },
+    "camera": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["framing", "move"],
+      "properties": {
+        "framing": { "enum": ["extreme_wide", "wide", "medium", "medium_close", "close", "insert"] },
+        "move": { "enum": ["static", "push_in", "pull_out", "pan", "tilt", "track", "crane", "orbit"] },
+        "height": { "enum": ["ground", "low", "eye", "high", "overhead"] },
+        "lensMm": { "type": "number", "minimum": 10, "maximum": 200 }
+      }
+    },
+    "setting": {
+      "description": "Place, time of day and light, as the model should see it.",
+      "type": "string",
+      "minLength": 10
+    },
+    "blocking": {
+      "description": "Who is in frame, where, and what they do during the shot.",
+      "type": "string",
+      "minLength": 20
+    },
+    "durationS": {
+      "description": "Seconds. Capped at the longest single take the routed models allow.",
+      "type": "number",
+      "minimum": 2,
+      "maximum": 15
+    },
+    "references": {
+      "description": "Asset-bible ids that condition the render: character sheets, location plates, objects, style.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/referenceId" }
+    },
+    "claims": {
+      "description": "Rule 2: the canon claims this shot depicts. At least one.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/claimId" }
+    },
+    "forbidden": {
+      "description": "Rule 1: what the render must not show. Always carries deity_face_closeup and pov_inside_deity.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+      "allOf": [
+        { "contains": { "const": "deity_face_closeup" } },
+        { "contains": { "const": "pov_inside_deity" } }
+      ]
+    },
+    "territory": {
+      "description": "Rule 4: where the output may be shown. Self-hosted MiniMax H3 is india_only.",
+      "enum": ["worldwide", "india_only"]
+    },
+    "quality": {
+      "description": "Rule 6: draft (480p) until edit lock; final needs a human approval record.",
+      "enum": ["draft", "final"]
+    },
+    "notes": { "type": "string" }
+  },
+  "$defs": {
+    "chapterId": { "type": "string", "pattern": "^s[0-9]+e[0-9]+$" },
+    "claimId": {
+      "description": "Text, book, chapter, verse: mbh.7.34.19. A whole chapter is mbh.7.33; a verse range ends -21.",
+      "type": "string",
+      "pattern": "^[a-z]{2,8}(\\.[0-9]+){1,3}(-[0-9]+)?$"
+    },
+    "referenceId": {
+      "description": "Kind, then name: char.abhimanyu, loc.kurukshetra, obj.chariot_wheel, style.relief_lamp.",
+      "type": "string",
+      "pattern": "^(char|loc|obj|style)\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$"
+    },
+    "witness": {
+      "description": "Rule 1: whose vantage the shot shares. Never a revered figure. Adding a witness is a decision in docs/decisions.md.",
+      "enum": ["sanjaya", "vanara", "charioteer"]
+    }
+  }
+}

@@ -1,0 +1,28 @@
+# Secret scanning config (rule 8: nothing committed holds a key).
+# Gitleaks' default rules plus rules for this pipeline's providers.
+title = "dheevara"
+
+[extend]
+useDefault = true
+
+# Any value assigned to one of the pipeline's key variables, whatever the provider's key format.
+# Empty values (as in .env.example) and short placeholders like "..." do not match.
+[[rules]]
+id = "dheevara-key-assignment"
+description = "A value assigned to a provider key variable"
+regex = '''(?i)\b(?:SARVAM_API_KEY|EXA_API_KEY|FAL_KEY|JEV_API_KEY)\b["']?\s*[:=]\s*["']?([A-Za-z0-9_\-:.+/=]{16,})'''
+secretGroup = 1
+keywords = ["sarvam_api_key", "exa_api_key", "fal_key", "jev_api_key"]
+
+# fal keys are "<key id uuid>:<32 hex secret>".
+[[rules]]
+id = "fal-key"
+description = "fal API key"
+regex = '''\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}:[0-9a-f]{32}\b'''
+
+# Jev (typesafe.ai) keys start with "apikey_".
+[[rules]]
+id = "jev-key"
+description = "Jev API key"
+regex = '''\bapikey_[A-Za-z0-9]{16,}\b'''
+keywords = ["apikey_"]
