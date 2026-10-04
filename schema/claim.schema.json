@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dheevara.app/schema/claim.schema.json",
+  "title": "Canon claims file",
+  "description": "Claims one chapter (or one canon area) cites. Each claim names a passage by text, book, adhyāya and verse, says in plain words what we rely on it for, and records who translated it and how far it has been checked. Rule 2: a caption, narration line or reveal may cite only an id listed here, and the id must resolve to verses that exist in the edition's verse index.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["claims"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/claim" }
+    }
+  },
+  "$defs": {
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "edition", "statement", "status"],
+      "properties": {
+        "id": {
+          "description": "Text, book, adhyāya, verse: mbh.7.34.19. A whole adhyāya is mbh.7.33; a range is mbh.7.34.17-21.",
+          "type": "string",
+          "pattern": "^[a-z]{2,8}(\\.[0-9]+){1,3}(-[0-9]+)?$"
+        },
+        "edition": { "description": "Id of the edition in content/canon/sources.json.", "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+        "statement": {
+          "description": "What we rely on this passage for, in one sentence. Not a translation.",
+          "type": "string",
+          "minLength": 10
+        },
+        "translation": {
+          "description": "An English translation of the passage, with who made it. Only for single verses or short ranges.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["en", "by"],
+          "properties": {
+            "en": { "type": "string", "minLength": 1 },
+            "by": {
+              "description": "scholar-review: the scholar review of 3 Oct; draft: written in session, unreviewed; ganguli: K. M. Ganguli's public-domain translation.",
+              "enum": ["scholar-review", "draft", "ganguli"]
+            }
+          }
+        },
+        "status": {
+          "description": "etext: read from the e-text only; proofed: checked against the printed volume; signed: in a scholar sign-off record.",
+          "enum": ["etext", "proofed", "signed"]
+        },
+        "flags": {
+          "description": "Open questions on the claim (for example a verse number to confirm).",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

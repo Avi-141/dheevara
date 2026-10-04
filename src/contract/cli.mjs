@@ -5,6 +5,7 @@ import { existsSync, readdirSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { ROOT } from '../env.mjs';
 import { validateFile } from './validate.mjs';
+import { loadCanon } from '../canon/index.mjs';
 
 function allContracts() {
   const content = join(ROOT, 'content');
@@ -18,9 +19,12 @@ function allContracts() {
 }
 
 const files = process.argv.length > 2 ? process.argv.slice(2) : allContracts();
+// Rule 2: claim ids must resolve in the canon; rule 1: the canon's revered flags extend REVERED.
+const canon = existsSync(join(ROOT, 'content', 'canon', 'sources.json')) ? loadCanon() : null;
+const opts = canon ? { resolveClaim: (id) => canon.resolve(id), revered: canon.revered() } : {};
 let failed = 0;
 for (const file of files) {
-  const { ok, errors } = validateFile(file);
+  const { ok, errors } = validateFile(file, opts);
   const name = relative(process.cwd(), file) || file;
   if (ok) {
     console.log(`ok    ${name}`);

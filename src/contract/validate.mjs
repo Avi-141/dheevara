@@ -31,11 +31,12 @@ function issue(path, message) {
 /**
  * Validate one contract object.
  * @param {object} contract
- * @param {{ resolveClaim?: (id: string) => unknown }} [opts] resolveClaim returns a falsy value
- *   for a claim id the canon cannot resolve.
+ * @param {{ resolveClaim?: (id: string) => unknown, revered?: string[] }} [opts] resolveClaim
+ *   returns a falsy value for a claim id the canon cannot resolve; revered adds canon-flagged
+ *   figures to REVERED (it can only extend the list).
  * @returns {{ ok: boolean, errors: { path: string, rule?: number, message: string }[] }}
  */
-export function validateContract(contract, { resolveClaim } = {}) {
+export function validateContract(contract, { resolveClaim, revered = [] } = {}) {
   if (!checkSchema(contract)) {
     const errors = checkSchema.errors
       .filter((e) => e.keyword !== 'allOf')
@@ -48,9 +49,10 @@ export function validateContract(contract, { resolveClaim } = {}) {
     errors.push(issue('/id', `/id "${contract.id}" does not belong to chapter "${contract.chapter}"`));
   }
   if (CLOSE_FRAMINGS.includes(contract.camera.framing)) {
+    const never = new Set([...REVERED, ...revered]);
     for (const ref of contract.references) {
       const [kind, name] = ref.split('.');
-      if (kind === 'char' && REVERED.includes(name)) {
+      if (kind === 'char' && never.has(name)) {
         errors.push(issue('/forbidden', `/camera/framing "${contract.camera.framing}" with ${ref} is a facial close-up of a revered figure`));
       }
     }
