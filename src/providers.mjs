@@ -31,6 +31,15 @@ export const PROVIDERS = {
     terms: ['https://exa.ai/privacy-policy'],
     retrieved: '2026-10-04',
   },
+  fal: {
+    name: 'fal (and its partner model APIs)',
+    // fal does not train on customer content (except models marked "Pending Enterprise Ready";
+    // none of ours is). Partner APIs (Kling, Wan, LTX) receive the prompt; their terms are unverified.
+    trainsOnInputs: 'opt-out',
+    research: 'docs/research/fal.md',
+    terms: ['https://fal.ai/legal/terms-of-service', 'https://fal.ai/legal/api-services', 'https://fal.ai/legal/privacy-policy'],
+    retrieved: '2026-10-04',
+  },
   vagdhenu: {
     name: 'Vāgdhenu (our own GPU box)',
     trainsOnInputs: 'no',

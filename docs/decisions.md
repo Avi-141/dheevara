@@ -71,3 +71,18 @@ Newest last. Each entry: date, decision, reason.
   - **Media:** stays `pending` until files are hosted.
   - **Tests:** the committed manifest must equal a fresh build, so the app session's fixture never drifts.
   - Reason: handoff section 7; the app builds against this file now.
+- **2026-10-04 — Renders are driven by polling fal's queue; `webhook.mjs` is for deployment.** The cloud container cannot receive inbound calls, so `src/render/submit.mjs` submits and then polls the `status_url` fal returns. `src/render/webhook.mjs` verifies fal's ED25519 signatures against its JWKS, with a 300 s window, for when the pipeline runs where webhooks can reach it. Reason: handoff section 5.
+- **2026-10-04 — Each take is fixed by shot and attempt.**
+  - **Seed:** derived from `sha256(shot:attempt)`, so a re-run reproduces a take and a retry is a new one. Kling v3 takes no seed and records `null`.
+  - **Idempotency:** the key is `render:<shot>:<attempt>`; a key already queued or done is skipped, never re-billed.
+  - **Media:** outputs are public on fal by default, so every request asks for one day of retention, and the pipeline downloads each video as soon as it completes.
+  - Reason: rule 3 and the handoff's idempotency requirement; queue results expire after about an hour.
+- **2026-10-04 — Finals need an approval file per shot.** `submit` refuses `quality: final` unless `content/<chapter>/approvals/<shot>.json` exists and records `{ shot, quality: "final", by, date }`. Only a human writes these; the pipeline never does. Reason: rule 6 (finals only after edit lock and Avi's approval).
+- **2026-10-04 — Video is composed 9:16 for the phone (Avi to confirm).** Compiled payloads ask for 9:16. The app is phone-first and the mockups are 390×844. A 16:9 cut for Shorts and web would be a separate compile; this is a single default in `src/compile/index.mjs`. Reason: product plan (phone-first); no decision on aspect existed.
+- **2026-10-04 — Draft routing for s1e3 without H3.**
+  - Hook, reveal and cliffhanger shots go to Kling 3.0 standard. Kling has no 480p tier; it costs $0.084/s with audio off.
+  - Stakes and connective shots go to Wan 3.0 at 480p ($0.05/s).
+  - Character-reference shots will go to Wan 3.0 reference-to-video once the asset bible has images (DHE-12). H3 is india_only, and its LoRA endpoint needs a style LoRA nobody has trained.
+  - Video models never generate audio; narration and chant are ours.
+  - The 13-shot draft pass is estimated at $5.92.
+  - Reason: the Build Brief's routing, bounded by the H3 decision of 4 Oct.

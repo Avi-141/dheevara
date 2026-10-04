@@ -1,0 +1,23 @@
+{
+  "shot": "s1e3-sh01",
+  "attempt": 1,
+  "quality": "draft",
+  "model": "kling-v3-standard-t2v",
+  "endpoint": "fal-ai/kling-video/v3/standard/text-to-video",
+  "resolution": null,
+  "billedS": 8,
+  "trimToS": 8,
+  "estUsd": 0.672,
+  "seed": null,
+  "licence": "commercial (fal catalog license_type: commercial)",
+  "territory": "worldwide",
+  "inputHash": "bed216b71c766ffa",
+  "input": {
+    "prompt": "living temple relief carved in dark basalt, slightly polished where hands have touched, figures in classical Indian sculptural proportions, shallow relief depth, fine stone grain. single oil-lamp key light from the left, warm 2400K, deep falloff to black, raking angle, no rim light. slow deliberate motion, weighty gestures, no facial acting, camera pushing in slowly over the whole shot. monochrome stone, warm lamp light, no saturated colour except gold on the one object the shot is about. Camera: extreme wide shot, from high above, 24mm lens, pushing in slowly. Vantage: seen from far above and at a distance, as if by divine sight, never closer than medium-wide on any person. Setting: Kurukṣetra at dawn on the day of the cakravyūha; a low sun rakes across a field carved like dark basalt relief under a smoke-coloured sky. Action: Seen from far above, as if by divine sight: the Kaurava host turns rank by rank into a great wheel around a still centre, chariots and banners carved in stone. Droṇa's chariot stands small at its head. No face resolves.",
+    "negative_prompt": "close-up of a face, deity face, lip movement, text, logo, watermark, helmet with visor, plate armour, chain mail, stirrups, saddle, firearm, modern object, table, chair, glass, lens flare, god rays, bloom, photorealistic skin, cartoon, anime, close-up of a deity's face, point of view of a deity, any deity on the battlefield, a counted number of rings",
+    "duration": "8",
+    "aspect_ratio": "9:16",
+    "generate_audio": false,
+    "cfg_scale": 0.5
+  }
+}

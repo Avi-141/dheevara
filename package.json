@@ -13,6 +13,8 @@
     "voice": "node src/voice/cli.mjs",
     "voice:check": "node src/voice/check.mjs",
     "manifest": "node src/plan/manifest.mjs",
+    "render": "node src/render/cli.mjs",
+    "report": "node src/render/report.mjs",
     "secrets": "scripts/gitleaks.sh git --redact --no-banner --config .gitleaks.toml .",
     "check": "pnpm lint && pnpm test && pnpm contract:validate && pnpm secrets",
     "prepare": "bash scripts/install-hooks.sh",
