@@ -31,7 +31,8 @@ before(() => {
   ]) assert.equal(git(repo, ...args).status, 0);
 });
 
-test('rule 8: staging a fake FAL_KEY assignment blocks the commit', () => {
+test('rule 8: staging a fake FAL_KEY assignment blocks the commit', (t) => {
+  t.after(() => git(repo, 'rm', '-q', '--cached', '--ignore-unmatch', 'config.env'));
   const name = ['FAL', 'KEY'].join('_');
   const fakeKey = `${randomUUID()}:${randomBytes(16).toString('hex')}`;
   writeFileSync(join(repo, 'config.env'), `${name}=${fakeKey}\n`);
@@ -40,11 +41,10 @@ test('rule 8: staging a fake FAL_KEY assignment blocks the commit', () => {
   const res = git(repo, 'commit', '-q', '-m', 'add config');
   assert.notEqual(res.status, 0, 'the commit should have been blocked');
   assert.match(res.stderr, /gitleaks found a secret in the staged changes; the commit is blocked/);
-  assert.match(res.stdout, /File:\s+config\.env/, 'the hook names the file, redacted');
-  assert.ok(!(res.stdout + res.stderr).includes(fakeKey), 'the hook output must not print the key');
+  const output = res.stdout + res.stderr;
+  assert.match(output, /File:\s+config\.env/, 'the hook names the file');
+  assert.ok(!output.includes(fakeKey), 'the hook output must not print the key');
   assert.notEqual(git(repo, 'rev-parse', '--verify', '-q', 'HEAD').status, 0, 'no commit was created');
-
-  assert.equal(git(repo, 'rm', '-q', '--cached', 'config.env').status, 0);
 });
 
 test('a clean file commits', () => {
