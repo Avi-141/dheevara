@@ -117,3 +117,10 @@ A failure writes a `fix_hint` in the vocabulary of section 9 (for example "remov
 ## 12. Type in the video
 
 Burned-in captions use Geist 600 at about 4.5% of frame height, `#F4F2EE` on an 80% night band, two lines at most, 34 characters per line for English (fewer for Indic scripts). Verse ids appear under the line in amber (`#F2B04A`) at 70% of caption size. The AI label is always visible, top left, in the same band style. Fonts are in `design/fonts/`.
+
+## 13. AI disclosure (India's synthetic-content rules, in force since 20 Feb 2026)
+
+- The visible AI label is burned into the frames of every cut that leaves the app (Shorts, Reels, WhatsApp clips), not only drawn by the player.
+- A spoken disclosure, about two seconds, plays before AI narration and before the chant, in the narration language, including in audio-only mode.
+- Every asset carries permanent provenance metadata with a unique id (C2PA); the assembler writes it and nothing downstream strips it.
+- A lawyer confirms the reading before anything is public; until then, follow the strictest one.

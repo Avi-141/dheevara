@@ -96,7 +96,7 @@ svg.i.f{fill:currentColor;stroke:none}
 .btn.bare{background:transparent;color:var(--fg2)}
 .ib{width:44px;height:44px;border-radius:22px;display:flex;align-items:center;justify-content:center;color:var(--fg);flex:none}
 .ib.glass{background:var(--glass);backdrop-filter:blur(14px);border:1px solid var(--hair)}
-.chip{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px;border-radius:18px;background:var(--raise2);font:500 13.5px var(--sans);color:var(--fg);white-space:nowrap}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:18px;background:var(--raise2);font:500 13.5px var(--sans);color:var(--fg);white-space:nowrap}
 .chip.on{background:var(--fg);color:var(--bg)}
 .chip.src{background:var(--amber-dim);color:var(--amber)}
 .cite{display:inline-flex;align-items:center;gap:6px;font:500 13px var(--sans);color:var(--amber);font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -377,7 +377,7 @@ svg.i.f{fill:currentColor;stroke:none}
       <div class="head">Up next</div>
       <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
         <div style="width:60px;height:60px;border-radius:14px;background:url(frames/stuck.png) 50% 40%/cover;flex:none"></div>
-        <div style="flex:1;min-width:0"><div style="font:500 15.5px var(--sans)">4 · The vow</div><div class="micro" style="margin-top:2px">Arjuna returns to find his son slain</div></div>
+        <div style="flex:1;min-width:0"><div style="font:500 15.5px var(--sans)">4 · The gatekeeper</div><div class="micro" style="margin-top:2px">Who held the gate, and the boon behind it</div></div>
         <div class="ib" style="background:var(--raise2)"><svg class="i s f"><use href="#i-play"/></svg></div>
       </div>
     </div>
@@ -415,8 +415,8 @@ svg.i.f{fill:currentColor;stroke:none}
       <div class="ep"><span class="no done"><svg class="i s"><use href="#i-check"/></svg></span><div class="m"><b>The vow of Droṇa</b><span>He vows to fell a great Pāṇḍava warrior</span></div><em class="num">1:48</em></div>
       <div class="ep"><span class="no done"><svg class="i s"><use href="#i-check"/></svg></span><div class="m"><b>Arjuna is drawn away</b><span>The Saṃśaptakas call him south</span></div><em class="num">1:52</em></div>
       <div class="ep cur"><span class="no">3</span><div class="m"><b>The way in</b><span>A boy not yet grown rides in alone</span><div class="prog" style="margin-top:7px"><i style="width:38%"></i></div></div><em class="num">1:56</em></div>
-      <div class="ep"><span class="no">4</span><div class="m"><b>The vow</b><span>Available now</span></div><em class="num">1:50</em></div>
-      <div class="ep"><span class="no">5</span><div class="m"><b>The gatekeeper</b><span>Tonight, 7:00 pm</span></div><em><svg class="i s"><use href="#i-bell"/></svg></em></div>
+      <div class="ep"><span class="no">4</span><div class="m"><b>The gatekeeper</b><span>Available now</span></div><em class="num">1:50</em></div>
+      <div class="ep"><span class="no">5</span><div class="m"><b>Arjuna’s vow</b><span>Tonight, 7:00 pm</span></div><em><svg class="i s"><use href="#i-bell"/></svg></em></div>
     </div>
   </div>
   <div class="hi"></div>
@@ -428,6 +428,7 @@ svg.i.f{fill:currentColor;stroke:none}
     .ep b{font:500 15.5px var(--sans)} .ep .m span{font-size:13px;color:var(--fg3)}
     .ep em{font-style:normal;font-size:13px;color:var(--fg3)}
     .ep.cur .no{background:var(--fg);color:var(--bg)}
+    .ep em.cite{color:var(--amber)}
   </style>
 </section>
 <div class="cap"><b>06 · Season</b>The edition is named before play. Watched chapters carry a check, not just a colour. The next release shows its local time and a reminder, never a price.</div>
@@ -631,7 +632,7 @@ svg.i.f{fill:currentColor;stroke:none}
     <div style="font:600 26px/1.22 var(--sans);letter-spacing:-.025em;text-align:center;text-wrap:balance">They could not follow him in. Who held the gate?</div>
     <div style="background:var(--raise);border-radius:22px;padding:12px;display:flex;gap:12px;align-items:center">
       <div style="width:60px;height:60px;border-radius:14px;background:url(frames/stuck.png) 50% 40%/cover;flex:none"></div>
-      <div style="flex:1;min-width:0"><div class="micro">Up next · plays in 8 s</div><div class="head" style="margin-top:2px">4 · The vow</div></div>
+      <div style="flex:1;min-width:0"><div class="micro">Up next · plays in 8 s</div><div class="head" style="margin-top:2px">4 · The gatekeeper</div></div>
       <div class="btn sm line" style="padding:0 14px">Stop</div>
     </div>
   </div>
@@ -804,13 +805,14 @@ svg.i.f{fill:currentColor;stroke:none}
     <div style="display:flex;flex-direction:column;gap:10px;margin-top:26px">
       <div class="btn primary"><svg viewBox="0 0 24 24" class="i f" style="width:20px;height:20px"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.6s-2.5-1-2.5-3.8zM14.1 5.8c.6-.8 1.1-1.8 1-2.9-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.7-1.3z"/></svg>Continue with Apple</div>
       <div class="btn"><svg viewBox="0 0 24 24" class="i f" style="width:20px;height:20px"><path d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z" fill="#4285F4"/><path d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z" fill="#34A853"/><path d="M6.4 14c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2V7.4H3.1a10 10 0 0 0 0 9.2z" fill="#FBBC05"/><path d="M12 6c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 3.1 7.4L6.4 10C7.2 7.7 9.4 6 12 6z" fill="#EA4335"/></svg>Continue with Google</div>
+      <div class="btn line">Use phone number</div>
       <div class="btn line">Use email</div>
     </div>
   </div>
-  <div class="foot"><div class="micro" style="text-align:center">By continuing you agree to the Terms and the Privacy notice. Children’s profiles never need an account of their own.</div></div>
+  <div class="foot"><div class="btn sm bare">Not now</div><div class="micro" style="text-align:center">By continuing you agree to the Terms and the Privacy notice. Children’s profiles never need an account of their own.</div></div>
   <div class="hi"></div>
 </section>
-<div class="cap"><b>22 · Sign in</b>Asked only when starting a trial or creating a second profile, never before the first chapter. Platform sign-in first; email as the fallback.</div>
+<div class="cap"><b>22 · Sign in</b>Shown after the store has confirmed the trial, never before it, and never before the first chapter; “Not now” keeps the trial on this phone. Platform sign-in first, then phone (OTP), then email.</div>
 </div>
 
 <div class="cell">
@@ -821,12 +823,12 @@ svg.i.f{fill:currentColor;stroke:none}
   <div class="bar"><div class="ib glass"><svg class="i"><use href="#i-back"/></svg></div><div style="width:44px"></div></div>
   <div class="body" style="padding-top:150px">
     <div class="label">Chapter 5</div>
-    <div class="display" style="margin-top:6px">The gatekeeper</div>
-    <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px"><span style="font:600 40px var(--sans);letter-spacing:-.03em" class="num">3 h 12 m</span><span class="sub">until 7:00 pm today</span></div>
+    <div class="display" style="margin-top:6px">Arjuna’s vow</div>
+    <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px"><span style="font:600 40px var(--sans);letter-spacing:-.03em" class="num">9 h 19 m</span><span class="sub">until 7:00 pm today</span></div>
     <div class="sub" style="margin-top:12px">While you wait</div>
     <div class="list" style="margin-top:4px">
       <div class="li"><svg class="i" style="color:var(--amber)"><use href="#i-leaf"/></svg><div class="m"><b>Who taught him?</b><span>Hear the hidden detail again · 0:40</span></div><svg class="i s" style="color:var(--fg3)"><use href="#i-chev"/></svg></div>
-      <div class="li"><svg class="i" style="color:var(--fg2)"><use href="#i-graph"/></svg><div class="m"><b>Jayadratha</b><span>Who he is, and the boon behind the gate</span></div><svg class="i s" style="color:var(--fg3)"><use href="#i-chev"/></svg></div>
+      <div class="li"><svg class="i" style="color:var(--fg2)"><use href="#i-graph"/></svg><div class="m"><b>Abhimanyu</b><span>Everything he does on the thirteenth day</span></div><svg class="i s" style="color:var(--fg3)"><use href="#i-chev"/></svg></div>
     </div>
   </div>
   <div style="flex:none;background:var(--raise);border-radius:28px 28px 0 0;padding:18px 20px 34px;position:relative;z-index:4">
@@ -865,7 +867,7 @@ svg.i.f{fill:currentColor;stroke:none}
   <div class="bar"><div class="ib"><svg class="i"><use href="#i-down"/></svg></div><div style="width:44px"></div></div>
   <div class="body" style="justify-content:center;align-items:center;text-align:center;gap:10px">
     <div class="title">This scene didn’t load</div>
-    <div class="sub" style="max-width:30ch">Your place is saved at 0:44. The narration is downloaded, so you can keep listening now.</div>
+    <div class="sub" style="max-width:30ch">Your place is saved at 0:44. The narration is already loaded, so you can keep listening now.</div>
   </div>
   <div class="foot">
     <div class="btn primary"><svg class="i s"><use href="#i-headphones"/></svg>Keep listening</div>
@@ -907,10 +909,10 @@ svg.i.f{fill:currentColor;stroke:none}
   <div class="body" style="padding:0"></div>
   <div style="flex:none;background:var(--raise);border-radius:30px 30px 0 0;padding:14px 20px 34px;position:relative;z-index:4">
     <div style="width:40px;height:4px;border-radius:2px;background:var(--hair2);margin:0 auto 16px"></div>
-    <div class="title">What’s wrong here?</div>
+    <div class="title">Tell our scholar</div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"><span class="pill" style="height:30px;background:var(--raise2)">0:44</span><span class="pill" style="height:30px;background:var(--raise2)">Shot 06</span><span class="pill" style="height:30px;background:var(--amber-dim);color:var(--amber);border-color:transparent">7.34.19</span></div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
-      <span class="chip">A translation</span><span class="chip">A name said wrong</span><span class="chip on">A fact or a citation</span><span class="chip">Something in the picture</span><span class="chip">Something else</span>
+      <span class="chip on">Another telling</span><span class="chip">A fact or a citation</span><span class="chip">A translation</span><span class="chip">A name said wrong</span><span class="chip">Something in the picture</span>
     </div>
     <div style="margin-top:14px;min-height:92px;border-radius:16px;background:var(--raise2);padding:14px;font-size:15px;line-height:1.45;color:var(--fg)">My grandmother’s telling says Arjuna told Subhadrā while she was pregnant. Is that in any version?<span style="display:inline-block;width:2px;height:18px;background:var(--amber);vertical-align:-3px;margin-left:2px"></span></div>
     <div class="micro" style="margin-top:10px">Goes to our Sanskrit scholar with this moment attached. We reply in the app within a week.</div>
@@ -918,7 +920,7 @@ svg.i.f{fill:currentColor;stroke:none}
   </div>
   <div class="hi"></div>
 </section>
-<div class="cap"><b>27 · Report a mistake</b>The moment, the shot and the verse are attached automatically; the viewer only says what kind of problem and, if they like, why. Questions about other tellings are welcome here; they feed future reveals.</div>
+<div class="cap"><b>27 · Tell our scholar</b>The moment, the shot and the verse attach automatically. “Another telling” comes first, because a family’s version is a contribution, not an error. On children’s profiles there is no free text, only the chips.</div>
 </div>
 
 <div class="cell">
@@ -931,15 +933,15 @@ svg.i.f{fill:currentColor;stroke:none}
       <div style="font:400 15px/1.5 var(--sans);margin-top:8px">My grandmother’s telling says Arjuna told Subhadrā while she was pregnant. Is that in any version?</div>
     </div>
     <div class="leafcard" style="border-radius:20px;padding:16px 18px">
-      <div class="k">Our scholar · 9 Oct</div>
-      <div style="font:400 15px/1.5 var(--sans);margin-top:6px">Many families tell it that way, and it is a beautiful telling. The critical edition does not include it; it appears in later regional retellings and in kathā. We are looking for the earliest written source and will add it to the reveal when we find it.</div>
-      <div class="rc" style="margin-top:8px">See the updated reveal</div>
+      <div class="k">Our Sanskrit scholar · 9 Oct</div>
+      <div style="font:400 15px/1.5 var(--sans);margin-top:6px">Many families tell it this way, as kathā has for generations. The critical edition doesn’t: Abhimanyu says his father taught him to break in, and he learns arms from Arjuna as a boy. The epic does know womb-learning: Aṣṭāvakra corrects his father before birth. We’re tracing your grandmother’s telling and will tell you when it joins the reveal.</div>
+      <div style="display:flex;gap:14px;margin-top:10px"><span class="rc">7.34.19</span><span class="rc">1.213</span><span class="rc">3.132</span></div>
     </div>
     <div class="sub">Thank you. Questions like yours shape the hidden details in future chapters.</div>
   </div>
   <div class="hi"></div>
 </section>
-<div class="cap"><b>28 · The reply</b>Reports get a human answer in the app, in the same leaf register as a reveal. The tone never corrects a family’s telling; it places it.</div>
+<div class="cap"><b>28 · The reply</b>A human answer in the app, in the leaf register of a reveal, with its citations and signed by the scholar by name once appointed. It never corrects a family’s telling; it places it, including where the epic itself knows womb-learning.</div>
 </div>
 </div>
 
@@ -960,7 +962,7 @@ svg.i.f{fill:currentColor;stroke:none}
     </div>
   </div>
   <div class="hi"></div>
-  <style>.pf{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}.pf .av{width:92px;height:92px;border-radius:30px;display:flex;align-items:center;justify-content:center;font:600 32px var(--sans);margin-bottom:4px}.pf b{font:500 16px var(--sans)}.pf>span{font-size:12.5px;color:var(--fg3)}</style>
+  <style>.pf{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}.pf .av{width:92px;height:92px;border-radius:30px;display:flex;align-items:center;justify-content:center;font:600 32px var(--sans);margin-bottom:4px}.pf b{font:500 16px var(--sans)}.pf>span{font-size:12.5px;color:var(--fg3)}.pf [lang=ta]{font-size:14px}</style>
 </section>
 <div class="cap"><b>29 · Profiles</b>Each profile keeps its own narration language, captions, progress and kept reveals. A grandparent can have a Tamil-only profile with no English anywhere.</div>
 </div>
@@ -974,11 +976,11 @@ svg.i.f{fill:currentColor;stroke:none}
       <div class="ib"><span style="width:34px;height:34px;border-radius:12px;background:#3A2A35;display:flex;align-items:center;justify-content:center;font:600 14px var(--sans)">K</span></div>
     </div>
     <div style="position:relative;height:250px;border-radius:28px;overflow:hidden;flex:none">
-      <div class="media" style="background:radial-gradient(90% 70% at 60% 25%,#2f4652,#121a1d 62%,#0c0e0e)"></div>
-      <svg viewBox="0 0 350 250" style="position:absolute;inset:0;width:100%;height:100%"><path d="M20 210 C90 60 250 40 330 140" fill="none" stroke="#F2B04A" stroke-width="1.5" stroke-dasharray="3 6"/><circle cx="232" cy="66" r="6" fill="#F2B04A"/></svg>
+      <div class="media" style="background:radial-gradient(80% 70% at 50% 30%,#3a2a22,#16120f 62%,#0c0b0a)"></div>
+      <svg viewBox="0 0 350 250" style="position:absolute;inset:0;width:100%;height:100%"><g fill="none" stroke="#918C82" stroke-width="1"><circle cx="175" cy="105" r="34"/><circle cx="175" cy="105" r="56" stroke-dasharray="2 5"/></g><circle cx="175" cy="105" r="4" fill="#918C82"/></svg>
       <div style="position:absolute;left:18px;right:18px;bottom:18px">
-        <div class="micro" style="color:var(--fg2)">Story of the day · 2 min</div>
-        <div class="title" style="font-size:24px">The great leap</div>
+        <div class="micro" style="color:var(--fg2)">Navarātri, told gently · night 1</div>
+        <div class="title" style="font-size:24px">The king and the merchant</div>
         <div class="btn primary sm" style="display:inline-flex;margin-top:10px"><svg class="i s f"><use href="#i-play"/></svg>Listen</div>
       </div>
     </div>
@@ -986,7 +988,7 @@ svg.i.f{fill:currentColor;stroke:none}
       <div class="kt" style="background:linear-gradient(160deg,#2A2416,#151513)"><svg class="i" style="color:var(--amber)"><use href="#i-leaf"/></svg><b>Did you know?</b><span>3 hidden details</span></div>
       <div class="kt" style="background:linear-gradient(160deg,#1F2A2A,#151513)"><svg class="i" style="color:var(--fg2)"><use href="#i-graph"/></svg><b>Who’s who</b><span>Meet 12 people</span></div>
     </div>
-    <div class="group"><div class="li"><svg class="i s" style="color:var(--fg2)"><use href="#i-lock"/></svg><div class="m"><b style="font-size:14.5px">20 minutes a day</b><span>Set by Meera · battles told gently</span></div></div></div>
+    <div class="group"><div class="li"><svg class="i s" style="color:var(--fg2)"><use href="#i-lock"/></svg><div class="m"><b style="font-size:14.5px">20 minutes a day · set by Meera</b><span>Leaving this profile needs a grown-up’s Face ID or PIN</span></div></div></div>
   </div>
   <div class="hi"></div>
   <style>.kt{border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:6px;min-height:120px;justify-content:flex-end}.kt b{font:600 16px var(--sans)}.kt span{font-size:13px;color:var(--fg2)}</style>
@@ -996,29 +998,30 @@ svg.i.f{fill:currentColor;stroke:none}
 
 <div class="cell">
 <section class="phone" id="s31-festival">
-  <div class="media" style="background:radial-gradient(80% 50% at 50% 18%,rgba(240,105,74,.35),transparent 70%),radial-gradient(60% 40% at 50% 30%,rgba(242,176,74,.25),transparent 70%),#0B0B0A;bottom:52%"></div>
-  <svg viewBox="0 0 390 300" style="position:absolute;top:40px;left:0;width:100%;z-index:1" aria-hidden="true"><g fill="none" stroke="#F2B04A" stroke-width="1" opacity=".55">
+  <div class="media" style="background:radial-gradient(80% 50% at 50% 18%,rgba(140,80,40,.35),transparent 70%),#0B0B0A;bottom:52%"></div>
+  <svg viewBox="0 0 390 300" style="position:absolute;top:40px;left:0;width:100%;height:auto;z-index:1" aria-hidden="true"><g fill="none" stroke="#918C82" stroke-width="1" opacity=".6">
     <circle cx="195" cy="150" r="40"/><circle cx="195" cy="150" r="62" stroke-dasharray="2 5"/><circle cx="195" cy="150" r="86" opacity=".5"/></g>
-    <g fill="#F2B04A"><circle cx="195" cy="64" r="3"/><circle cx="256" cy="89" r="3"/><circle cx="281" cy="150" r="3"/><circle cx="256" cy="211" r="3"/><circle cx="195" cy="236" r="3"/><circle cx="134" cy="211" r="3"/><circle cx="109" cy="150" r="3"/><circle cx="134" cy="89" r="3"/><circle cx="195" cy="150" r="5" fill="#F0694A"/></g></svg>
+    <g fill="#918C82"><circle cx="195" cy="64" r="3"/><circle cx="256" cy="89" r="3"/><circle cx="281" cy="150" r="3"/><circle cx="256" cy="211" r="3"/><circle cx="195" cy="236" r="3"/><circle cx="134" cy="211" r="3"/><circle cx="109" cy="150" r="3"/><circle cx="134" cy="89" r="3"/><circle cx="195" cy="150" r="5" fill="#B5B0A7"/></g></svg>
   <div class="sb"><span>9:41</span><i></i></div>
   <div class="bar"><div class="ib glass"><svg class="i"><use href="#i-back"/></svg></div><div class="ib glass"><svg class="i"><use href="#i-share"/></svg></div></div>
-  <div class="body" style="padding-top:196px">
-    <div class="label">Navarātri · 11 to 19 October</div>
+  <div class="body" style="padding-top:clamp(120px,22vh,196px);overflow-y:auto">
+    <div class="label">Navarātri · 11 to 19 October · Vijayadaśamī 20th</div>
     <div class="display" style="margin-top:6px">Nine nights of the Devī</div>
-    <div class="sub" style="margin-top:8px">The Devī Māhātmya, as the sage Medhas tells it to a king who has lost his kingdom and a merchant whose family turned him out. One chapter each night.</div>
+    <div class="sub" style="margin-top:8px">The Devī Māhātmya, as the sage Medhas tells it to a king who has lost his kingdom and a merchant whose family turned him out. One chapter each night, told rather than recited; the verses are sung by a human reciter.</div>
     <div class="list" style="margin-top:12px">
-      <div class="ep" style="min-height:58px"><span class="no" style="background:var(--fg);color:var(--bg)">1</span><div class="m"><b>The king and the merchant</b><span>Tonight, 7:00 pm</span></div><em class="cite">DM 1</em></div>
-      <div class="ep" style="min-height:58px"><span class="no">2</span><div class="m"><b>Madhu and Kaiṭabha</b><span>Tomorrow</span></div><em class="cite">DM 1</em></div>
-      <div class="ep" style="min-height:58px"><span class="no">3</span><div class="m"><b>Light from the gods’ anger</b><span>13 Oct</span></div><em class="cite">DM 2</em></div>
+      <div class="ep" style="min-height:58px"><span class="no" style="background:var(--fg);color:var(--bg)">1</span><div class="m"><b>The king and the merchant</b><span>Tonight, 7:00 pm · Free</span></div><em class="cite">DM 1, frame</em></div>
+      <div class="ep" style="min-height:58px"><span class="no">2</span><div class="m"><b>Madhu and Kaiṭabha</b><span>12 Oct · Members</span></div><em class="cite">DM 1</em></div>
+      <div class="ep" style="min-height:58px"><span class="no">3</span><div class="m"><b>Light from the gods’ anger</b><span>13 Oct · Members</span></div><em class="cite">DM 2</em></div>
+      <div class="ep" style="min-height:58px"><span class="no">9</span><div class="m"><b>The boons</b><span>19 Oct · the king and the merchant close the season</span></div><em class="cite">DM 13</em></div>
     </div>
   </div>
   <div class="foot" style="flex-direction:row;gap:10px">
-    <div class="btn line sm" style="flex:1"><svg class="i s" style="color:var(--amber)"><use href="#i-gift"/></svg>Give it</div>
-    <div class="btn primary sm" style="flex:1.3"><svg class="i s"><use href="#i-bell"/></svg>Remind me nightly</div>
+    <div class="btn line sm" style="flex:1;min-width:0;padding:0 12px"><svg class="i s"><use href="#i-gift"/></svg>Give · $9.99</div>
+    <div class="btn primary sm" style="flex:1.2;min-width:0;padding:0 12px"><svg class="i s"><use href="#i-bell"/></svg>Remind me</div>
   </div>
   <div class="hi"></div>
 </section>
-<div class="cap"><b>31 · Festival drop</b>A themed season on the calendar the audience already keeps. The witnesses are the king Suratha and the merchant Samādhi listening to Medhas, so the Devī is never the point of view. Gifting sits beside the reminder. Chapter list is a draft for the scholar.</div>
+<div class="cap"><b>31 · Festival drop</b>A themed season on the calendar the audience already keeps. The witnesses are the king Suratha and the merchant Samādhi listening to Medhas; the episodes he tells appear as relief panels seen from where they sit, so no deva is the point of view and the Devī’s form is never assembled close up. Night 9 returns to the listeners. Night 1 is free. Verse ranges and the gift price ($9.99 shown) are placeholders for the scholar and Avi.</div>
 </div>
 
 <div class="cell">
@@ -1029,7 +1032,7 @@ svg.i.f{fill:currentColor;stroke:none}
       <div class="k">A gift from Meera</div>
       <div style="font:600 26px/1.2 var(--sans);letter-spacing:-.02em;margin-top:10px">Nine nights of the Devī</div>
       <div style="font:400 15px/1.5 var(--sans);margin-top:10px">“For Arjun and the kids, so we watch the same story each night from three cities.”</div>
-      <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap"><span class="chip" style="background:rgba(30,22,12,.08);color:var(--ink)">9 chapters</span><span class="chip" style="background:rgba(30,22,12,.08);color:var(--ink)">Every language</span><span class="chip" style="background:rgba(30,22,12,.08);color:var(--ink)">Yours to keep</span></div>
+      <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap"><span class="chip" style="background:rgba(30,22,12,.08);color:var(--ink)">9 chapters</span><span class="chip" style="background:rgba(30,22,12,.08);color:var(--ink)">5 languages</span><span class="chip" style="background:rgba(30,22,12,.08);color:var(--ink)">No membership needed</span></div>
     </div>
     <div class="sub" style="margin-top:22px">Pick the language you’ll listen in. Each person in your family can choose their own later.</div>
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:12px"><span class="chip">English</span><span class="chip on" lang="te">తెలుగు</span><span class="chip" lang="hi">हिन्दी</span><span class="chip" lang="ta">தமிழ்</span><span class="chip" lang="kn">ಕನ್ನಡ</span></div>
@@ -1051,12 +1054,12 @@ svg.i.f{fill:currentColor;stroke:none}
     <div><div class="label" style="margin-bottom:6px">Person</div>
       <div style="display:flex;gap:12px;align-items:center;background:var(--raise);border-radius:18px;padding:12px">
         <div style="width:48px;height:48px;border-radius:24px;background:#2A2416;border:1.5px solid var(--amber);display:flex;align-items:center;justify-content:center;font:20px var(--verse);color:var(--amber)" lang="sa">अभि</div>
-        <div style="flex:1;min-width:0"><div class="head">Abhimanyu</div><div class="micro">Son of Arjuna and Subhadrā · in 4 chapters</div></div>
+        <div style="flex:1;min-width:0"><div class="head">Abhimanyu</div><div class="micro">Son of Arjuna and Subhadrā · in&nbsp;4&nbsp;chapters</div></div>
         <svg class="i s" style="color:var(--fg3)"><use href="#i-chev"/></svg>
       </div></div>
     <div><div class="label" style="margin-bottom:2px">Chapters</div><div class="list">
       <div class="li"><div class="m"><b>3 · The way in</b><span>The thirteenth day</span></div><span class="micro num">1:56</span></div>
-      <div class="li"><div class="m"><b>4 · The vow</b><span>The thirteenth day</span></div><span class="micro num">1:50</span></div>
+      <div class="li"><div class="m"><b>4 · The gatekeeper</b><span>The thirteenth day</span></div><span class="micro num">1:50</span></div>
     </div></div>
     <div><div class="label" style="margin-bottom:2px">Verses</div><div class="list">
       <div class="li"><div class="m"><b style="font-size:14.5px">“My father taught me the method of breaking the array…”</b><span>Droṇa Parva</span></div><span class="cite">7.34.19</span></div>
@@ -1065,7 +1068,7 @@ svg.i.f{fill:currentColor;stroke:none}
   </div>
   <div class="hi"></div>
 </section>
-<div class="cap"><b>33 · Search</b>Search runs over people, chapters and the verses themselves, so “who taught Abhimanyu” finds the passage. Results are grouped by kind; the person comes first.</div>
+<div class="cap"><b>33 · Search</b>Search runs over people, chapters and the verses themselves, so “who taught Abhimanyu” finds the passage. It ignores diacritics and matches across scripts (abhimanyu, अभिमन्यु, அபிமன்யு). Results are grouped by kind; the person comes first.</div>
 </div>
 
 <div class="cell">
@@ -1076,7 +1079,7 @@ svg.i.f{fill:currentColor;stroke:none}
     <div style="display:flex;gap:8px"><span class="chip on">Epics</span><span class="chip">People</span><span class="chip">Places</span><span class="chip">Sources</span></div>
     <div class="ex" style="background-image:linear-gradient(90deg,rgba(11,11,10,.95) 30%,rgba(11,11,10,.2)),url(frames/army.png)"><div><div class="micro" style="color:var(--fg2)">Mahābhārata</div><div class="head">1 season · 10 chapters</div><div class="micro" style="margin-top:6px">Critical edition (BORI)</div></div></div>
     <div class="ex" style="background:linear-gradient(90deg,rgba(11,11,10,.95) 30%,rgba(11,11,10,.2)),radial-gradient(90% 90% at 80% 30%,#2f4652,#0c0e0e)"><div><div class="micro" style="color:var(--fg2)">Rāmāyaṇa</div><div class="head">Sundara Kāṇḍa · soon</div><div class="micro" style="margin-top:6px">Critical edition (Baroda)</div></div></div>
-    <div class="ex" style="background:linear-gradient(90deg,rgba(11,11,10,.95) 30%,rgba(11,11,10,.2)),radial-gradient(90% 90% at 80% 30%,rgba(240,105,74,.35),#0c0e0e)"><div><div class="micro" style="color:var(--fg2)">Devī Māhātmya</div><div class="head">Navarātri · 9 chapters</div><div class="micro" style="margin-top:6px">Mārkaṇḍeya Purāṇa</div></div></div>
+    <div class="ex" style="background:linear-gradient(90deg,rgba(11,11,10,.95) 30%,rgba(11,11,10,.2)),radial-gradient(90% 90% at 80% 30%,rgba(240,105,74,.35),#0c0e0e)"><div><div class="micro" style="color:var(--fg2)">Devī Māhātmya</div><div class="head">Navarātri · 9 chapters</div><div class="micro" style="margin-top:6px">Edition to confirm with the scholar</div></div></div>
     <div><div class="label" style="margin-bottom:8px">People you have met</div>
       <div style="display:flex;gap:14px">
         <div class="pp"><span lang="sa">अभि</span>Abhimanyu</div><div class="pp"><span lang="sa">द्रो</span>Droṇa</div><div class="pp"><span lang="sa">ज</span>Jayadratha</div><div class="pp"><span lang="sa">अ</span>Arjuna</div>
@@ -1100,18 +1103,19 @@ svg.i.f{fill:currentColor;stroke:none}
   <div class="body" style="gap:16px;padding-top:8px">
     <div style="background:var(--raise);border-radius:22px;padding:18px">
       <div class="micro">Yearly · family</div>
-      <div class="title" style="margin-top:4px">Renews 3 Oct 2027</div>
+      <div class="title" style="margin-top:4px">Renews 3&nbsp;Oct&nbsp;2027</div>
       <div class="sub" style="margin-top:4px">$39.00 a year through the App Store. 3 of 5 profiles in use.</div>
     </div>
     <div class="group">
       <div class="li"><div class="m"><b>Gifts you’ve sent</b><span>Nine nights of the Devī · accepted by Arjun</span></div><svg class="i s" style="color:var(--fg3)"><use href="#i-chev"/></svg></div>
       <div class="li"><div class="m"><b>Redeem a code</b></div><svg class="i s" style="color:var(--fg3)"><use href="#i-chev"/></svg></div>
       <div class="li"><div class="m"><b>Receipts</b></div><svg class="i s" style="color:var(--fg3)"><use href="#i-chev"/></svg></div>
+      <div class="li"><div class="m"><b>Restore purchases</b></div><svg class="i s" style="color:var(--fg3)"><use href="#i-chev"/></svg></div>
     </div>
     <div class="group">
       <div class="li"><div class="m"><b>Change or cancel</b><span>Opens your App Store subscriptions</span></div><svg class="i s" style="color:var(--fg3)"><use href="#i-chev"/></svg></div>
     </div>
-    <div class="micro" style="padding:0 4px">If you cancel, you keep every chapter until 3 Oct 2027, and downloads stay playable until then.</div>
+    <div class="micro" style="padding:0 4px">If you cancel, you keep every chapter until 3&nbsp;Oct&nbsp;2027, and downloads stay playable until then.</div>
   </div>
   <div class="hi"></div>
 </section>
