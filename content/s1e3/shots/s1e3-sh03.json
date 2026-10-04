@@ -1,0 +1,43 @@
+{
+  "$schema": "../../../schema/shot-contract.schema.json",
+  "id": "s1e3-sh03",
+  "chapter": "s1e3",
+  "beat": "scene",
+  "retention": "connective",
+  "witness": "sanjaya",
+  "camera": {
+    "framing": "extreme_wide",
+    "move": "crane",
+    "height": "overhead",
+    "lensMm": 24
+  },
+  "setting": "Midday over the Kaurava army; hard raking light and deep shadow between the ranks",
+  "blocking": "From overhead the array closes into the cakravyūha: ranks of carved warriors and chariots wheel into bands around kings and princes at the centre. The bands are not counted and no number of rings is shown.",
+  "durationS": 6,
+  "references": [
+    "loc.kurukshetra",
+    "style.relief_basalt_lamp"
+  ],
+  "claims": [
+    "mbh.7.33"
+  ],
+  "forbidden": [
+    "deity_face_closeup",
+    "pov_inside_deity",
+    "face_closeup",
+    "lip_movement",
+    "deity_on_field",
+    "modern_objects",
+    "visor_helmet",
+    "plate_armour",
+    "chain_mail",
+    "stirrups",
+    "firearms",
+    "text_in_frame",
+    "photoreal_skin",
+    "lens_flare",
+    "counted_rings"
+  ],
+  "territory": "worldwide",
+  "quality": "draft"
+}

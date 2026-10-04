@@ -1,0 +1,43 @@
+{
+  "$schema": "../../../schema/shot-contract.schema.json",
+  "id": "s1e3-sh08",
+  "chapter": "s1e3",
+  "beat": "scene",
+  "retention": "connective",
+  "witness": "sanjaya",
+  "camera": {
+    "framing": "wide",
+    "move": "static",
+    "height": "high",
+    "lensMm": 35
+  },
+  "setting": "Behind the breach as the afternoon light turns low",
+  "blocking": "Behind the lone chariot the gap he opened fills: a line of chariots, its leader kept in shadow, moves across it and stops. The Pāṇḍava chariots beyond cannot pass.",
+  "durationS": 5,
+  "references": [
+    "loc.kurukshetra",
+    "obj.chariot",
+    "style.relief_basalt_lamp"
+  ],
+  "claims": [
+    "mbh.7.42.6"
+  ],
+  "forbidden": [
+    "deity_face_closeup",
+    "pov_inside_deity",
+    "face_closeup",
+    "lip_movement",
+    "deity_on_field",
+    "modern_objects",
+    "visor_helmet",
+    "plate_armour",
+    "chain_mail",
+    "stirrups",
+    "firearms",
+    "text_in_frame",
+    "photoreal_skin",
+    "lens_flare"
+  ],
+  "territory": "worldwide",
+  "quality": "draft"
+}

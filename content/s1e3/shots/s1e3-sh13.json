@@ -1,0 +1,44 @@
+{
+  "$schema": "../../../schema/shot-contract.schema.json",
+  "id": "s1e3-sh13",
+  "chapter": "s1e3",
+  "beat": "question",
+  "retention": "cliffhanger",
+  "witness": "sanjaya",
+  "camera": {
+    "framing": "wide",
+    "move": "pull_out",
+    "height": "high",
+    "lensMm": 24
+  },
+  "setting": "Sunset over the wheel; the sky the colour of smoke, the last light low and warm",
+  "blocking": "From the closed gap the camera pulls slowly back and up: the line of chariots holds the way shut while the Pāṇḍava host waits beyond it, until the whole wheel lies small in the dusk.",
+  "durationS": 10,
+  "references": [
+    "loc.kurukshetra",
+    "obj.chariot",
+    "style.relief_basalt_lamp"
+  ],
+  "claims": [
+    "mbh.7.42.6",
+    "mbh.7.41"
+  ],
+  "forbidden": [
+    "deity_face_closeup",
+    "pov_inside_deity",
+    "face_closeup",
+    "lip_movement",
+    "deity_on_field",
+    "modern_objects",
+    "visor_helmet",
+    "plate_armour",
+    "chain_mail",
+    "stirrups",
+    "firearms",
+    "text_in_frame",
+    "photoreal_skin",
+    "lens_flare"
+  ],
+  "territory": "worldwide",
+  "quality": "draft"
+}

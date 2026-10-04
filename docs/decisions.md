@@ -56,3 +56,18 @@ Newest last. Each entry: date, decision, reason.
     - "breach" heard as "bridge", reworded to "gap"
   - The check is advisory; a native reviewer per language still signs off (DHE-28). Reason: nobody listens to every line on every run, and a dropped "not" inverts the text.
 - **2026-10-04 — The chant step fails until `VAGDHENU_URL` exists.** `src/voice/chant.mjs` throws, naming the variable and rule 7. `services/vagdhenu/server.py` wraps Vāgdhenu's renderer behind `POST /chant` for a CUDA 12.1 box, bound to localhost and reached over an SSH tunnel. The public Hugging Face demo Space isn't used: it runs on its author's quota and has no permission for our use. Reason: rule 7 and the decision of 3 Oct (no local fallbacks).
+- **2026-10-04 — Shot framing gains `medium_wide`, and nothing closer may frame a person.** The style bible (section 7) makes medium-wide the closest framing for any human principal; the contract schema had no such value. A contract framed `medium`, `medium_close` or `close` that references a `char.*` now fails validation. `insert` (a macro on hands or an object) stays allowed. Reason: rule 1 and the style bible; faces are what AI video does worst and what audiences reject first.
+- **2026-10-04 — The s1e3 plan: 13 shots, the verse beat has no video, and the question stays open.**
+  - **Timing:** the cold open is 8 s (1 shot), the verse 18 s, the scene 58 s (9 shots of 5–10 s), the reveal 18 s (2 macro shots) and the question 12 s (1 shot plus a 2 s hold). That makes 114 s.
+  - **Shot count:** the handoff estimated 12 shots; the beat lengths in the style bible need 13.
+  - **Verse beat:** the leaf on night with the chant, never a model render (style bible section 5).
+  - **Disclosure:** the spoken AI disclosure plays over the first 2 s of the cold open.
+  - **The question:** the gap-closer is kept in shadow and unnamed, because chapter 4, "The gatekeeper", answers the question (decision of 4 Oct).
+  - **Forbidden lists:** besides the two mandatory entries, every contract's `forbidden` carries the style bible's never-list (section 8), plus `counted_rings` where the wheel is seen (the CE counts no rings) and no-wound, no-blow, no-body on the death shot. These are the compiler's negative-prompt vocabulary.
+  - Reason: the chapter grammar of 3 Oct and the style bible.
+- **2026-10-04 — The manifest is built from the plan and timed from the audio.**
+  - `pnpm manifest s1e3` writes `content/s1e3/manifest.json` from the beats, contracts, narration and line timings (`content/s1e3/voice-timing.json`, written by `pnpm voice`) and the canon.
+  - **Captions:** each starts with its shot and lasts as long as its longest language, so English and Hindi share one caption track.
+  - **Media:** stays `pending` until files are hosted.
+  - **Tests:** the committed manifest must equal a fresh build, so the app session's fixture never drifts.
+  - Reason: handoff section 7; the app builds against this file now.

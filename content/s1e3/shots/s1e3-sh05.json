@@ -1,0 +1,45 @@
+{
+  "$schema": "../../../schema/shot-contract.schema.json",
+  "id": "s1e3-sh05",
+  "chapter": "s1e3",
+  "beat": "scene",
+  "retention": "stakes",
+  "witness": "sanjaya",
+  "camera": {
+    "framing": "medium_wide",
+    "move": "static",
+    "height": "high",
+    "lensMm": 50
+  },
+  "setting": "The same moment with the sun higher; shadow pooled under the chariot",
+  "blocking": "Abhimanyu, a boy not yet grown, stands in his chariot and looks toward the array while his charioteer holds the horses; he lifts his bow in answer.",
+  "durationS": 6,
+  "references": [
+    "char.abhimanyu",
+    "obj.chariot",
+    "obj.bow",
+    "style.relief_basalt_lamp"
+  ],
+  "claims": [
+    "mbh.7.34.17-21",
+    "mbh.7.32.21-23"
+  ],
+  "forbidden": [
+    "deity_face_closeup",
+    "pov_inside_deity",
+    "face_closeup",
+    "lip_movement",
+    "deity_on_field",
+    "modern_objects",
+    "visor_helmet",
+    "plate_armour",
+    "chain_mail",
+    "stirrups",
+    "firearms",
+    "text_in_frame",
+    "photoreal_skin",
+    "lens_flare"
+  ],
+  "territory": "worldwide",
+  "quality": "draft"
+}

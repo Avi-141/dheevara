@@ -110,3 +110,13 @@ test('the CLI passes a valid file and fails an invalid one with exit code 1', ()
   assert.equal(missing.status, 1);
   assert.match(missing.stdout, /file not found/);
 });
+
+test('rule 1 and style bible section 7: no framing closer than medium_wide on a person', () => {
+  const medium = validateContract(variant((c) => { c.camera.framing = 'medium'; c.references.push('char.abhimanyu'); }));
+  assert.equal(medium.ok, false);
+  assert.match(messages(medium), /medium_wide is the closest framing on a person \(style bible section 7\) \(rule 1\)/);
+  const mw = validateContract(variant((c) => { c.camera.framing = 'medium_wide'; c.references.push('char.abhimanyu'); }));
+  assert.equal(mw.ok, true, messages(mw));
+  const insert = validateContract(variant((c) => { c.camera.framing = 'medium'; c.references = ['obj.chariot_wheel', 'style.relief_lamp']; }));
+  assert.equal(insert.ok, true, 'an object may be framed close');
+});

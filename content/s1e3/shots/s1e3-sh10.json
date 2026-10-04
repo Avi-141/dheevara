@@ -1,0 +1,48 @@
+{
+  "$schema": "../../../schema/shot-contract.schema.json",
+  "id": "s1e3-sh10",
+  "chapter": "s1e3",
+  "beat": "scene",
+  "retention": "stakes",
+  "witness": "sanjaya",
+  "camera": {
+    "framing": "insert",
+    "move": "static",
+    "height": "ground",
+    "lensMm": 50
+  },
+  "setting": "The field at the end of the day; one warm shaft of sunset light",
+  "blocking": "Pieces of a broken chariot wheel lie still in the dust beside a fallen bow while the light slowly fades from them. Death by suggestion only: no body, no wound, no blow.",
+  "durationS": 10,
+  "references": [
+    "obj.chariot_wheel",
+    "obj.bow",
+    "style.relief_basalt_lamp"
+  ],
+  "claims": [
+    "mbh.7.48.3",
+    "mbh.7.48.12-13",
+    "mbh.7.48.21"
+  ],
+  "forbidden": [
+    "deity_face_closeup",
+    "pov_inside_deity",
+    "face_closeup",
+    "lip_movement",
+    "deity_on_field",
+    "modern_objects",
+    "visor_helmet",
+    "plate_armour",
+    "chain_mail",
+    "stirrups",
+    "firearms",
+    "text_in_frame",
+    "photoreal_skin",
+    "lens_flare",
+    "wound_on_screen",
+    "killing_blow",
+    "body_on_screen"
+  ],
+  "territory": "worldwide",
+  "quality": "draft"
+}

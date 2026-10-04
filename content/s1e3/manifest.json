@@ -1,0 +1,611 @@
+{
+  "$schema": "../../schema/chapter-manifest.schema.json",
+  "id": "s1e3",
+  "season": "mbh-s1",
+  "title": {
+    "en": "The way in",
+    "hi": "भीतर का रास्ता"
+  },
+  "edition": "Mahābhārata, critical edition (BORI)",
+  "durationMs": 114000,
+  "witness": "sanjaya",
+  "beats": [
+    {
+      "kind": "cold_open",
+      "startMs": 0,
+      "endMs": 8000
+    },
+    {
+      "kind": "verse",
+      "startMs": 8000,
+      "endMs": 26000,
+      "verse": "mbh.7.34.19"
+    },
+    {
+      "kind": "scene",
+      "startMs": 26000,
+      "endMs": 84000
+    },
+    {
+      "kind": "reveal",
+      "startMs": 84000,
+      "endMs": 102000,
+      "reveal": "who-taught-him"
+    },
+    {
+      "kind": "question",
+      "startMs": 102000,
+      "endMs": 114000
+    }
+  ],
+  "media": {
+    "video": {
+      "status": "pending",
+      "hls": null,
+      "mp4": null
+    },
+    "narration": {
+      "en": {
+        "status": "pending",
+        "url": null
+      },
+      "hi": {
+        "status": "pending",
+        "url": null
+      }
+    },
+    "chant": {
+      "status": "pending",
+      "url": null
+    },
+    "experience": "web/chakravyuha.html"
+  },
+  "captions": [
+    {
+      "startMs": 2955,
+      "endMs": 7766,
+      "text": {
+        "en": "Droṇa makes a vow. Today he will bring down one of the Pāṇḍavas' greatest warriors.",
+        "hi": "द्रोण प्रतिज्ञा करते हैं। आज वे पांडवों के एक महान योद्धा को गिराएँगे।"
+      },
+      "claims": [
+        "mbh.7.32.12"
+      ]
+    },
+    {
+      "startMs": 26300,
+      "endMs": 32248,
+      "text": {
+        "en": "To draw Arjuna away, the Saṃśaptakas challenge him and lead him south.",
+        "hi": "अर्जुन को दूर ले जाने के लिए संशप्तक उन्हें ललकारते हैं और दक्षिण की ओर ले जाते हैं।"
+      },
+      "claims": [
+        "mbh.7.32.15"
+      ]
+    },
+    {
+      "startMs": 32300,
+      "endMs": 37870,
+      "text": {
+        "en": "Droṇa sets the army in the cakravyūha, the wheel, with kings and princes inside it.",
+        "hi": "द्रोण सेना को चक्रव्यूह में सजाते हैं, जिसके भीतर राजा और राजकुमार खड़े हैं।"
+      },
+      "claims": [
+        "mbh.7.33"
+      ]
+    },
+    {
+      "startMs": 38300,
+      "endMs": 45765,
+      "text": {
+        "en": "Only four could break it, Yudhiṣṭhira says: Arjuna, Kṛṣṇa, Pradyumna, or Abhimanyu. And Arjuna is gone.",
+        "hi": "युधिष्ठिर कहते हैं, इसे केवल चार तोड़ सकते हैं: अर्जुन, कृष्ण, प्रद्युम्न या अभिमन्यु। और अर्जुन यहाँ नहीं हैं।"
+      },
+      "claims": [
+        "mbh.7.34.15"
+      ]
+    },
+    {
+      "startMs": 45300,
+      "endMs": 49541,
+      "text": {
+        "en": "So he turns to Abhimanyu, a boy not yet grown.",
+        "hi": "तब वे अभिमन्यु की ओर देखते हैं, जो अभी युवा भी नहीं हुआ है।"
+      },
+      "claims": [
+        "mbh.7.34.17-21",
+        "mbh.7.32.21-23"
+      ]
+    },
+    {
+      "startMs": 51300,
+      "endMs": 58197,
+      "text": {
+        "en": "Abhimanyu answers. His father taught him how to break in. But if trouble comes, he cannot get out.",
+        "hi": "अभिमन्यु उत्तर देता है। पिता ने उसे व्यूह तोड़कर भीतर जाना सिखाया है। पर संकट आने पर वह बाहर नहीं निकल पाएगा।"
+      },
+      "claims": [
+        "mbh.7.34.19"
+      ]
+    },
+    {
+      "startMs": 57300,
+      "endMs": 61541,
+      "text": {
+        "en": "He breaks the wheel in many places and rides in alone.",
+        "hi": "वह चक्रव्यूह को कई जगह से तोड़ देता है और अकेला भीतर चला जाता है।"
+      },
+      "claims": [
+        "mbh.7.32.18"
+      ]
+    },
+    {
+      "startMs": 62300,
+      "endMs": 65974,
+      "text": {
+        "en": "Behind him, the gap closes. No one can follow.",
+        "hi": "उसके पीछे दरार भर दी जाती है। कोई उसके पीछे नहीं जा पाता।"
+      },
+      "claims": [
+        "mbh.7.42.6"
+      ]
+    },
+    {
+      "startMs": 67300,
+      "endMs": 73344,
+      "text": {
+        "en": "Six great warriors close in around him. When his weapons are gone, he lifts a chariot wheel.",
+        "hi": "छह महारथी उसे घेर लेते हैं। जब उसके शस्त्र नहीं रहते, तो वह रथ का पहिया उठा लेता है।"
+      },
+      "claims": [
+        "mbh.7.32.19",
+        "mbh.7.47.38-39"
+      ]
+    },
+    {
+      "startMs": 74300,
+      "endMs": 76267,
+      "text": {
+        "en": "They cut it to pieces.",
+        "hi": "वे उस पहिए के भी टुकड़े कर देते हैं।"
+      },
+      "claims": [
+        "mbh.7.48.3"
+      ]
+    },
+    {
+      "startMs": 76667,
+      "endMs": 82413,
+      "text": {
+        "en": "One against six, he falls. And the voices in the sky say: this was not dharma.",
+        "hi": "छह के विरुद्ध अकेला, वह गिर जाता है। और आकाश से स्वर उठते हैं: यह धर्म नहीं था।"
+      },
+      "claims": [
+        "mbh.7.48.21"
+      ]
+    },
+    {
+      "startMs": 84300,
+      "endMs": 95748,
+      "text": {
+        "en": "Many grew up hearing that he learned the wheel in his mother's womb. The critical edition tells it differently: his father taught him to break in, and he learned arms from Arjuna as a boy.",
+        "hi": "बहुतों ने सुना है कि उसने चक्रव्यूह माँ के गर्भ में सीखा था। समीक्षात्मक संस्करण कुछ और कहता है: पिता ने उसे भीतर जाना सिखाया, और बचपन में उसने अर्जुन से शस्त्र-विद्या सीखी।"
+      },
+      "claims": [
+        "mbh.7.34.19",
+        "mbh.1.213.65"
+      ]
+    },
+    {
+      "startMs": 102300,
+      "endMs": 105594,
+      "text": {
+        "en": "They could not follow him in. Who held the gate?",
+        "hi": "वे उसके पीछे भीतर नहीं जा सके। द्वार किसने रोका था?"
+      },
+      "claims": [
+        "mbh.7.42.6",
+        "mbh.7.41"
+      ]
+    }
+  ],
+  "reveals": [
+    {
+      "id": "who-taught-him",
+      "title": {
+        "en": "Who taught him?",
+        "hi": "उसे किसने सिखाया?"
+      },
+      "popular": {
+        "text": {
+          "en": "Abhimanyu learned the way in while still in his mother's womb, as Arjuna described it to Subhadrā. In some tellings she falls asleep; in others Kṛṣṇa interrupts before the way out."
+        },
+        "source": {
+          "label": "Popular telling: regional retellings, kathā, folk theatre, film and television"
+        }
+      },
+      "text": {
+        "text": {
+          "en": "Abhimanyu tells Yudhiṣṭhira his father taught him to break in, but that he cannot get out (7.34.19). Elsewhere he learns arms from Arjuna as a boy (1.213.65). The critical edition's text does not tell the womb story."
+        },
+        "claims": [
+          "mbh.7.34.19",
+          "mbh.1.213.65"
+        ]
+      },
+      "collection": {
+        "status": "none"
+      }
+    }
+  ],
+  "people": [
+    {
+      "id": "abhimanyu",
+      "names": {
+        "sa": "अभिमन्यु",
+        "en": "Abhimanyu"
+      },
+      "edges": [
+        {
+          "rel": "child_of",
+          "to": "arjuna",
+          "claims": [
+            "mbh.1.213.58-61"
+          ]
+        },
+        {
+          "rel": "child_of",
+          "to": "subhadra",
+          "claims": [
+            "mbh.1.213.58-61"
+          ]
+        },
+        {
+          "rel": "student_of",
+          "to": "arjuna",
+          "claims": [
+            "mbh.1.213.65"
+          ]
+        },
+        {
+          "rel": "spouse_of",
+          "to": "uttara",
+          "claims": [
+            "mbh.4.67.7"
+          ]
+        },
+        {
+          "rel": "parent_of",
+          "to": "parikshit",
+          "claims": [
+            "mbh.14.65-69"
+          ]
+        },
+        {
+          "rel": "killed_by",
+          "to": "daushasani",
+          "claims": [
+            "mbh.7.48.12-13"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arjuna",
+      "names": {
+        "sa": "अर्जुन",
+        "en": "Arjuna"
+      },
+      "edges": []
+    },
+    {
+      "id": "subhadra",
+      "names": {
+        "sa": "सुभद्रा",
+        "en": "Subhadrā"
+      },
+      "edges": []
+    },
+    {
+      "id": "krishna",
+      "names": {
+        "sa": "कृष्ण",
+        "en": "Kṛṣṇa"
+      },
+      "edges": []
+    },
+    {
+      "id": "pradyumna",
+      "names": {
+        "sa": "प्रद्युम्न",
+        "en": "Pradyumna"
+      },
+      "edges": []
+    },
+    {
+      "id": "yudhishthira",
+      "names": {
+        "sa": "युधिष्ठिर",
+        "en": "Yudhiṣṭhira"
+      },
+      "edges": []
+    },
+    {
+      "id": "drona",
+      "names": {
+        "sa": "द्रोण",
+        "en": "Droṇa"
+      },
+      "edges": []
+    },
+    {
+      "id": "jayadratha",
+      "names": {
+        "sa": "जयद्रथ",
+        "en": "Jayadratha"
+      },
+      "edges": []
+    },
+    {
+      "id": "duhshasana",
+      "names": {
+        "sa": "दुःशासन",
+        "en": "Duḥśāsana"
+      },
+      "edges": []
+    },
+    {
+      "id": "daushasani",
+      "names": {
+        "sa": "दौःशासनि",
+        "en": "Duḥśāsana's son"
+      },
+      "edges": [
+        {
+          "rel": "child_of",
+          "to": "duhshasana",
+          "claims": [
+            "mbh.7.48.12-13"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "uttara",
+      "names": {
+        "sa": "उत्तरा",
+        "en": "Uttarā"
+      },
+      "edges": [
+        {
+          "rel": "child_of",
+          "to": "virata",
+          "claims": [
+            "mbh.4.67.7"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "virata",
+      "names": {
+        "sa": "विराट",
+        "en": "Virāṭa"
+      },
+      "edges": []
+    },
+    {
+      "id": "parikshit",
+      "names": {
+        "sa": "परिक्षित्",
+        "en": "Parikṣit"
+      },
+      "edges": []
+    },
+    {
+      "id": "sanjaya",
+      "names": {
+        "sa": "संजय",
+        "en": "Sañjaya"
+      },
+      "edges": []
+    }
+  ],
+  "claims": {
+    "mbh.1.213.58-61": {
+      "book": 1,
+      "adhyaya": 213,
+      "verse": 58,
+      "verseEnd": 61,
+      "edition": "BORI CE",
+      "status": "etext",
+      "summary": {
+        "en": "Subhadrā bears Abhimanyu to Arjuna."
+      }
+    },
+    "mbh.1.213.65": {
+      "book": 1,
+      "adhyaya": 213,
+      "verse": 65,
+      "edition": "BORI CE",
+      "status": "etext",
+      "devanagari": "चतुष्पादं दशविधं धनुर्वेदमरिंदमः । अर्जुनाद्वेद वेदज्ञात्सकलं दिव्यमानुषम् ॥ ६५ ॥",
+      "iast": "catuṣpādaṃ daśavidhaṃ dhanurvedam ariṃdamaḥ / arjunād veda vedajñāt sakalaṃ divyamānuṣam"
+    },
+    "mbh.4.67.7": {
+      "book": 4,
+      "adhyaya": 67,
+      "verse": 7,
+      "edition": "BORI CE",
+      "status": "etext",
+      "devanagari": "अभिषङ्गादहं भीतो मिथ्याचारात्परंतप । स्नुषार्थमुत्तरां राजन्प्रतिगृह्णामि ते सुताम् ॥ ७ ॥",
+      "iast": "abhiṣaṅgād ahaṃ bhīto mithyācārāt paraṃtapa / snuṣārtham uttarāṃ rājan pratigṛhṇāmi te sutām"
+    },
+    "mbh.7.32.12": {
+      "book": 7,
+      "adhyaya": 32,
+      "verse": 12,
+      "edition": "BORI CE",
+      "status": "etext",
+      "devanagari": "सत्यं तु ते ब्रवीम्यद्य नैतज्जात्वन्यथा भवेत् । अद्यैषां प्रवरं वीरं पातयिष्ये महारथम् ॥ १२ ॥",
+      "iast": "satyaṃ tu te bravīmy adya naitaj jātv anyathā bhavet / adyaiṣāṃ pravaraṃ vīraṃ pātayiṣye mahāratham"
+    },
+    "mbh.7.32.15": {
+      "book": 7,
+      "adhyaya": 32,
+      "verse": 15,
+      "edition": "BORI CE",
+      "status": "etext",
+      "devanagari": "द्रोणेन व्याहृते त्वेवं संशप्तकगणाः पुनः । आह्वयन्नर्जुनं संख्ये दक्षिणामभितो दिशम् ॥ १५ ॥",
+      "iast": "droṇena vyāhṛte tv evaṃ saṃśaptakagaṇāḥ punaḥ / āhvayann arjunaṃ saṃkhye dakṣiṇām abhito diśam"
+    },
+    "mbh.7.32.18": {
+      "book": 7,
+      "adhyaya": 32,
+      "verse": 18,
+      "edition": "BORI CE",
+      "status": "etext",
+      "devanagari": "तं चाभिमन्युर्वचनात्पितुर्ज्येष्ठस्य भारत । बिभेद दुर्भिदं संख्ये चक्रव्यूहमनेकधा ॥ १८ ॥",
+      "iast": "taṃ cābhimanyur vacanāt pitur jyeṣṭhasya bhārata / bibheda durbhidaṃ saṃkhye cakravyūham anekadhā"
+    },
+    "mbh.7.32.19": {
+      "book": 7,
+      "adhyaya": 32,
+      "verse": 19,
+      "edition": "BORI CE",
+      "status": "etext",
+      "devanagari": "स कृत्वा दुष्करं कर्म हत्वा वीरान्सहस्रशः । षट्सु वीरेषु संसक्तो दौःशासनिवशं गतः ॥ १९ ॥",
+      "iast": "sa kṛtvā duṣkaraṃ karma hatvā vīrān sahasraśaḥ / ṣaṭsu vīreṣu saṃsakto dauḥśāsanivaśaṃ gataḥ"
+    },
+    "mbh.7.32.21-23": {
+      "book": 7,
+      "adhyaya": 32,
+      "verse": 21,
+      "verseEnd": 23,
+      "edition": "BORI CE",
+      "status": "etext",
+      "summary": {
+        "en": "Dhṛtarāṣṭra calls Abhimanyu not yet come of age (aprāptayauvana) and a boy (bāla), struck down by many skilled in arms."
+      }
+    },
+    "mbh.7.33": {
+      "book": 7,
+      "adhyaya": 33,
+      "edition": "BORI CE",
+      "status": "etext",
+      "summary": {
+        "en": "The arrangement of the cakravyūha: kings and princes set around Duryodhana, Droṇa at the head of the army and Jayadratha, king of Sindhu, standing firm beside him. The adhyāya gives no count of rings."
+      }
+    },
+    "mbh.7.34.15": {
+      "book": 7,
+      "adhyaya": 34,
+      "verse": 15,
+      "edition": "BORI CE",
+      "status": "etext",
+      "devanagari": "त्वं वार्जुनो वा कृष्णो वा भिन्द्यात्प्रद्युम्न एव वा । चक्रव्यूहं महाबाहो पञ्चमोऽन्यो न विद्यते ॥ १५ ॥",
+      "iast": "tvaṃ vārjuno vā kṛṣṇo vā bhindyāt pradyumna eva vā / cakravyūhaṃ mahābāho pañcamo 'nyo na vidyate"
+    },
+    "mbh.7.34.17-21": {
+      "book": 7,
+      "adhyaya": 34,
+      "verse": 17,
+      "verseEnd": 21,
+      "edition": "BORI CE",
+      "status": "etext",
+      "summary": {
+        "en": "Yudhiṣṭhira asks Abhimanyu to break Droṇa's array; Abhimanyu agrees, says his father taught him how to break in but that he cannot get out if trouble comes; Yudhiṣṭhira promises they will follow him in."
+      }
+    },
+    "mbh.7.34.19": {
+      "book": 7,
+      "adhyaya": 34,
+      "verse": 19,
+      "edition": "BORI CE",
+      "status": "etext",
+      "devanagari": "उपदिष्टो हि मे पित्रा योगोऽनीकस्य भेदने । नोत्सहे तु विनिर्गन्तुमहं कस्यांचिदापदि ॥ १९ ॥",
+      "iast": "upadiṣṭo hi me pitrā yogo 'nīkasya bhedane / notsahe tu vinirgantum ahaṃ kasyāṃ cid āpadi",
+      "translation": {
+        "en": "My father taught me the method of breaking the array, but if any calamity befalls me I cannot come out."
+      }
+    },
+    "mbh.7.41": {
+      "book": 7,
+      "adhyaya": 41,
+      "edition": "BORI CE",
+      "status": "etext",
+      "summary": {
+        "en": "Saṃjaya tells how Jayadratha held back the Pāṇḍavas who tried to follow Abhimanyu, retelling Śiva's boon to him."
+      }
+    },
+    "mbh.7.42.6": {
+      "book": 7,
+      "adhyaya": 42,
+      "verse": 6,
+      "edition": "BORI CE",
+      "status": "etext",
+      "devanagari": "स विस्फार्य महच्चापं किरन्निषुगणान्बहून् । तत्खण्डं पूरयामास यद्व्यदारयदार्जुनिः ॥ ६ ॥",
+      "iast": "sa visphārya mahac cāpaṃ kirann iṣugaṇān bahūn / tat khaṇḍaṃ pūrayām āsa yad vyadārayad ārjuniḥ"
+    },
+    "mbh.7.47.38-39": {
+      "book": 7,
+      "adhyaya": 47,
+      "verse": 38,
+      "verseEnd": 39,
+      "edition": "BORI CE",
+      "status": "etext",
+      "summary": {
+        "en": "Weaponless, Abhimanyu takes up a chariot wheel and rushes at Droṇa."
+      }
+    },
+    "mbh.7.48.3": {
+      "book": 7,
+      "adhyaya": 48,
+      "verse": 3,
+      "edition": "BORI CE",
+      "status": "etext",
+      "devanagari": "तच्चक्रं भृशमुद्विग्नाः संचिच्छिदुरनेकधा । महारथस्ततः कार्ष्णिः संजग्राह महागदाम् ॥ ३ ॥",
+      "iast": "tac cakraṃ bhṛśam udvignāḥ saṃcicchidur anekadhā / mahārathas tataḥ kārṣṇiḥ saṃjagrāha mahāgadām"
+    },
+    "mbh.7.48.12-13": {
+      "book": 7,
+      "adhyaya": 48,
+      "verse": 12,
+      "verseEnd": 13,
+      "edition": "BORI CE",
+      "status": "etext",
+      "summary": {
+        "en": "As Abhimanyu rises, Duḥśāsana's son strikes him on the head with a mace and he falls; thus one was slain by many."
+      }
+    },
+    "mbh.7.48.21": {
+      "book": 7,
+      "adhyaya": 48,
+      "verse": 21,
+      "edition": "BORI CE",
+      "status": "etext",
+      "devanagari": "द्रोणकर्णमुखैः षड्भिर्धार्तराष्ट्रैर्महारथैः । एकोऽयं निहतः शेते नैष धर्मो मतो हि नः ॥ २१ ॥",
+      "iast": "droṇakarṇamukhaiḥ ṣaḍbhir dhārtarāṣṭrair mahārathaiḥ / eko 'yaṃ nihataḥ śete naiṣa dharmo mato hi naḥ",
+      "translation": {
+        "en": "One against six he lies slain; this, we hold, was not dharma."
+      }
+    },
+    "mbh.14.65-69": {
+      "book": 14,
+      "adhyaya": 65,
+      "edition": "BORI CE",
+      "status": "etext",
+      "summary": {
+        "en": "Abhimanyu's son Parikṣit is born dead, struck by Aśvatthāman's weapon, and Kṛṣṇa restores him to life (birth at 14.65.8, revival at 14.68.18–24 and 14.69.3)."
+      }
+    }
+  },
+  "next": {
+    "id": "s1e4",
+    "releaseLocal": "19:00"
+  },
+  "provenance": {
+    "aiLabel": true,
+    "signOff": null
+  }
+}

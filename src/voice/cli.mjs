@@ -3,7 +3,7 @@
 // one WAV per line per language under out/<chapter>/voice/<lang>/<line>.wav. Calls are cached on a
 // hash of all inputs, so a second run makes zero API calls. --samples renders the first line in each
 // cast's alternate voices, for casting. Ledger rows go to content/<chapter>/ledger.jsonl.
-import { readFileSync, mkdirSync, copyFileSync } from 'node:fs';
+import { readFileSync, mkdirSync, copyFileSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { ROOT, maxRunUsd } from '../env.mjs';
 import { Ledger, Budget, RUN_ID } from '../ledger/ledger.mjs';
@@ -96,6 +96,15 @@ export async function run(argv = process.argv.slice(2), { fetch = globalThis.fet
     }
   }
 
+  if (!opts.samples) {
+    // Line durations per language, committed so captions and beats can be timed without the WAVs.
+    const timing = {};
+    for (const w of written) {
+      const [lang, file] = relative(join(ROOT, 'out', opts.chapter, 'voice'), w.path).split('/');
+      (timing[lang] ??= {})[file.replace(/\.wav$/, '')] = w.ms;
+    }
+    writeFileSync(join(dir, 'voice-timing.json'), JSON.stringify({ note: 'Written by pnpm voice: milliseconds per narration line, per language, at the current cast and dictionary.', ...timing }, null, 2) + '\n');
+  }
   for (const w of written) log(`${w.cached ? 'cached' : 'new   '}  ${relative(ROOT, w.path)}  ${(w.ms / 1000).toFixed(1)} s`);
   const totalMs = written.reduce((s, w) => s + w.ms, 0);
   log(`${written.length} WAVs, ${(totalMs / 1000).toFixed(1)} s of audio; ${calls} API calls, ${chars} characters billed, $${usd.toFixed(4)} (run ${RUN_ID}, cap $${budget.capUsd})`);

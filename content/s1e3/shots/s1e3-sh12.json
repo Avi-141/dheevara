@@ -1,0 +1,43 @@
+{
+  "$schema": "../../../schema/shot-contract.schema.json",
+  "id": "s1e3-sh12",
+  "chapter": "s1e3",
+  "beat": "reveal",
+  "retention": "reveal",
+  "witness": "sanjaya",
+  "camera": {
+    "framing": "insert",
+    "move": "push_in",
+    "height": "eye",
+    "lensMm": 100
+  },
+  "setting": "The same panel with the lamp moved to the right",
+  "blocking": "Macro on a carved wheel in the relief, its spokes picked out in gold as the lamp passes. The push covers five percent of the frame; no figure in frame.",
+  "durationS": 9,
+  "references": [
+    "obj.chariot_wheel",
+    "style.relief_basalt_lamp"
+  ],
+  "claims": [
+    "mbh.7.34.19"
+  ],
+  "forbidden": [
+    "deity_face_closeup",
+    "pov_inside_deity",
+    "face_closeup",
+    "lip_movement",
+    "deity_on_field",
+    "modern_objects",
+    "visor_helmet",
+    "plate_armour",
+    "chain_mail",
+    "stirrups",
+    "firearms",
+    "text_in_frame",
+    "photoreal_skin",
+    "lens_flare",
+    "counted_rings"
+  ],
+  "territory": "worldwide",
+  "quality": "draft"
+}
