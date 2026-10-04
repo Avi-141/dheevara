@@ -40,7 +40,8 @@ test('rule 8: staging a fake FAL_KEY assignment blocks the commit', () => {
   const res = git(repo, 'commit', '-q', '-m', 'add config');
   assert.notEqual(res.status, 0, 'the commit should have been blocked');
   assert.match(res.stderr, /gitleaks found a secret in the staged changes; the commit is blocked/);
-  assert.ok(!res.stderr.includes(fakeKey), 'the hook output must not print the key');
+  assert.match(res.stdout, /File:\s+config\.env/, 'the hook names the file, redacted');
+  assert.ok(!(res.stdout + res.stderr).includes(fakeKey), 'the hook output must not print the key');
   assert.notEqual(git(repo, 'rev-parse', '--verify', '-q', 'HEAD').status, 0, 'no commit was created');
 
   assert.equal(git(repo, 'rm', '-q', '--cached', 'config.env').status, 0);

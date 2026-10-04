@@ -5,7 +5,7 @@
 set -euo pipefail
 here=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 gitleaks=$("$here/scripts/gitleaks.sh" --path)
-if ! "$gitleaks" git --pre-commit --staged --redact --no-banner --log-level warn \
+if ! "$gitleaks" git --pre-commit --staged --redact --verbose --no-banner --log-level warn \
      --config "$here/.gitleaks.toml" "$(git rev-parse --show-toplevel)"; then
   echo "pre-commit: gitleaks found a secret in the staged changes; the commit is blocked." >&2
   echo "Remove it, keep keys in the environment (see .env.example), and rotate any key that was exposed." >&2
