@@ -1,0 +1,424 @@
+<title>The Way In</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Tiro+Devanagari+Sanskrit:ital@0;1&family=Noto+Sans+Devanagari:wght@500&family=Noto+Sans+Tamil:wght@500&family=Noto+Sans+Telugu:wght@500&family=Noto+Sans+Kannada:wght@500&display=swap">
+<style>
+/* Layout: one phone-sized stage, full screen on a phone, centred on a desktop.
+   Tokens are the product language v2 (design/mockups/index.html). Single dark theme by design. */
+:root{
+  --bg:#0B0B0A; --raise:#151513; --raise2:#1D1C19; --raise3:#272521;
+  --hair:rgba(244,242,238,.09); --hair2:rgba(244,242,238,.16);
+  --fg:#F4F2EE; --fg2:#B5B0A7; --fg3:#918C82;
+  --amber:#F2B04A; --amber-dim:rgba(242,176,74,.14); --live:#F0694A;
+  --leaf:#EFE6D2; --ink:#1E160C; --ink2:#4A3A25; --leafred:#7A2410;
+  --glass:rgba(16,16,14,.78);
+  --sans:"Geist","Noto Sans Devanagari","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Kannada",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --verse:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",Georgia,serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:#050504;color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased;display:flex;align-items:center;justify-content:center;overflow:hidden;-webkit-tap-highlight-color:transparent;user-select:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+svg.i{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+svg.i.s{width:18px;height:18px} svg.i.f{fill:currentColor;stroke:none}
+
+#stage{position:relative;width:100%;height:100%;max-width:430px;max-height:932px;background:var(--bg);overflow:hidden;isolation:isolate}
+@media (min-width:600px){#stage{height:min(932px,calc(100% - 48px));aspect-ratio:430/932;width:auto;border-radius:44px;box-shadow:0 0 0 1px #24231f,0 40px 90px rgba(0,0,0,.7)}}
+
+.plate{position:absolute;inset:-4%;background-size:cover;background-position:center;opacity:0;transition:opacity 900ms var(--ease);will-change:transform,opacity}
+.plate.on{opacity:1}
+.shade-t{position:absolute;inset:0 0 auto 0;height:28%;background:linear-gradient(180deg,rgba(11,11,10,.8),rgba(11,11,10,0));z-index:2;pointer-events:none}
+.shade-b{position:absolute;inset:auto 0 0 0;height:60%;background:linear-gradient(180deg,rgba(11,11,10,0),rgba(11,11,10,.88) 55%,var(--bg));z-index:2;pointer-events:none}
+
+.top{position:absolute;top:0;left:0;right:0;z-index:10;padding:calc(env(safe-area-inset-top,0px) + 10px) 8px 0;display:flex;align-items:center;gap:8px}
+.ib{width:44px;height:44px;border-radius:22px;display:flex;align-items:center;justify-content:center;flex:none}
+.seg{flex:1;display:flex;gap:4px;max-width:230px;margin:0 auto}
+.seg span{flex:1;height:3px;border-radius:2px;background:rgba(244,242,238,.25);overflow:hidden}
+.seg span i{display:block;height:100%;width:0;background:var(--fg)}
+.pill{display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 12px;border-radius:15px;background:rgba(11,11,10,.8);border:1px solid var(--hair2);font:500 12.5px var(--sans);white-space:nowrap}
+.pill .dot{width:6px;height:6px;border-radius:3px;background:var(--amber)} .pill .sep{width:1px;height:12px;background:var(--hair2)}
+#label{position:absolute;top:calc(env(safe-area-inset-top,0px) + 62px);left:16px;z-index:10;transition:opacity 400ms}
+
+#cap{position:absolute;left:24px;right:24px;bottom:150px;z-index:8;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;transition:opacity 450ms var(--ease),transform 450ms var(--ease)}
+#cap p{font:500 21px/1.35 var(--sans);letter-spacing:-.01em;max-width:28ch;text-wrap:balance;text-shadow:0 1px 12px rgba(0,0,0,.75)}
+.cite{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 10px;border-radius:16px;font:500 13px var(--sans);color:var(--amber);font-variant-numeric:tabular-nums}
+#cap.out{opacity:0;transform:translateY(6px)}
+
+#foot{position:absolute;left:20px;right:20px;bottom:calc(env(safe-area-inset-bottom,0px) + 34px);z-index:9;display:flex;gap:10px;align-items:center}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 20px;border-radius:26px;font:600 16px var(--sans);white-space:nowrap;background:var(--raise2)}
+.btn.primary{background:var(--fg);color:var(--bg)}
+.btn.glass{background:var(--glass);border:1px solid var(--hair2);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.btn.line{background:transparent;border:1px solid var(--hair2)}
+.btn.sm{min-height:44px;font-size:14.5px;padding:0 16px}
+#revealBtn{flex:1;min-width:0;justify-content:flex-start;opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity 500ms var(--ease),transform 500ms var(--ease)}
+#revealBtn.show{opacity:1;transform:none;pointer-events:auto}
+#revealBtn .pulse{width:8px;height:8px;border-radius:4px;background:var(--amber);margin-left:auto;box-shadow:0 0 0 0 rgba(242,176,74,.5);animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(242,176,74,0)}100%{box-shadow:0 0 0 0 rgba(242,176,74,0)}}
+#peopleBtn{width:52px;height:52px;border-radius:26px;margin-left:auto}
+
+/* verse */
+#verseCard{position:absolute;left:16px;right:16px;top:50%;z-index:8;transform:translateY(-44%) translateY(40px);opacity:0;transition:opacity 700ms var(--ease),transform 700ms var(--ease);pointer-events:none}
+#verseCard.show{opacity:1;transform:translateY(-50%);pointer-events:auto}
+.leaf{background:var(--leaf);color:var(--ink);border-radius:28px;padding:26px 24px 22px;position:relative;overflow:hidden}
+.leaf::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(74,58,37,.045) 0 1px,transparent 1px 5px);pointer-events:none}
+.k{font:600 13px var(--sans);color:var(--ink2)}
+.lines{font:24px/1.55 var(--verse);margin-top:12px}
+.lines span{display:block;opacity:.38;transition:opacity 500ms,color 500ms}
+.lines span.sung{opacity:.78}.lines span.now{opacity:1;color:var(--leafred)}
+.iast{font:italic 15px/1.5 var(--verse);color:var(--ink2);margin-top:10px}
+.tr{font:400 16px/1.5 var(--sans);margin-top:14px;padding-top:14px;border-top:1px solid rgba(30,22,12,.16)}
+.rc{font:500 13px var(--sans);color:var(--leafred);margin-top:10px}
+#verseFoot{position:absolute;left:20px;right:20px;bottom:calc(env(safe-area-inset-bottom,0px) + 34px);z-index:9;display:flex;align-items:center;gap:14px;opacity:0;pointer-events:none;transition:opacity 500ms}
+#verseFoot.show{opacity:1;pointer-events:auto}
+.prog{height:3px;border-radius:2px;background:rgba(244,242,238,.18);overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--amber)}
+
+/* question */
+#endCard{position:absolute;inset:auto 20px calc(env(safe-area-inset-bottom,0px) + 34px) 20px;z-index:9;display:flex;flex-direction:column;gap:16px;opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity 600ms var(--ease) 600ms,transform 600ms var(--ease) 600ms}
+#endCard.show{opacity:1;transform:none;pointer-events:auto}
+#endCard h2{font:600 26px/1.22 var(--sans);letter-spacing:-.025em;text-align:center;text-wrap:balance}
+.next{background:var(--raise);border-radius:22px;padding:12px;display:flex;gap:12px;align-items:center}
+.next .th{width:60px;height:60px;border-radius:14px;background-size:cover;background-position:50% 40%;flex:none}
+.micro{font:500 12.5px/1.4 var(--sans);color:var(--fg3)}
+.head{font:600 17px/1.3 var(--sans)}
+
+/* start */
+#start{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:radial-gradient(55% 32% at 50% 44%,rgba(242,176,74,.13),transparent 70%),var(--bg);transition:opacity 600ms}
+#start.hide{opacity:0;pointer-events:none}
+#start h1{font:600 32px var(--sans);letter-spacing:-.03em}
+#start p{color:var(--fg2);font-size:14.5px;text-align:center;max-width:30ch;line-height:1.5}
+
+/* sheets */
+#scrim{position:absolute;inset:0;z-index:30;background:rgba(5,5,4,.55);opacity:0;pointer-events:none;transition:opacity 450ms var(--ease)}
+#scrim.show{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:31;border-radius:30px 30px 0 0;transform:translateY(102%);transition:transform 450ms var(--ease);max-height:72%;display:flex;flex-direction:column;padding:12px 22px calc(env(safe-area-inset-bottom,0px) + 28px)}
+.sheet.show{transform:none}
+.sheet .grab{width:40px;height:4px;border-radius:2px;margin:0 auto 14px;flex:none}
+.sheet.dark{background:var(--raise)} .sheet.dark .grab{background:var(--hair2)}
+.sheet.leafy{background:var(--leaf);color:var(--ink)} .sheet.leafy .grab{background:rgba(30,22,12,.25)}
+.sheet.leafy::before{content:"";position:absolute;inset:0;border-radius:inherit;background:repeating-linear-gradient(180deg,rgba(74,58,37,.045) 0 1px,transparent 1px 5px);pointer-events:none}
+.scroll{overflow:auto;min-height:0;flex:1;display:flex;flex-direction:column;gap:12px;position:relative}
+.tier p{font:400 15px/1.5 var(--sans);margin-top:4px;text-wrap:pretty}
+.tier .s{font:400 13px/1.45 var(--sans);color:var(--ink2);margin-top:4px}
+.tier+.tier{border-top:1px solid rgba(30,22,12,.14);padding-top:12px}
+.tier.own{border:1.2px dashed rgba(122,36,16,.45)!important;border-radius:16px;padding:10px 14px!important}
+.row{display:flex;gap:10px;padding-top:14px;flex:none;position:relative}
+.li{display:flex;align-items:center;gap:14px;min-height:56px;border-bottom:1px solid var(--hair)}
+.li:last-child{border-bottom:0}
+.li .m{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.li .m b{font:500 15.5px var(--sans)} .li .m span{font-size:13px;color:var(--fg3)}
+.tog{flex:none;width:50px;height:30px;border-radius:15px;background:var(--raise3);position:relative;transition:background 200ms}
+.tog::after{content:"";position:absolute;left:3px;top:3px;width:24px;height:24px;border-radius:12px;background:var(--fg2);transition:left 200ms}
+.tog[aria-checked="true"]{background:var(--fg)} .tog[aria-checked="true"]::after{left:23px;background:var(--bg)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:36px;padding:0 14px;border-radius:18px;background:var(--raise2);font:500 13.5px var(--sans)}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.scan{font:15px/1.75 var(--verse);background:#E9E1CD;color:#231C12;border-radius:12px;padding:14px 16px}
+.scan .hl{background:rgba(242,176,74,.45);box-shadow:0 0 0 5px rgba(242,176,74,.45);border-radius:3px;margin:4px 0}
+
+#paused{position:absolute;top:calc(env(safe-area-inset-top,0px) + 62px);left:50%;transform:translateX(-50%);z-index:32;opacity:0;transition:opacity 300ms;pointer-events:none}
+#paused.show{opacity:1}
+#toast{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 110px);transform:translateX(-50%) translateY(10px);z-index:40;background:var(--raise3);color:var(--fg);font:500 14px var(--sans);padding:12px 16px;border-radius:14px;opacity:0;transition:opacity 300ms,transform 300ms;pointer-events:none;max-width:86%;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hidden{display:none!important}
+@media (prefers-reduced-motion: reduce){*{transition-duration:200ms!important;animation:none!important}.plate{transform:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.6v12.8a.8.8 0 0 0 1.2.7l10.2-6.4a.8.8 0 0 0 0-1.4L9.2 4.9a.8.8 0 0 0-1.2.7z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1.2"/><rect x="14" y="5" width="4" height="14" rx="1.2"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><rect x="2.5" y="8" width="19" height="8" rx="4"/><circle cx="7.5" cy="12" r="1"/><circle cx="16.5" cy="12" r="1"/></symbol>
+  <symbol id="i-graph" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.6"/><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="m6.5 6.5 3.6 3.6m3.8 0 3.6-3.6m-11 11 3.6-3.6m3.8 0 3.6 3.6"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></symbol>
+  <symbol id="i-mute" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 6 6m0-6-6 6"/></symbol>
+</svg>
+
+<main id="stage" aria-label="Chapter 3, The way in. Prototype.">
+  <div class="plate" id="p-carve"></div><div class="plate" id="p-army"></div><div class="plate" id="p-ride"></div><div class="plate" id="p-ride2"></div><div class="plate" id="p-stuck"></div><div class="plate" id="p-end"></div>
+  <div class="shade-t"></div><div class="shade-b"></div>
+
+  <div class="top">
+    <button class="ib" id="exitBtn" aria-label="Close chapter"><svg class="i"><use href="#i-down"/></svg></button>
+    <div class="seg" role="progressbar" aria-label="Chapter progress" aria-valuemin="0" aria-valuemax="5" id="seg"><span><i></i></span><span><i></i></span><span><i></i></span><span><i></i></span><span><i></i></span></div>
+    <button class="ib" id="muteBtn" aria-label="Mute"><svg class="i"><use href="#i-sound"/></svg></button>
+    <button class="ib" id="ctrlBtn" aria-label="Controls"><svg class="i"><use href="#i-sliders"/></svg></button>
+  </div>
+  <div id="label"><span class="pill"><span class="dot"></span>AI scene<span class="sep"></span>Seen with Sañjaya</span></div>
+
+  <div id="cap" class="out" aria-hidden="true"><p id="capText"></p><button class="cite" id="capCite"><svg class="i s"><use href="#i-leaf"/></svg><span></span></button></div>
+
+  <div id="verseCard" aria-hidden="true"><div class="leaf">
+    <div class="k">Abhimanyu answers Yudhiṣṭhira</div>
+    <div class="lines" lang="sa" id="lines"><span>उपदिष्टो हि मे पित्रा</span><span>योगोऽनीकस्य भेदने ।</span><span>नोत्सहे तु विनिर्गन्तुम्</span><span>अहं कस्यांचिदापदि ॥ १९ ॥</span></div>
+    <div class="iast" aria-hidden="true">upadiṣṭo hi me pitrā yogo ’nīkasya bhedane / notsahe tu vinirgantum ahaṃ kasyāṃcid āpadi //</div>
+    <div class="tr">My father taught me the method of breaking the array, but if any calamity befalls me I cannot come out.</div>
+    <div class="rc">Mahābhārata 7.34.19 · critical edition</div>
+  </div></div>
+  <div id="verseFoot">
+    <button class="ib" style="background:var(--raise2)" id="vPause" aria-label="Pause"><svg class="i s f"><use href="#i-pause"/></svg></button>
+    <div style="flex:1;min-width:0"><div class="micro" style="color:var(--fg2)">Chant · anuṣṭubh <span style="color:var(--fg3)">(audio arrives with Vāgdhenu)</span></div><div class="prog" style="margin-top:8px"><i id="vProg"></i></div></div>
+    <button class="btn sm" id="vNext">Next<svg class="i s"><use href="#i-chev"/></svg></button>
+  </div>
+
+  <div id="foot" class="hidden">
+    <button class="btn glass" id="revealBtn"><svg class="i" style="color:var(--amber)"><use href="#i-leaf"/></svg><span>Who taught him?</span><span class="pulse"></span></button>
+    <button class="btn glass" id="peopleBtn" aria-label="People in this scene" style="padding:0"><svg class="i"><use href="#i-graph"/></svg></button>
+  </div>
+
+  <div id="endCard">
+    <h2>They could not follow him in. Who held the gate?</h2>
+    <div class="next"><div class="th" id="nextTh"></div><div style="flex:1;min-width:0"><div class="micro" id="countdown" aria-live="polite">Up next · plays in 8 s</div><div class="head">4 · The vow</div></div><button class="btn sm line" id="stopBtn">Stop</button></div>
+    <button class="btn primary" id="playNext"><svg class="i s f"><use href="#i-play"/></svg>Play chapter 4</button>
+    <div style="display:flex;justify-content:center;gap:20px"><button class="btn sm" style="background:transparent;color:var(--fg2)" id="shareBtn"><svg class="i s"><use href="#i-share"/></svg>Share</button><button class="btn sm" style="background:transparent;color:var(--fg2)" id="againBtn">Watch again</button></div>
+  </div>
+
+  <div id="start">
+    <svg viewBox="0 0 64 64" style="width:60px;height:60px;color:var(--amber)" class="i"><path d="M8 37c6 13 42 13 48 0z" stroke-width="1.5"/><path d="M32 12c4.6 5.6 4.6 11.4 0 16-4.6-4.6-4.6-10.4 0-16z" fill="currentColor" stroke="none"/></svg>
+    <div style="text-align:center"><div class="micro">Mahābhārata · Chapter 3</div><h1 style="margin-top:4px">The way in</h1></div>
+    <p>A prototype of the chapter: cold open, the verse, the scene, a hidden detail, and the question. Narration and chant arrive with the pipeline; this plays captions with a drone.</p>
+    <button class="btn primary" id="beginBtn" style="margin-top:6px"><svg class="i s f"><use href="#i-play"/></svg>Begin</button>
+    <p class="micro">Space pauses · R opens the hidden detail · Esc closes</p>
+  </div>
+
+  <div id="scrim"></div>
+  <div id="paused"><span class="pill"><svg class="i f" style="width:11px;height:11px"><use href="#i-pause"/></svg>Scene paused</span></div>
+
+  <section class="sheet leafy" id="sh-reveal" role="dialog" aria-modal="true" aria-label="Who taught him?">
+    <div class="grab"></div>
+    <div style="display:flex;align-items:baseline;gap:10px;flex:none;position:relative"><span lang="sa" style="font:28px var(--verse);color:var(--leafred)">गुरु</span><span style="font:600 20px var(--sans);letter-spacing:-.015em">Who taught him?</span></div>
+    <div class="scroll" style="margin-top:10px">
+      <div class="tier"><div class="k">What many of us heard</div><p>Abhimanyu learned the way in while still in his mother’s womb, as Arjuna described it to Subhadrā. In some tellings she falls asleep; in others Kṛṣṇa interrupts before the way out.</p><div class="s">Regional retellings, kathā and folk theatre, popularised by film and television</div></div>
+      <div class="tier"><div class="k" style="color:var(--leafred)">What the text says</div><p>Abhimanyu tells Yudhiṣṭhira his father taught him to break in, but that he cannot get out (7.34.19). Elsewhere he learns arms from Arjuna as a boy (1.213). The critical edition does not tell the womb story.</p><button class="s rc" id="seePage" style="text-decoration:underline;padding:6px 0">See the page</button></div>
+      <div class="tier own"><div class="k" style="color:var(--leafred)">From our collection</div><p style="font-size:14px">A manuscript reading for this verse is being proofed.</p></div>
+    </div>
+    <div class="row"><button class="btn sm line" style="flex:1;border-color:rgba(30,22,12,.25);color:var(--ink)" id="revShare"><svg class="i s"><use href="#i-share"/></svg>Share</button><button class="btn sm" style="flex:1.4;background:var(--ink);color:var(--leaf)" data-close><svg class="i s f"><use href="#i-play"/></svg>Resume</button></div>
+  </section>
+
+  <section class="sheet dark" id="sh-page" role="dialog" aria-modal="true" aria-label="The page">
+    <div class="grab"></div>
+    <div class="head" style="flex:none">The page</div>
+    <div class="scroll" style="margin-top:12px">
+      <div class="scan" lang="sa"><div>अभिमन्युरुवाच ।<br>द्रोणस्य दृढमव्यग्रमनीकप्रवरं युधि ।<br>पितॄणां जयमाकाङ्क्षन्नवगाहे भिनद्मि च ॥ १८ ॥</div><div class="hl">उपदिष्टो हि मे पित्रा योगोऽनीकस्य भेदने ।<br>नोत्सहे तु विनिर्गन्तुमहं कस्यांचिदापदि ॥ १९ ॥</div></div>
+      <div class="micro">Mahābhārata, critical edition (BORI), Droṇaparvan, adhyāya 34. Typeset from the e-text; the scan arrives with DHE-3.</div>
+    </div>
+    <div class="row"><button class="btn sm primary" style="flex:1" data-close>Back to the scene</button></div>
+  </section>
+
+  <section class="sheet dark" id="sh-people" role="dialog" aria-modal="true" aria-label="People in this scene">
+    <div class="grab"></div>
+    <div class="head" style="flex:none">People in this scene</div>
+    <div class="scroll" style="margin-top:6px;gap:0">
+      <div class="li"><div class="m"><b>Abhimanyu</b><span>Son of Arjuna and Subhadrā; a boy not yet grown</span></div><span class="cite">7.34–48</span></div>
+      <div class="li"><div class="m"><b>Yudhiṣṭhira</b><span>Asks him to break the array</span></div><span class="cite">7.34.17</span></div>
+      <div class="li"><div class="m"><b>Droṇa</b><span>Opponent; set the army in the wheel</span></div><span class="cite">7.33</span></div>
+      <div class="li"><div class="m"><b>Jayadratha</b><span>Opponent; holds the breach behind him</span></div><span class="cite">7.41–42</span></div>
+    </div>
+    <div class="row"><button class="btn sm primary" style="flex:1" data-close>Back to the scene</button></div>
+  </section>
+
+  <section class="sheet dark" id="sh-ctrl" role="dialog" aria-modal="true" aria-label="Controls">
+    <div class="grab"></div>
+    <div class="head" style="flex:none">Narration</div>
+    <div class="chips" style="margin-top:10px;flex:none" id="langs"><button class="chip" aria-pressed="true">English</button><button class="chip" lang="hi" aria-pressed="false">हिन्दी</button><button class="chip" lang="ta" aria-pressed="false">தமிழ்</button><button class="chip" lang="te" aria-pressed="false">తెలుగు</button><button class="chip" lang="kn" aria-pressed="false">ಕನ್ನಡ</button></div>
+    <div class="scroll" style="margin-top:8px;gap:0">
+      <div class="li"><div class="m"><b>Captions</b></div><button class="tog" role="switch" aria-checked="true" id="capTog" aria-label="Captions"></button></div>
+      <div class="li"><div class="m"><b>Play next chapter</b></div><button class="tog" role="switch" aria-checked="true" id="autoTog" aria-label="Play next chapter"></button></div>
+      <div class="li"><div class="m"><b>Report a mistake</b><span>Sends this moment to our scholar</span></div><button class="ib" id="reportBtn" aria-label="Report a mistake"><svg class="i s" style="color:var(--fg3)"><use href="#i-chev"/></svg></button></div>
+    </div>
+    <div class="row"><button class="btn sm primary" style="flex:1" data-close>Done</button></div>
+  </section>
+
+  <div id="toast" role="status"></div>
+  <div class="sr" aria-live="polite" id="live"></div>
+</main>
+
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FR = 'frames/';
+for (const id of ['carve','army','ride','ride2','stuck','end']) $('#p-' + id).style.backgroundImage = `url(${FR}${id}.jpg)`;
+$('#nextTh').style.backgroundImage = `url(${FR}stuck.jpg)`;
+
+/* The chapter: five beats, with captions that each carry a verse id (scholar-reviewed wording). */
+const BEATS = [
+  { kind: 'cold', dur: 7 },
+  { kind: 'verse', dur: 16 },
+  { kind: 'scene', dur: 32 },
+  { kind: 'reveal', dur: 0 },       // the hidden detail is opened by the viewer inside the scene; its segment fills when seen
+  { kind: 'question', dur: 9 }
+];
+const COLD = [{ at: 0.6, text: 'The thirteenth day. Droṇa sets the army in a wheel.', cite: '7.33' }];
+const SCENE = [
+  { at: 0.5, text: 'Arjuna is far to the south, drawn away by the Saṃśaptakas.', cite: '7.32', plate: 'army' },
+  { at: 6.5, text: 'Yudhiṣṭhira asks the boy to break Droṇa’s array.', cite: '7.34.17', plate: 'ride' },
+  { at: 12.5, text: 'He knows the way in. He cannot fight his way out.', cite: '7.34.19', plate: 'ride', reveal: true },
+  { at: 20, text: 'He breaks into the wheel and fights alone.', cite: '7.34–48', plate: 'ride2' },
+  { at: 26, text: 'Behind him, Jayadratha closes the breach.', cite: '7.41–42', plate: 'stuck' }
+];
+
+let phase = 'start', t = 0, paused = false, sheet = null, revealSeen = false, autoplay = true, captionsOn = true, countdown = 8, stopped = false;
+let capIdx = -1, verseLine = -1, last = performance.now();
+
+function show(el, on) { el.classList.toggle('show', on); }
+function plate(id) { document.querySelectorAll('.plate').forEach(p => p.classList.toggle('on', p.id === 'p-' + id)); }
+function toast(msg) { const el = $('#toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => el.classList.remove('show'), 2600); }
+function setCaption(c) {
+  const cap = $('#cap');
+  cap.classList.add('out');
+  setTimeout(() => {
+    $('#capText').textContent = c ? c.text : '';
+    $('#capCite span').textContent = c ? c.cite : '';
+    $('#capCite').setAttribute('aria-label', c ? 'Source: Mahābhārata ' + c.cite : '');
+    if (c && captionsOn) cap.classList.remove('out');
+    if (c) $('#live').textContent = c.text + ' Mahābhārata ' + c.cite + '.';
+  }, reduce ? 0 : 220);
+}
+function segFill() {
+  const idx = { cold: 0, verse: 1, scene: 2, question: 4 }[phase];
+  const spans = document.querySelectorAll('#seg span i');
+  spans.forEach((s, i) => {
+    let w = 0;
+    if (phase === 'start') w = 0;
+    else if (i < idx) w = 100;
+    else if (i === idx) w = Math.min(100, (t / (BEATS[i].dur || 1)) * 100);
+    if (i === 3) w = revealSeen ? 100 : (phase === 'question' ? 100 : 0);
+    s.style.width = w + '%';
+  });
+  $('#seg').setAttribute('aria-valuenow', String(idx ?? 0));
+}
+
+function go(p) {
+  phase = p; t = 0; capIdx = -1; verseLine = -1;
+  $('#start').classList.toggle('hide', p !== 'start');
+  show($('#verseCard'), p === 'verse'); show($('#verseFoot'), p === 'verse');
+  $('#verseCard').setAttribute('aria-hidden', String(p !== 'verse'));
+  $('#foot').classList.toggle('hidden', p !== 'scene');
+  $('#revealBtn').classList.remove('show');
+  show($('#endCard'), p === 'question');
+  $('#label').style.opacity = (p === 'verse' || p === 'start') ? 0 : 1;
+  if (p === 'cold') { plate('carve'); setCaption(null); }
+  if (p === 'verse') { plate(null); setCaption(null); $('#live').textContent = 'The verse, Mahābhārata 7.34.19. My father taught me the method of breaking the array, but if any calamity befalls me I cannot come out.'; }
+  if (p === 'scene') { plate('army'); }
+  if (p === 'question') { plate('end'); setCaption(null); countdown = 8; stopped = !autoplay; renderCountdown(); $('#live').textContent = 'They could not follow him in. Who held the gate?'; }
+  if (p === 'start') { plate(null); setCaption(null); }
+  segFill();
+}
+function renderCountdown() {
+  $('#countdown').textContent = stopped ? 'Up next' : `Up next · plays in ${Math.ceil(countdown)} s`;
+  $('#stopBtn').classList.toggle('hidden', stopped);
+}
+
+function openSheet(id) {
+  if (sheet) closeSheet(true);
+  sheet = $('#sh-' + id); show(sheet, true); show($('#scrim'), true);
+  if (phase === 'scene' || phase === 'cold') { show($('#paused'), true); $('#label').style.opacity = 0; }
+  paused = true; if (id === 'reveal') { revealSeen = true; segFill(); duck(true); }
+  setTimeout(() => sheet && sheet.querySelector('[data-close]')?.focus(), 460);
+}
+function closeSheet(silent) {
+  if (!sheet) return;
+  show(sheet, false); show($('#scrim'), false); show($('#paused'), false);
+  $('#label').style.opacity = (phase === 'verse' || phase === 'start') ? 0 : 1;
+  sheet = null; paused = false; duck(false);
+  if (!silent) $('#revealBtn').focus?.();
+}
+
+/* push-in on the current plate, per the style bible: 5–10% over a shot */
+function animatePlates() {
+  if (reduce) return;
+  const on = document.querySelector('.plate.on'); if (!on) return;
+  const k = phase === 'question' ? 1.08 - Math.min(t / 9, 1) * 0.06 : 1 + Math.min(t / 20, 1) * 0.06;
+  on.style.transform = `scale(${k.toFixed(4)})`;
+}
+
+function tick(now) {
+  const dt = Math.min(0.1, (now - last) / 1000); last = now;
+  if (!paused && phase !== 'start') {
+    t += dt;
+    if (phase === 'cold') {
+      if (capIdx < 0 && t >= COLD[0].at) { capIdx = 0; setCaption(COLD[0]); }
+      if (t >= BEATS[0].dur) go('verse');
+    } else if (phase === 'verse') {
+      const line = Math.min(3, Math.floor(t / 3.4));
+      if (line !== verseLine) { verseLine = line; document.querySelectorAll('#lines span').forEach((s, i) => { s.className = i < line ? 'sung' : i === line ? 'now' : ''; }); }
+      $('#vProg').style.width = Math.min(100, t / BEATS[1].dur * 100) + '%';
+      if (t >= BEATS[1].dur) go('scene');
+    } else if (phase === 'scene') {
+      for (let i = SCENE.length - 1; i >= 0; i--) {
+        if (t >= SCENE[i].at) { if (capIdx !== i) { capIdx = i; setCaption(SCENE[i]); if (SCENE[i].plate) plate(SCENE[i].plate); if (SCENE[i].reveal) $('#revealBtn').classList.add('show'); } break; }
+      }
+      if (t >= BEATS[2].dur) go('question');
+    } else if (phase === 'question') {
+      if (!stopped) { countdown -= dt; renderCountdown(); if (countdown <= 0) { stopped = true; renderCountdown(); toast('Chapter 4 is not in this prototype.'); } }
+    }
+    segFill();
+  }
+  animatePlates();
+  requestAnimationFrame(tick);
+}
+
+/* Sound: a generated tanpura-like drone, only after a tap, always mutable. No narration is faked. */
+let ac = null, master = null, muted = false;
+function audioStart() {
+  if (ac) return;
+  try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return; }
+  master = ac.createGain(); master.gain.value = muted ? 0 : 0.5; master.connect(ac.destination);
+  const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1400; lp.connect(master);
+  const pluck = (f, at, g) => {
+    const n = Math.floor(ac.sampleRate * 3), b = ac.createBuffer(1, n, ac.sampleRate), d = b.getChannelData(0);
+    const N = Math.round(ac.sampleRate / f), ring = new Float32Array(N); for (let i = 0; i < N; i++) ring[i] = Math.random() * 2 - 1;
+    for (let i = 0, j = 0; i < n; i++) { const a = ring[j], c = ring[(j + 1) % N]; ring[j] = (a + c) * 0.4994; d[i] = Math.tanh(a * 1.6) * 0.5; j = (j + 1) % N; }
+    const s = ac.createBufferSource(), gg = ac.createGain(); s.buffer = b; gg.gain.value = g; s.connect(gg); gg.connect(lp); s.start(at);
+  };
+  const SA = 110; let next = ac.currentTime + 0.2;
+  setInterval(() => { while (next < ac.currentTime + 0.4) { pluck(SA * 0.75, next, 0.16); pluck(SA, next + 0.7, 0.13); pluck(SA, next + 1.4, 0.13); pluck(SA / 2, next + 2.1, 0.2); next += 3; } }, 120);
+}
+function duck(on) { if (ac && master) master.gain.setTargetAtTime(muted ? 0 : on ? 0.18 : 0.5, ac.currentTime, 0.2); }
+function setMute(m) { muted = m; if (ac && master) master.gain.setTargetAtTime(m ? 0 : 0.5, ac.currentTime, 0.05); $('#muteBtn use').setAttribute('href', m ? '#i-mute' : '#i-sound'); $('#muteBtn').setAttribute('aria-label', m ? 'Unmute' : 'Mute'); }
+document.addEventListener('visibilitychange', () => { if (ac) document.hidden ? ac.suspend() : ac.resume(); });
+
+/* wiring */
+$('#beginBtn').onclick = () => { audioStart(); revealSeen = false; go('cold'); };
+$('#exitBtn').onclick = () => { closeSheet(true); go('start'); };
+$('#muteBtn').onclick = () => setMute(!muted);
+$('#ctrlBtn').onclick = () => openSheet('ctrl');
+$('#revealBtn').onclick = () => openSheet('reveal');
+$('#peopleBtn').onclick = () => openSheet('people');
+$('#capCite').onclick = () => openSheet('page');
+$('#seePage').onclick = () => openSheet('page');
+$('#vNext').onclick = () => go('scene');
+$('#vPause').onclick = () => { paused = !paused; $('#vPause use').setAttribute('href', paused ? '#i-play' : '#i-pause'); $('#vPause').setAttribute('aria-label', paused ? 'Play' : 'Pause'); };
+$('#stopBtn').onclick = () => { stopped = true; renderCountdown(); };
+$('#playNext').onclick = () => toast('Chapter 4 is not in this prototype.');
+$('#againBtn').onclick = () => { revealSeen = false; go('cold'); };
+$('#shareBtn').onclick = $('#revShare').onclick = () => toast('Shares the reveal card with a link to this chapter.');
+$('#reportBtn').onclick = () => toast('Opens the report sheet with 0:44, the shot and 7.34.19 attached.');
+$('#scrim').onclick = () => closeSheet();
+document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => closeSheet());
+document.querySelectorAll('#langs .chip').forEach(c => c.onclick = () => { document.querySelectorAll('#langs .chip').forEach(x => x.setAttribute('aria-pressed', String(x === c))); if (c.textContent !== 'English') toast('Narration in this language arrives with the voice pipeline.'); });
+$('#capTog').onclick = e => { captionsOn = !captionsOn; e.currentTarget.setAttribute('aria-checked', String(captionsOn)); $('#cap').classList.toggle('out', !captionsOn); };
+$('#autoTog').onclick = e => { autoplay = !autoplay; e.currentTarget.setAttribute('aria-checked', String(autoplay)); };
+addEventListener('keydown', e => {
+  if (e.key === 'Escape') return closeSheet();
+  if (e.code === 'Space' && phase !== 'start' && !sheet && document.activeElement.tagName !== 'BUTTON') { e.preventDefault(); paused = !paused; toast(paused ? 'Paused' : 'Playing'); }
+  if ((e.key === 'r' || e.key === 'R') && phase === 'scene' && $('#revealBtn').classList.contains('show')) openSheet('reveal');
+});
+
+/* Preview hooks for reviewers: #verse, #scene, #reveal, #question jump straight there. */
+const hook = location.hash.slice(1);
+if (['verse', 'scene', 'reveal', 'question'].includes(hook)) {
+  go(hook === 'reveal' ? 'scene' : hook);
+  if (hook === 'scene' || hook === 'reveal') { t = 13; }
+  if (hook === 'reveal') setTimeout(() => openSheet('reveal'), 300);
+} else go('start');
+requestAnimationFrame(tick);
+})();
+</script>
