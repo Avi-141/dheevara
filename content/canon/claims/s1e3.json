@@ -6,7 +6,9 @@
       "edition": "bori-ce",
       "statement": "Droṇa tells Duryodhana that today he will fell a foremost great warrior of the Pāṇḍavas.",
       "status": "etext",
-      "flags": ["The handoff and scholar review had this vow at c. v.13; the e-text places it at 7.32.12, with the array at 7.32.13."]
+      "flags": [
+        "The handoff and scholar review had this vow at c. v.13; the e-text places it at 7.32.12, with the array at 7.32.13."
+      ]
     },
     {
       "id": "mbh.7.32.13",
@@ -37,7 +39,9 @@
       "edition": "bori-ce",
       "statement": "Dhṛtarāṣṭra calls Abhimanyu not yet come of age (aprāptayauvana) and a boy (bāla), struck down by many skilled in arms.",
       "status": "etext",
-      "flags": ["The handoff lists śiśu under 7.32 as well; in the e-text śiśu appears at 7.34.26 and 7.48.32, not in 7.32."]
+      "flags": [
+        "The handoff lists śiśu under 7.32 as well; in the e-text śiśu appears at 7.34.26 and 7.48.32, not in 7.32."
+      ]
     },
     {
       "id": "mbh.7.33",
@@ -56,7 +60,9 @@
       "edition": "bori-ce",
       "statement": "Yudhiṣṭhira asks Abhimanyu to break Droṇa's array; Abhimanyu agrees, says his father taught him how to break in but that he cannot get out if trouble comes; Yudhiṣṭhira promises they will follow him in.",
       "status": "etext",
-      "flags": ["The e-text reads yudhā in 7.34.20; check against the printed volume (scholar review, item 1)."]
+      "flags": [
+        "The e-text reads yudhā in 7.34.20; check against the printed volume (scholar review, item 1)."
+      ]
     },
     {
       "id": "mbh.7.34.19",
@@ -107,7 +113,9 @@
         "by": "scholar-review"
       },
       "status": "etext",
-      "flags": ["The scholar review placed this at c. v.22; the e-text has eko 'yaṃ nihataḥ śete at 7.48.21c."]
+      "flags": [
+        "The scholar review placed this at c. v.22; the e-text has eko 'yaṃ nihataḥ śete at 7.48.21c."
+      ]
     },
     {
       "id": "mbh.7.48.32",
@@ -162,6 +170,24 @@
       "edition": "bori-ce",
       "statement": "Abhimanyu's son Parikṣit is born dead, struck by Aśvatthāman's weapon, and Kṛṣṇa restores him to life (birth at 14.65.8, revival at 14.68.18–24 and 14.69.3).",
       "status": "etext"
+    },
+    {
+      "id": "mbh.7.47.18-30",
+      "edition": "bori-ce",
+      "status": "etext",
+      "statement": "Droṇa praises the boy's speed, saying he sees no difference between him and Arjuna, then tells Karṇa how he can be beaten: cut his bow, reins and horses and his flank-drivers."
+    },
+    {
+      "id": "mbh.7.47.31-33",
+      "edition": "bori-ce",
+      "status": "etext",
+      "statement": "Karṇa cuts Abhimanyu's bow, Kṛtavarman kills his horses and Kṛpa his two flank-drivers; the six great warriors shower the lone boy with arrows."
+    },
+    {
+      "id": "mbh.7.48.41",
+      "edition": "bori-ce",
+      "status": "etext",
+      "statement": "Dusk comes as the sun sinks toward the western mountain."
     }
   ]
 }

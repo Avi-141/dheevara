@@ -67,6 +67,39 @@
         },
         "retrieved": "2026-10-04"
       }
+    },
+    {
+      "id": "baroda-ce",
+      "text": "ram",
+      "title": "The Vālmīki Rāmāyaṇa, critical edition",
+      "publisher": "Oriental Institute, Baroda",
+      "years": "1960–1975",
+      "shownAs": "Rāmāyaṇa, critical edition (Baroda)",
+      "etext": {
+        "id": "smith-ram",
+        "format": "smith",
+        "bookDigits": 1,
+        "description": "John Smith's e-text of the critical edition, after Muneo Tokunaga's input: Roman (ISO 15919) for the IAST, Devanagari as the text of record",
+        "notice": "Smith's general information (Ram00.txt, 25 Sep 2020) states no licence and calls the text 'still far from correct'; GRETIL's TEI copy of the same text is CC BY-NC-SA 4.0.",
+        "files": {
+          "5": {
+            "url": "https://bombay.indology.info/ramayana/text/UR/Ram05.txt",
+            "sha256": "6a092917a06b9a29befacc4859c5fdfbc7a1d45b0227b99098b1c2ea0b72585f"
+          }
+        },
+        "retrieved": "2026-10-04"
+      },
+      "devanagari": {
+        "id": "smith-ram-ud",
+        "files": {
+          "5": {
+            "url": "https://bombay.indology.info/ramayana/text/UD/Ram05.txt",
+            "sha256": "9d572c20e700b09be3110cc81082db03edcc9119ae0034130dad8a9864ef345c"
+          }
+        },
+        "retrieved": "2026-10-04"
+      },
+      "rights": "Ancient text; the Baroda edition's own copyright status and the e-text's terms are unverified (no licence in Smith's files; GRETIL's copy is CC BY-NC-SA 4.0, which bars commercial use). Only cited verses and a verse index are committed, with attribution. Shipping verse text in the app needs a rights answer first. Not legal advice."
     }
   ]
 }

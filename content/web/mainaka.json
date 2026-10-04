@@ -1,0 +1,47 @@
+{
+  "id": "mainaka",
+  "title": { "en": "Maināka", "sa": "मैनाक" },
+  "subtitle": { "en": "The leap from Mahendra · Rāmāyaṇa, Sundarakāṇḍa" },
+  "witness": "vanara",
+  "status": "draft: written in session from the Baroda critical edition; not signed off (rule 9)",
+  "phases": {
+    "mahendra": [
+      { "at": 0.6, "dur": 5.4, "text": { "en": "On Mount Mahendra, Hanumān folds his hands to the Sun, to the Wind and to all beings." }, "claims": ["ram.5.1.6-8"] },
+      { "at": 6.4, "dur": 5.8, "text": { "en": "He grows vast and presses the mountain with his hands and feet. The trees let go of every flower." }, "claims": ["ram.5.1.10-12"] },
+      { "at": 12.6, "dur": 4.4, "text": { "en": "Like an arrow loosed by Rāma, he says, I will go to Laṅkā." }, "claims": ["ram.5.1.36"] }
+    ],
+    "leap": [
+      { "at": 0.2, "dur": 3.6, "text": { "en": "He leaps." }, "claims": ["ram.5.1.40"] }
+    ],
+    "sea": [
+      { "at": 0.6, "dur": 5.6, "text": { "en": "His shadow runs over the salt sea, ten yojanas wide and thirty long." }, "claims": ["ram.5.1.69-70"] },
+      { "at": 6.8, "dur": 6.6, "text": { "en": "The Ocean remembers who raised him: Sagara, of Rāma's line. He calls to the mountain under the water." }, "claims": ["ram.5.1.75-79"] }
+    ],
+    "rise": [
+      { "at": 0.4, "dur": 5.2, "text": { "en": "Maināka rises, its peaks of gold shining like a hundred suns." }, "claims": ["ram.5.1.89-93"] },
+      { "at": 6.0, "dur": 5.0, "text": { "en": "Hanumān takes it for an obstacle and throws it down with his chest." }, "claims": ["ram.5.1.94-95"] }
+    ],
+    "touch": [
+      { "at": 0.4, "dur": 6.0, "text": { "en": "The mountain asks him to rest. He thanks it, touches it with his hand, and goes on." }, "claims": ["ram.5.1.97-102", "ram.5.1.116-118"] }
+    ]
+  },
+  "reveals": [
+    {
+      "id": "why-it-rose",
+      "title": { "en": "Why did the mountain rise?" },
+      "popular": {
+        "text": { "en": "In many retellings Maināka is the first of three trials on the leap, before Surasā and Siṃhikā: a test of whether Hanumān will stop to rest." },
+        "source": { "label": "Popular telling: retellings, kathā and children's books" }
+      },
+      "text": {
+        "text": { "en": "In the critical edition the Ocean asks Maināka to rise because Sagara, of Rāma's line, raised him. The mountain honours Hanumān because the Wind, his father, once saved its wings from Indra's vajra. Hanumān counts the kindness as given, touches the mountain and goes on." },
+        "claims": ["ram.5.1.75-79", "ram.5.1.108-113", "ram.5.1.116-118"]
+      },
+      "collection": { "status": "none" }
+    }
+  ],
+  "question": {
+    "text": { "en": "Over the water, the gods have asked someone to stand in his way. Who?" },
+    "claims": ["ram.5.1.130-133"]
+  }
+}

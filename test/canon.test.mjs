@@ -24,7 +24,8 @@ test('rule 2: a reference to a verse the edition does not have does not resolve'
   assert.equal(checkRef(parseClaimId('mbh.7.34.29'), canon.index), null, '7.34 has 29 verses');
   assert.match(checkRef(parseClaimId('mbh.7.34.30'), canon.index), /has 29 verses, not 30/);
   assert.match(checkRef(parseClaimId('mbh.7.999'), canon.index), /does not exist/);
-  assert.match(checkRef(parseClaimId('mbh.2.1'), canon.index), /book 2 is not in the verse index/);
+  assert.match(checkRef(parseClaimId('mbh.2.1'), canon.index), /mbh book 2 is not in the verse index/);
+  assert.match(checkRef(parseClaimId('bhp.1.1'), canon.index), /no edition of "bhp"/);
   assert.match(checkRef(parseClaimId('mbh.7.34.21-17'), canon.index), /not ascending/);
 });
 
