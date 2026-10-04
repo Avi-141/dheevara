@@ -212,7 +212,8 @@ function resetWorld() {
   Object.assign(cam, camT);
 }
 
-function say(text, dur = 4.6) { cap = { text, t: 0, dur }; live.textContent = text; }
+// Every caption carries its source line, with the same claim ids as the video (content/canon/claims/s1e3.json).
+function say(text, dur = 4.6, cite = '') { cap = { text, t: 0, dur, cite }; live.textContent = cite ? `${text} (Mahābhārata ${cite})` : text; }
 function later(t, fn) { pend.push({ t, fn }); }
 function go(p) { phase = p; pt = 0; }
 function at(key, time, fn) { const id = phase + ':' + key; if (pt >= time && !fired.has(id)) { fired.add(id); fn(); } }
@@ -369,11 +370,11 @@ document.addEventListener('visibilitychange', () => { if (!ac) return; if (docum
 /* ─────────────────────────────  story  ───────────────────────────── */
 const RING_LINES = [
   null,
-  'The Pāṇḍavas cannot follow him in.',
-  'He fights on alone.',
-  'Princes and kings fall before a boy not yet grown.',
-  'Droṇa praises his skill, even as he plans his end.',
-  'He breaks through, again and again.'
+  ['The Pāṇḍavas cannot follow him in.', '7.41'],
+  ['He fights on alone.', '7.42.6'],
+  ['Princes and kings fall before a boy not yet grown.', '7.32.19, 7.32.21–23'],
+  ['Droṇa praises his skill, even as he plans his end.', '7.47.18–30'],
+  ['He breaks through, again and again.', '7.32.18']
 ];
 
 function begin() {
@@ -400,12 +401,13 @@ function doBreak(i) {
   }
   shake = 0.55; flash = 0.28;
   ringsBroken = i + 1;
-  if (navigator.vibrate) { try { navigator.vibrate(35); } catch (e) {} }
+  // Haptics only after the viewer has tapped (preview hooks fast-forward without a tap).
+  if (navigator.vibrate && navigator.userActivation?.hasBeenActive) { try { navigator.vibrate(35); } catch (e) {} }
   sfx(drum, 1.0, 150, 36, 1.3); sfx(clash, 0.24);
   if (i === 0) {
     for (const p of pandavas) p.tr = 1.06;
-    later(1.9, () => { barrier = 0.001; sfx(drum, 0.7, 90, 34, 1.2); say('Behind him, Jayadratha seals the breach.'); });
-  } else if (RING_LINES[i]) later(0.5, () => say(RING_LINES[i]));
+    later(1.9, () => { barrier = 0.001; sfx(drum, 0.7, 90, 34, 1.2); say('Behind him, Jayadratha seals the breach.', 4.6, '7.42.6'); });
+  } else if (RING_LINES[i]) later(0.5, () => say(RING_LINES[i][0], 4.6, RING_LINES[i][1]));
 }
 function openReveal() { if (revealOpen) return; revealOpen = true; revealSeen = true; setMuffle(true); sfx(bell, 520, 0.12); }
 function closeReveal() { if (!revealOpen) return; revealOpen = false; revealClosedAt = pt; setMuffle(false); }
@@ -434,19 +436,19 @@ function update(dt) {
       if (ac && Math.random() < dt * 9) sfx(tak, 0.07, rnd(2200, 3200));
     }
     Object.assign(camT, { yaw: 0.6 * (1 - ease(pt / 9.5)), pitch: 0, zoom: 0.92 + 0.06 * ease(pt / 9.5), tx: 0, ty: 0, cy: 0.5 });
-    at('t', 7.9, () => say('Droṇa has set the Kaurava army in a wheel.', 5));
+    at('t', 7.9, () => say('Droṇa has set the Kaurava army in a wheel.', 5, '7.33'));
     if (pt > 9.6) { go('army'); windStart(); }
   } else if (phase === 'army') {
     wallProg.fill(1);
     warriorAlpha = ease(pt / 3.2); wheel = ease(pt / 4);
     Object.assign(camT, { yaw: -0.22, pitch: tilt, zoom: portrait ? 1.42 : 1.2, tx: 0, ty: 0, cy: portrait ? 0.5 : 0.53 });
-    at('a', 3.2, () => say('Arjuna, who knows how to break it, has been lured away to the south.', 4.6));
+    at('a', 3.2, () => say('Arjuna, who knows how to break it, has been lured away to the south.', 4.6, '7.32.15'));
     if (pt > 8.2) { go('ride'); drumsOn = true; }
   } else if (phase === 'ride') {
     warriorAlpha = 1; wheel = 1;
     abhiI = Math.min(1, abhiI + dt * 0.8);
-    at('a', 0.2, () => say('His son Abhimanyu is sixteen.', 3.4));
-    at('b', 3.6, () => say('He knows the way in. He does not know the way out.', 4.6));
+    at('a', 0.2, () => say('His son Abhimanyu is a boy, not yet grown.', 3.4, '7.32.21–23'));
+    at('b', 3.6, () => say('His father taught him the way in. He cannot fight his way out.', 4.6, '7.34.19'));
     const autoGo = !heldEver && idle > 11;
     const want = holding ? 1 : (autoGo || (heldEver && idle > 7) ? 0.5 : 0);
     if (holding) { idle = 0; heldEver = true; } else idle += dt;
@@ -466,7 +468,7 @@ function update(dt) {
       const before = s;
       s = Math.min(s + vel * dt, lim);
       distAcc += s - before;
-      if (nextBreak >= 6 && s >= spiralL && !fired.has('ride:sp')) { fired.add('ride:sp'); say('The wheel turns inward, and closes.', 4.6); }
+      if (nextBreak >= 6 && s >= spiralL && !fired.has('ride:sp')) { fired.add('ride:sp'); say('The wheel turns inward, and closes.', 4.6, '7.42.6'); }
       if (s >= endL - 1e-5 && nextBreak >= 6) { go('stuck'); }
     }
     pathAt(s);
@@ -495,11 +497,11 @@ function update(dt) {
   } else if (phase === 'stuck') {
     abhiI = 1;
     pathAt(endL);
-    at('a', 0.5, () => say('Six great warriors come at him together.', 4.4));
-    at('b', 4.8, () => { say('Why could they not follow him in?', 7.5); hotspot = true; sfx(bell, 660, 0.08); });
+    at('a', 0.5, () => say('Six great warriors come at him together.', 4.4, '7.32.19, 7.48.21'));
+    at('b', 4.8, () => { say('Why could they not follow him in?', 7.5, '7.41'); hotspot = true; sfx(bell, 660, 0.08); });
     for (const x of six) { x.on = Math.min(1, x.on + dt * 0.5); x.rad = lerp(x.rad, 0.13, dt * 0.35); x.ang += dt * 0.3; }
     if (holding) {
-      if (!stuckHint) { stuckHint = true; later(0.6, () => { if (phase === 'stuck' && !revealOpen) say('The seventh ring does not break.', 3); }); }
+      if (!stuckHint) { stuckHint = true; later(0.6, () => { if (phase === 'stuck' && !revealOpen) say('The heart of the wheel holds.', 3, '7.32.19'); }); }
       stuckPush = Math.min(1, stuckPush + dt * 2);
       if (Math.random() < dt * 22) embers(px + rnd(-0.02, 0.02), py + rnd(-0.02, 0.02), 0.02, 2, 0.4, Math.random() < 0.5 ? C.sindoor : C.gold);
       if (clock - lastClash > 0.16) { lastClash = clock; sfx(clash, 0.12); }
@@ -510,8 +512,8 @@ function update(dt) {
     if (done) { hotspot = false; go('fall'); }
   } else if (phase === 'fall') {
     pathAt(endL);
-    at('a', 0.4, () => say('They cut his bow. His horses fall. His charioteer falls.', 4));
-    at('b', 4.6, () => { say('Weaponless, he lifts a chariot wheel and fights on.', 5); sfx(drum, 0.9, 140, 40, 1.2); });
+    at('a', 0.4, () => say('They cut his bow. His horses fall, and his flank-drivers.', 4, '7.47.31–33'));
+    at('b', 4.6, () => { say('Weaponless, he lifts a chariot wheel and fights on.', 5, '7.47.38–39'); sfx(drum, 0.9, 140, 40, 1.2); });
     if (pt > 4.6 && pt < 9.4) wheelGlyph = Math.min(1, wheelGlyph + dt * 1.2);
     for (const x of six) { x.rad = lerp(x.rad, pt > 9.4 ? 0.012 : 0.085, dt * (pt > 9.4 ? 1.4 : 0.5)); x.ang += dt * 0.45; }
     if (pt > 9.4) {
@@ -526,7 +528,7 @@ function update(dt) {
     pathAt(endL);
     sunset = Math.min(1, sunset + dt * 0.25);
     endUI = Math.min(1, Math.max(0, (pt - 6.6) * 0.8));
-    at('a', 0.6, () => say('Sunset, the thirteenth day.', 4));
+    at('a', 0.6, () => say('Sunset.', 4, '7.48.41'));
     Object.assign(camT, { yaw: pt * 0.02, pitch: 0.3, zoom: portrait ? 0.74 : 0.6, tx: 0, ty: 0, cy: portrait ? 0.29 : 0.3 });
     if (Math.random() < dt * 8) embers(rnd(-0.9, 0.9), rnd(-0.9, 0.9), 0.02, 1, 0.12, Math.random() < 0.5 ? C.gold : '#F08A2C');
   }
@@ -853,7 +855,8 @@ function drawCaption() {
   const a = Math.min(1, cap.t / 0.45) * (1 - ease((cap.t - cap.dur) / 0.6));
   if (a <= 0) return;
   const size = clamp(S * 0.046, 17, 25);
-  write(cap.text, W / 2, H - (portrait ? 58 : 50), { size, italic: true, color: C.parch, alpha: a, maxW: Math.min(W - 56, 680), bottom: true, shadow: true, lh: 1.35 });
+  write(cap.text, W / 2, H - (portrait ? 74 : 66), { size, italic: true, color: C.parch, alpha: a, maxW: Math.min(W - 56, 680), bottom: true, shadow: true, lh: 1.35 });
+  if (cap.cite) write(`Mahābhārata ${cap.cite} · critical edition`, W / 2, H - (portrait ? 44 : 38), { size: clamp(S * 0.026, 12, 15), color: C.gold, alpha: a, shadow: true });
 }
 function drawHint() {
   if (phase !== 'ride' || heldEver || pt < 5.5) return;

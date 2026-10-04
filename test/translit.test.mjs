@@ -31,6 +31,10 @@ test('a ";" pāda break in a triṣṭubh line does not join, and is kept as the
   assert.equal(iastToDevanagari("tasyā garbhaḥ samabhavad agnikalpaḥ; so 'dhīyānaṃ pitaram athābhyuvāca"), 'तस्या गर्भः समभवदग्निकल्पः; सोऽधीयानं पितरमथाभ्युवाच');
 });
 
+test('candrabindu (m̐) as the Baroda Rāmāyaṇa e-text writes it', () => {
+  assert.equal(iastToDevanagari('asmim̐l lavaṇatoye ca'), 'अस्मिँल्लवणतोये च');
+});
+
 test('an unknown character is an error, never a silent guess', () => {
   assert.throws(() => iastToDevanagari('xyz'), TranslitError);
 });

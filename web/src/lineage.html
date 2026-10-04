@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lineage — Dheevara</title>
+<!--@generated-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Tiro+Devanagari+Sanskrit&family=Noto+Sans+Devanagari:wght@400;500&display=swap">
+<style>
+/* Layout: phone first, one column; from 900px the graph and the person card sit side by side.
+   Product language v2: near-black, off-white, amber only for sources. */
+:root {
+  --bg: #0B0B0A; --raise: #151513; --raise2: #1D1C19; --hair: rgba(244,242,238,.10); --hair2: rgba(244,242,238,.18);
+  --fg: #F4F2EE; --fg2: #B5B0A7; --fg3: #918C82; --amber: #F2B04A; --amber-dim: rgba(242,176,74,.14);
+  --sans: "Geist", "Noto Sans Devanagari", system-ui, sans-serif;
+  --verse: "Tiro Devanagari Sanskrit", "Noto Serif Devanagari", Georgia, serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 15px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-inline: 16px; padding-block: calc(20px + env(safe-area-inset-top, 0px)) calc(40px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 18px; }
+header h1 { margin: 0; font: 600 26px/1.2 var(--sans); letter-spacing: -.01em; }
+header p { margin: 4px 0 0; color: var(--fg2); max-width: 62ch; }
+.texts { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--hair2); background: transparent; color: var(--fg2); font: 500 14px var(--sans); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.people { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
+.person { flex: none; min-height: 44px; padding: 6px 14px; border-radius: 12px; border: 1px solid var(--hair); background: var(--raise); color: var(--fg); font: 500 14px var(--sans); cursor: pointer; display: grid; gap: 0; text-align: left; }
+.person .sa { font: 400 13px var(--verse); color: var(--fg2); }
+.person[aria-pressed="true"] { border-color: var(--amber); }
+.main { display: grid; gap: 16px; }
+@media (min-width: 900px) { .main { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items: start; } }
+.graph { background: var(--raise); border: 1px solid var(--hair); border-radius: 18px; min-width: 0; }
+.graph svg { display: block; width: 100%; height: auto; }
+.card { background: var(--raise); border: 1px solid var(--hair); border-radius: 18px; padding: 18px; display: grid; gap: 12px; min-width: 0; }
+.card .nm { display: grid; gap: 2px; }
+.card .sa { font: 400 34px/1.15 var(--verse); }
+.card .en { font: 600 18px var(--sans); }
+.flag { font-size: 13px; color: var(--fg2); border-left: 2px solid var(--hair2); padding-left: 10px; }
+.rels { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.rels li { display: grid; gap: 4px; padding: 10px 12px; border-radius: 12px; background: var(--raise2); }
+.rels .rel { font-weight: 500; }
+.cite { justify-self: start; min-height: 32px; padding: 0 10px; border-radius: 999px; border: 0; background: var(--amber-dim); color: var(--amber); font: 500 13px var(--sans); font-variant-numeric: tabular-nums; cursor: pointer; }
+.empty { color: var(--fg3); font-style: italic; }
+.foot { color: var(--fg3); font-size: 13px; max-width: 70ch; }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+svg .edge { stroke: var(--hair2); stroke-width: 1.5; }
+svg .node circle { fill: var(--raise2); stroke: var(--hair2); stroke-width: 1.5; }
+svg .node.centre circle { fill: #2A2620; stroke: var(--amber); }
+svg .node text { fill: var(--fg); font: 500 15px var(--sans); text-anchor: middle; }
+svg .node text.sa { fill: var(--fg2); font: 400 13px var(--verse); }
+svg .lbl { fill: var(--fg3); font: 400 12px var(--sans); text-anchor: middle; }
+svg .node { cursor: pointer; }
+svg .node:focus-visible circle { stroke: var(--amber); stroke-width: 3; }
+@media (prefers-reduced-motion: no-preference) { svg .node, svg .edge { transition: opacity .25s ease; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Lineage</h1>
+    <p>Who is related to whom, by the critical editions. Every relation carries the passage it comes from; tap a source to read the verse.</p>
+  </header>
+  <div class="texts" role="group" aria-label="Text" id="texts"></div>
+  <div class="people" role="group" aria-label="People" id="people"></div>
+  <div class="main">
+    <div class="graph" id="graph" aria-hidden="true"></div>
+    <section class="card" id="card" aria-live="polite"></section>
+  </div>
+  <p class="foot" id="foot"></p>
+</div>
+<script>
+/*@include shared/reveal-sheet.js*/
+</script>
+<script>
+(() => {
+'use strict';
+/*@data*/
+const REL = {
+  child_of: ['child of', 'parent of'], parent_of: ['parent of', 'child of'], student_of: ['student of', 'teacher of'],
+  spouse_of: ['spouse of', 'spouse of'], killed_by: ['killed by', 'killed'], boon_from: ['received a boon from', 'gave a boon to'],
+  saved_by: ['saved by', 'saved'], asked_by: ['asked to rise by', 'asked to rise'],
+};
+const people = new Map(DATA.people.map((p) => [p.id, p]));
+const textOf = (claimId) => claimId.split('.')[0];
+const TEXT_NAME = Object.fromEntries(DATA.editions.map((e) => [e.text, e.shownAs.split(',')[0]]));
+
+// Relations seen from each person: outgoing edges and the reverse of incoming ones.
+const rels = new Map(DATA.people.map((p) => [p.id, []]));
+for (const p of DATA.people) {
+  for (const e of p.edges) {
+    rels.get(p.id).push({ other: e.to, label: (REL[e.rel] || [e.rel])[0], claims: e.claims });
+    rels.get(e.to)?.push({ other: p.id, label: (REL[e.rel] || [e.rel, e.rel])[1], claims: e.claims });
+  }
+}
+const textsOf = (id) => new Set(rels.get(id).flatMap((r) => r.claims.map(textOf)));
+const TEXTS = [...new Set(DATA.people.flatMap((p) => [...textsOf(p.id)]))].sort();
+
+let currentText = TEXTS[0];
+let current = null;
+
+const $ = (id) => document.getElementById(id);
+const el = (tag, attrs = {}, text) => { const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); if (text != null) e.textContent = text; return e; };
+const svgEl = (tag, attrs = {}) => { const e = document.createElementNS('http://www.w3.org/2000/svg', tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); return e; };
+
+function openClaim(subject, r) {
+  const p = people.get(subject), o = people.get(r.other);
+  DheevaraReveal.open({
+    reveal: {
+      id: `${subject}-${r.other}`,
+      title: { en: `${p.names.en}, ${r.label} ${o.names.en}` },
+      popular: { text: {}, source: {} },
+      text: { text: { en: DATA.claims[r.claims[0]].summary.en }, claims: r.claims },
+      collection: { status: 'none' },
+    },
+    claims: DATA.claims,
+    devanagariTitle: p.names.sa,
+    closeLabel: 'Back to the lineage',
+  });
+}
+
+function renderTexts() {
+  const box = $('texts');
+  box.replaceChildren(...TEXTS.map((t) => {
+    const b = el('button', { class: 'chip', type: 'button', 'aria-pressed': String(t === currentText) }, TEXT_NAME[t] || t);
+    b.onclick = () => { currentText = t; renderTexts(); renderPeople(); select(peopleIn(t)[0].id); };
+    return b;
+  }));
+}
+
+const peopleIn = (t) => DATA.people.filter((p) => textsOf(p.id).has(t));
+
+function renderPeople() {
+  $('people').replaceChildren(...peopleIn(currentText).map((p) => {
+    const b = el('button', { class: 'person', type: 'button', 'aria-pressed': String(p.id === current), 'data-id': p.id });
+    b.append(el('span', {}, p.names.en), el('span', { class: 'sa', lang: 'sa' }, p.names.sa));
+    b.onclick = () => select(p.id);
+    return b;
+  }));
+}
+
+function renderGraph() {
+  // One node per person; two relations to the same person share it (Arjuna is father and teacher).
+  const byOther = new Map();
+  for (const r of rels.get(current)) byOther.set(r.other, [...(byOther.get(r.other) || []), r.label]);
+  const list = [...byOther].map(([other, labels]) => ({ other, label: labels.join(' · ') }));
+  const W = 640, H = 480, cx = W / 2, cy = H / 2, R = Math.min(W, H) * 0.36;
+  const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img' });
+  const n = list.length;
+  const pos = list.map((_, i) => {
+    const a = -Math.PI / 2 + (i / Math.max(n, 1)) * Math.PI * 2;
+    return [cx + Math.cos(a) * R, cy + Math.sin(a) * R];
+  });
+  list.forEach((r, i) => {
+    const [x, y] = pos[i];
+    svg.append(svgEl('line', { class: 'edge', x1: cx, y1: cy, x2: x, y2: y }));
+    const lbl = svgEl('text', { class: 'lbl', x: (cx + x) / 2, y: (cy + y) / 2 - 6 });
+    lbl.textContent = r.label;
+    svg.append(lbl);
+  });
+  const node = (id, x, y, centre) => {
+    const p = people.get(id);
+    const g = svgEl('g', { class: `node${centre ? ' centre' : ''}`, tabindex: centre ? '-1' : '0', role: 'button', 'aria-label': p.names.en });
+    g.append(svgEl('circle', { cx: x, cy: y, r: centre ? 46 : 38 }));
+    const t = svgEl('text', { x, y: y - 2 }); t.textContent = p.names.en.length > 14 ? p.names.en.slice(0, 13) + '…' : p.names.en;
+    const s = svgEl('text', { class: 'sa', x, y: y + 16 }); s.textContent = p.names.sa;
+    g.append(t, s);
+    if (!centre) {
+      g.addEventListener('click', () => select(id));
+      g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(id); } });
+    }
+    return g;
+  };
+  list.forEach((r, i) => svg.append(node(r.other, pos[i][0], pos[i][1], false)));
+  svg.append(node(current, cx, cy, true));
+  $('graph').replaceChildren(svg);
+}
+
+function renderCard() {
+  const p = people.get(current);
+  const card = $('card');
+  const nm = el('div', { class: 'nm' });
+  nm.append(el('span', { class: 'sa', lang: 'sa' }, p.names.sa), el('span', { class: 'en' }, p.names.en));
+  const parts = [nm];
+  if (p.revered) parts.push(el('p', { class: 'flag' }, 'Revered: never framed close on the face; shown in full figure, at a distance, or by an attribute.'));
+  if (p.witness) parts.push(el('p', { class: 'flag' }, 'A witness: a chapter may stand at this vantage.'));
+  const list = rels.get(current);
+  if (!list.length) parts.push(el('p', { class: 'empty' }, 'No cited relation yet.'));
+  else {
+    const ul = el('ul', { class: 'rels', 'aria-label': `Relations of ${p.names.en}` });
+    for (const r of list) {
+      const li = el('li');
+      li.append(el('span', { class: 'rel' }, `${r.label[0].toUpperCase()}${r.label.slice(1)} ${people.get(r.other).names.en}`));
+      for (const id of r.claims) {
+        const b = el('button', { class: 'cite', type: 'button' }, DheevaraReveal.claimLine(id));
+        b.onclick = () => openClaim(current, r);
+        li.append(b);
+      }
+      ul.append(li);
+    }
+    parts.push(ul);
+  }
+  card.replaceChildren(...parts);
+}
+
+function select(id) {
+  if (!people.has(id)) return;
+  current = id;
+  const t = textsOf(id);
+  if (t.size && !t.has(currentText)) { currentText = [...t][0]; renderTexts(); }
+  renderPeople(); renderGraph(); renderCard();
+}
+
+$('foot').textContent = `Sources: ${DATA.editions.map((e) => e.shownAs).join('; ')}. Verse text is quoted from the critical-edition e-texts for citation. Draft: relations await a scholar's review.`;
+
+// Preview hooks: #<person> selects a person, #auto walks through everyone, #reveal opens the first source.
+const hash = location.hash.slice(1);
+renderTexts();
+select(people.has(hash) ? hash : 'abhimanyu');
+if (hash === 'auto') {
+  const order = DATA.people.filter((p) => rels.get(p.id).length).map((p) => p.id);
+  let i = 0;
+  setInterval(() => { i = (i + 1) % order.length; select(order[i]); }, 4000);
+}
+if (hash === 'reveal') { const r = rels.get(current)[0]; if (r) openClaim(current, r); }
+})();
+</script>
+</body>
+</html>

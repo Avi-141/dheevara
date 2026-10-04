@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Maināka — Dheevara</title>
+<!--@generated-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Tiro+Devanagari+Sanskrit:ital@0;1&family=Noto+Sans+Devanagari:wght@400;500&display=swap">
+<style>
+/* Layout: one full-viewport canvas (the scene) under a thin DOM layer for the title, captions,
+   controls and the end card. Product language v2: near-black, off-white primary, amber = source. */
+:root {
+  --night: #0B0B0A; --glass: rgba(16,16,14,.72); --fg: #F4F2EE; --fg2: #B5B0A7; --amber: #F2B04A;
+  --hair: rgba(244,242,238,.16);
+  --sans: "Geist", "Noto Sans Devanagari", system-ui, sans-serif;
+  --verse: "Tiro Devanagari Sanskrit", "Noto Serif Devanagari", Georgia, serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--night); color: var(--fg); font: 400 15px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+.ui { position: fixed; inset: 0; pointer-events: none; padding: calc(14px + env(safe-area-inset-top, 0px)) 16px calc(16px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 12px; }
+.ui > * { pointer-events: auto; }
+.top { position: fixed; top: calc(12px + env(safe-area-inset-top, 0px)); left: 16px; right: 16px; display: flex; justify-content: space-between; align-items: center; pointer-events: none; }
+.top > * { pointer-events: auto; }
+.mark { font: 500 12px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--fg2); }
+.iconbtn { min-width: 44px; min-height: 44px; border-radius: 999px; border: 1px solid var(--hair); background: var(--glass); color: var(--fg); font: 500 13px var(--sans); padding: 0 14px; cursor: pointer; }
+.caption { max-width: min(680px, 100%); background: var(--glass); border-radius: 14px; padding: 10px 16px 12px; text-align: center; display: grid; gap: 4px; }
+.caption p { margin: 0; }
+.caption .t { font: italic 400 19px/1.4 var(--verse); text-wrap: balance; }
+.cite { font: 500 13px var(--sans); color: var(--amber); font-variant-numeric: tabular-nums; }
+.btn { min-height: 48px; border-radius: 999px; border: 0; padding: 0 22px; font: 600 15px var(--sans); cursor: pointer; background: var(--fg); color: var(--night); touch-action: none; user-select: none; -webkit-user-select: none; }
+.btn.ghost { background: var(--glass); color: var(--fg); border: 1px solid var(--hair); }
+.btn.src { background: var(--glass); color: var(--amber); border: 1px solid rgba(242,176,74,.5); }
+.btn .dot { display: inline-block; width: 7px; height: 7px; border-radius: 4px; background: var(--amber); margin-right: 8px; vertical-align: 1px; }
+.hold { position: relative; overflow: hidden; }
+.hold .fill { position: absolute; inset: 0; background: rgba(242,176,74,.35); transform-origin: left; transform: scaleX(var(--p, 0)); pointer-events: none; }
+[hidden] { display: none !important; }
+.panel { position: fixed; inset: 0; display: grid; place-items: center; padding: 16px; background: rgba(6,6,5,.55); pointer-events: auto; }
+.card { width: min(520px, 100%); background: rgba(16,16,14,.86); border: 1px solid var(--hair); border-radius: 22px; padding: 28px 24px 22px; display: grid; gap: 12px; text-align: center; }
+.card h1 { margin: 0; font: 600 30px/1.15 var(--sans); letter-spacing: -.01em; }
+.card .sa { font: 400 42px/1.1 var(--verse); color: var(--fg); }
+.card p { margin: 0; color: var(--fg2); }
+.card .q { font: italic 400 22px/1.4 var(--verse); color: var(--fg); text-wrap: balance; }
+.card .row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 6px; }
+.small { font-size: 13px; color: var(--fg2); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+.clean .ui, .clean .top { display: none; }
+</style>
+</head>
+<body>
+<canvas id="cv" role="img" aria-label="An interactive chapter. From Mount Mahendra you watch Hanumān leap the ocean and the golden mountain Maināka rise to offer him rest. Press Begin, then hold the Leap button or the space bar."></canvas>
+<div class="top">
+  <span class="mark">Dheevara · Rāmāyaṇa 5.1</span>
+  <button class="iconbtn" id="mute" type="button" aria-pressed="false" aria-label="Mute sound">Sound on</button>
+</div>
+<div class="ui" id="ui">
+  <button class="btn src" id="revealBtn" type="button" hidden><span class="dot" aria-hidden="true"></span>Why did the mountain rise?</button>
+  <button class="btn hold" id="hold" type="button" hidden><span class="fill" aria-hidden="true"></span>Hold to watch him leap</button>
+  <button class="btn ghost" id="next" type="button" hidden>Continue</button>
+  <div class="caption" id="caption" hidden><p class="t" id="capText"></p><p class="cite" id="capCite"></p></div>
+</div>
+<div class="panel" id="title">
+  <div class="card">
+    <span class="sa" lang="sa">मैनाक</span>
+    <h1>Maināka</h1>
+    <p>The leap from Mahendra. You stand with a vānara on the mountain, looking out to sea.</p>
+    <div class="row"><button class="btn" id="begin" type="button">Begin</button></div>
+    <p class="small">Sound starts when you begin · M mutes · Space leaps</p>
+    <p class="small">Rāmāyaṇa, critical edition (Baroda), Sundarakāṇḍa 1</p>
+  </div>
+</div>
+<div class="panel" id="end" hidden>
+  <div class="card">
+    <p class="q" id="endQ"></p>
+    <p class="cite" id="endCite"></p>
+    <div class="row"><button class="btn" id="again" type="button">Watch again</button></div>
+    <p class="small">Draft: written from the critical edition; awaiting a scholar's review.</p>
+  </div>
+</div>
+<div class="sr" aria-live="polite" id="live"></div>
+<script>
+/*@include shared/reveal-sheet.js*/
+</script>
+<script>
+(() => {
+'use strict';
+/*@data*/
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = (id) => document.getElementById(id);
+const cv = $('cv'), ctx = cv.getContext('2d');
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+const ease = (x) => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
+const lerp = (a, b, t) => a + (b - a) * t;
+const C = { night: '#0B0B0A', smoke: '#3A3731', smokeLow: '#6B6255', sun: '#F2B04A', flame: '#FBE3A4', stone: '#5D5A52', stoneHi: '#8A857A', stoneDk: '#2B2A25', sea: '#24221E', seaHi: '#46423A', gold: '#E3B04B', goldDk: '#9C7426', leaf: '#EFE6D2' };
+
+let W = 0, H = 0, DPR = 1, portrait = false;
+function resize() {
+  DPR = Math.min(2, window.devicePixelRatio || 1);
+  W = window.innerWidth; H = window.innerHeight; portrait = H > W;
+  cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+}
+addEventListener('resize', resize);
+resize();
+
+/* ── state ── */
+const PHASES = { mahendra: 17.2, leap: 6.2, sea: 14, rise: 11.4, touch: 7 };
+let phase = 'start', pt = 0, clock = 0, paused = false, holding = false, charge = 0, idle = 0, revealSeen = false;
+let fired = new Set();
+const args = new URLSearchParams(location.hash.slice(1).replaceAll('&', '&'));
+const AUTO = args.has('auto');
+
+/* ── captions (every line carries its source; rule 2) ── */
+const citeOf = (ids) => ids.map((id) => DheevaraReveal.claimLine(id)).join(' · ');
+function say(line) {
+  $('capText').textContent = line.text.en;
+  $('capCite').textContent = citeOf(line.claims) + ' · critical edition';
+  $('caption').hidden = false;
+  $('live').textContent = `${line.text.en} (${citeOf(line.claims)})`;
+  capUntil = clock + line.dur;
+}
+let capUntil = 0;
+
+/* ── sound: only after Begin, always mutable ── */
+let ac = null, master = null, windGain = null, lowpass = null, muted = false;
+function noiseBuffer(sec) {
+  const b = ac.createBuffer(1, ac.sampleRate * sec, ac.sampleRate), d = b.getChannelData(0);
+  for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  return b;
+}
+function audioStart() {
+  if (ac) return;
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return;
+  ac = new AC();
+  master = ac.createGain(); master.gain.value = muted ? 0 : 0.9;
+  lowpass = ac.createBiquadFilter(); lowpass.type = 'lowpass'; lowpass.frequency.value = 18000;
+  master.connect(lowpass); lowpass.connect(ac.destination);
+  // drone: Sa and Pa, softly filtered
+  for (const [f, g] of [[110, 0.05], [165, 0.03], [220, 0.015]]) {
+    const o = ac.createOscillator(); o.type = 'sawtooth'; o.frequency.value = f;
+    const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 520;
+    const gg = ac.createGain(); gg.gain.value = g;
+    o.connect(lp); lp.connect(gg); gg.connect(master); o.start();
+  }
+  // the sea, far below
+  const sea = ac.createBufferSource(); sea.buffer = noiseBuffer(3); sea.loop = true;
+  const seaLp = ac.createBiquadFilter(); seaLp.type = 'lowpass'; seaLp.frequency.value = 280;
+  const seaG = ac.createGain(); seaG.gain.value = 0.05;
+  sea.connect(seaLp); seaLp.connect(seaG); seaG.connect(master); sea.start();
+  // wind, rising with the leap
+  const wind = ac.createBufferSource(); wind.buffer = noiseBuffer(3); wind.loop = true;
+  const bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 700; bp.Q.value = 0.7;
+  windGain = ac.createGain(); windGain.gain.value = 0;
+  wind.connect(bp); bp.connect(windGain); windGain.connect(master); wind.start();
+}
+function bell(freq = 880, gain = 0.12) {
+  if (!ac) return;
+  for (const [m, g] of [[1, 1], [1.5, 0.5], [2.25, 0.3]]) {
+    const o = ac.createOscillator(); o.type = 'sine'; o.frequency.value = freq * m;
+    const gg = ac.createGain(); gg.gain.setValueAtTime(gain * g, ac.currentTime); gg.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 2.4);
+    o.connect(gg); gg.connect(master); o.start(); o.stop(ac.currentTime + 2.5);
+  }
+}
+function setMute(m) {
+  muted = m;
+  if (master) master.gain.setTargetAtTime(m ? 0 : 0.9, ac.currentTime, 0.05);
+  $('mute').setAttribute('aria-pressed', String(m));
+  $('mute').textContent = m ? 'Sound off' : 'Sound on';
+  $('mute').setAttribute('aria-label', m ? 'Unmute sound' : 'Mute sound');
+}
+function muffle(on) { if (lowpass) lowpass.frequency.setTargetAtTime(on ? 650 : 18000, ac.currentTime, 0.12); }
+document.addEventListener('visibilitychange', () => { if (!ac) return; if (document.hidden) ac.suspend(); else ac.resume(); });
+
+/* ── the story ── */
+function go(p) { phase = p; pt = 0; fired = new Set(); idle = 0; showControls(); }
+function begin() {
+  $('title').hidden = true; $('end').hidden = true;
+  audioStart(); if (ac && ac.state === 'suspended') ac.resume();
+  revealSeen = false; charge = 0; go('mahendra'); bell(440, 0.06);
+}
+function showControls() {
+  $('hold').hidden = phase !== 'ready';
+  $('revealBtn').hidden = !(phase === 'rise' && pt >= 7.5 || phase === 'wait');
+  $('next').hidden = phase !== 'wait';
+}
+function openReveal() {
+  if (paused) return;
+  paused = true; revealSeen = true; muffle(true); bell(660, 0.08);
+  DheevaraReveal.open({ reveal: DATA.reveals[0], claims: DATA.claims, devanagariTitle: 'मैनाक', onClose: () => { paused = false; muffle(false); $('next').hidden || $('next').focus(); } });
+}
+function cue(list) {
+  for (const [i, line] of list.entries()) if (pt >= line.at && !fired.has(i)) { fired.add(i); say(line); }
+}
+
+function update(dt) {
+  clock += dt;
+  if (paused || phase === 'start' || phase === 'end') return;
+  pt += dt;
+  if (clock > capUntil) $('caption').hidden = true;
+  if (phase === 'mahendra') {
+    cue(DATA.phases.mahendra);
+    if (pt > PHASES.mahendra) go('ready');
+  } else if (phase === 'ready') {
+    const want = holding || AUTO || idle > 9;
+    if (want) charge += dt / 1.1; else { charge = Math.max(0, charge - dt); idle += dt; }
+    $('hold').style.setProperty('--p', clamp(charge, 0, 1).toFixed(3));
+    if (charge >= 1) { holding = false; go('leap'); bell(330, 0.05); }
+  } else if (phase === 'leap') {
+    cue(DATA.phases.leap);
+    if (pt > PHASES.leap) go('sea');
+  } else if (phase === 'sea') {
+    cue(DATA.phases.sea);
+    if (pt > PHASES.sea) go('rise');
+  } else if (phase === 'rise') {
+    cue(DATA.phases.rise);
+    if (pt >= 7.5 && $('revealBtn').hidden) { $('revealBtn').hidden = false; bell(990, 0.05); }
+    if (pt > PHASES.rise) go('wait');
+  } else if (phase === 'wait') {
+    idle += dt;
+    if (AUTO ? idle > 1.5 : idle > 12) go('touch');
+  } else if (phase === 'touch') {
+    cue(DATA.phases.touch);
+    if (pt > 2.2 && !fired.has('spark')) { fired.add('spark'); bell(1320, 0.07); }
+    if (pt > PHASES.touch) { phase = 'end'; showEnd(); }
+  }
+  if (windGain) {
+    const w = phase === 'leap' ? ease(pt / 1.5) * 0.18 : phase === 'sea' ? 0.12 : phase === 'touch' ? 0.1 : phase === 'ready' ? charge * 0.08 : 0.02;
+    windGain.gain.setTargetAtTime(w, ac.currentTime, 0.2);
+  }
+}
+function showEnd() {
+  $('caption').hidden = true; showControls();
+  $('endQ').textContent = DATA.question.text.en;
+  $('endCite').textContent = citeOf(DATA.question.claims) + ' · critical edition';
+  $('live').textContent = `${DATA.question.text.en} (${citeOf(DATA.question.claims)})`;
+  $('end').hidden = false; $('again').focus();
+}
+
+/* ── drawing: a granite relief under one low sun ── */
+const horizon = () => H * (portrait ? 0.6 : 0.64);
+const peak = () => ({ x: W * (portrait ? 0.26 : 0.2), y: H * (portrait ? 0.36 : 0.4) });
+const mainakaAt = () => ({ x: W * (portrait ? 0.7 : 0.66), y: horizon() });
+const petals = Array.from({ length: 70 }, (_, i) => ({ x: Math.sin(i * 12.9898) * 0.5 + 0.5, y: Math.sin(i * 78.233) * 0.5 + 0.5, s: 0.6 + (i % 5) * 0.2, v: 0.4 + (i % 7) * 0.08 }));
+
+function sky() {
+  const hz = horizon();
+  const g = ctx.createLinearGradient(0, 0, 0, hz);
+  g.addColorStop(0, '#141311'); g.addColorStop(0.65, C.smoke); g.addColorStop(1, C.smokeLow);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, hz);
+  // the low sun, to the east of the sea: the one key light
+  const sx = W * 0.86, sy = hz - H * 0.06;
+  const r = ctx.createRadialGradient(sx, sy, 0, sx, sy, Math.max(W, H) * 0.55);
+  r.addColorStop(0, 'rgba(251,227,164,0.55)'); r.addColorStop(0.18, 'rgba(242,176,74,0.22)'); r.addColorStop(1, 'rgba(242,176,74,0)');
+  ctx.fillStyle = r; ctx.fillRect(0, 0, W, hz);
+  ctx.fillStyle = 'rgba(251,227,164,0.9)'; ctx.beginPath(); ctx.arc(sx, sy, Math.min(W, H) * 0.018, 0, Math.PI * 2); ctx.fill();
+}
+function sea() {
+  const hz = horizon();
+  const g = ctx.createLinearGradient(0, hz, 0, H);
+  g.addColorStop(0, C.seaHi); g.addColorStop(1, C.sea);
+  ctx.fillStyle = g; ctx.fillRect(0, hz, W, H - hz);
+  // raking light on the swell, carved as short strokes
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 60; i++) {
+    const depth = (i + 1) / 60, y = hz + Math.pow(depth, 1.6) * (H - hz);
+    const drift = reduceMotion ? 0 : Math.sin(clock * 0.6 + i) * 6;
+    const x = ((Math.sin(i * 91.7) * 0.5 + 0.5) * W + drift) % W, len = 12 + depth * 70;
+    const toward = 1 - Math.min(1, Math.abs(x - W * 0.86) / W);
+    ctx.strokeStyle = `rgba(242,176,74,${0.05 + 0.22 * toward * (1 - depth * 0.6)})`;
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + len, y); ctx.stroke();
+  }
+  ctx.strokeStyle = 'rgba(244,242,238,0.08)'; ctx.beginPath(); ctx.moveTo(0, hz + 0.5); ctx.lineTo(W, hz + 0.5); ctx.stroke();
+}
+function mountain() {
+  // Mahendra, under the witness's feet: carved granite rising to the peak at the left
+  const p = peak(), hz = horizon();
+  const pts = [[0, H], [0, p.y + H * 0.12], [p.x * 0.55, p.y + H * 0.03], [p.x, p.y], [p.x * 1.45, p.y + H * 0.06], [p.x * 2.1, hz + H * 0.02], [W * (portrait ? 0.95 : 0.7), H * 0.9], [W * (portrait ? 1 : 0.78), H]];
+  const g = ctx.createLinearGradient(0, p.y, p.x * 2, H);
+  g.addColorStop(0, C.stoneHi); g.addColorStop(0.45, C.stone); g.addColorStop(1, C.stoneDk);
+  ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]);
+  for (const [x, y] of pts.slice(1)) ctx.lineTo(x, y);
+  ctx.closePath(); ctx.fill();
+  // relief strata, lit from the sun side
+  ctx.save(); ctx.clip();
+  for (let i = 0; i < 26; i++) {
+    const y = p.y + (i / 26) * (H - p.y);
+    ctx.strokeStyle = `rgba(20,19,17,${0.18 + (i % 3) * 0.05})`; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.quadraticCurveTo(W * 0.3, y - 14 - (i % 4) * 4, W, y + 10); ctx.stroke();
+    ctx.strokeStyle = 'rgba(251,227,164,0.06)'; ctx.beginPath(); ctx.moveTo(0, y + 2); ctx.quadraticCurveTo(W * 0.3, y - 12, W, y + 12); ctx.stroke();
+  }
+  ctx.restore();
+  // flowering trees along the ridge
+  for (let i = 0; i < 9; i++) {
+    const t = i / 8, x = lerp(p.x * 0.15, p.x * 1.9, t), y = lerp(p.y + H * 0.1, p.y + H * 0.02, Math.sin(t * Math.PI)) + (t > 0.5 ? (t - 0.5) * H * 0.18 : 0);
+    const r = Math.min(W, H) * (0.022 + (i % 3) * 0.006);
+    ctx.fillStyle = C.stoneDk; ctx.beginPath(); ctx.arc(x, y - r, r, 0, Math.PI * 2); ctx.fill();
+    const bloom = phase === 'mahendra' ? 1 - ease((pt - 6.6) / 3) : phase === 'start' ? 1 : 0;
+    if (bloom > 0) { ctx.fillStyle = `rgba(239,230,210,${0.35 * bloom})`; ctx.beginPath(); ctx.arc(x - r * 0.3, y - r * 1.3, r * 0.5, 0, Math.PI * 2); ctx.fill(); }
+  }
+  // two vānaras watching from the slope (5.1.9: watched by the vānaras)
+  for (const [fx, fy, s] of [[0.06, 0.82, 0.8], [0.13, 0.86, 0.95]]) figure(W * fx + (portrait ? 0 : W * 0.02), H * fy, Math.min(W, H) * 0.045 * s, 'sit');
+}
+function petalFall() {
+  if (phase !== 'mahendra' || pt < 6.6) return;
+  const k = ease((pt - 6.6) / 2) * (1 - ease((pt - 15) / 2));
+  if (k <= 0) return;
+  const p = peak();
+  for (const q of reduceMotion ? petals.slice(0, 20) : petals) {
+    const fall = reduceMotion ? 0.4 : ((pt - 6.6) * q.v * 0.12 + q.y) % 1;
+    const x = q.x * p.x * 2.4 + (reduceMotion ? 0 : Math.sin(clock * 1.3 + q.x * 20) * 12);
+    const y = p.y - H * 0.05 + fall * (H - p.y);
+    ctx.fillStyle = `rgba(239,230,210,${0.55 * k})`;
+    ctx.beginPath(); ctx.ellipse(x, y, 2.6 * q.s, 1.5 * q.s, q.x * 6, 0, Math.PI * 2); ctx.fill();
+  }
+}
+/** A carved figure in silhouette: full figure only, no face (rule 1; Hanumān is revered). */
+function figure(x, y, s, pose, alpha = 1) {
+  ctx.save(); ctx.translate(x, y); ctx.globalAlpha = alpha;
+  ctx.fillStyle = C.stoneDk; ctx.strokeStyle = C.stoneDk; ctx.lineCap = 'round';
+  const lw = s * 0.22; ctx.lineWidth = lw;
+  const line = (a, b, c, d) => { ctx.beginPath(); ctx.moveTo(a * s, b * s); ctx.lineTo(c * s, d * s); ctx.stroke(); };
+  if (pose === 'sit') {
+    ctx.beginPath(); ctx.ellipse(0, -0.55 * s, 0.32 * s, 0.5 * s, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(0, -1.2 * s, 0.24 * s, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(0.25 * s, -0.2 * s); ctx.quadraticCurveTo(1.0 * s, -0.1 * s, 0.9 * s, -0.9 * s); ctx.stroke();
+  } else {
+    const fly = pose === 'fly', crouch = pose === 'crouch';
+    const lean = fly ? -0.9 : 0;
+    ctx.rotate(lean);
+    ctx.beginPath(); ctx.ellipse(0, -1.1 * s, 0.28 * s, 0.62 * s, 0, 0, Math.PI * 2); ctx.fill();   // torso
+    ctx.beginPath(); ctx.arc(0, -1.95 * s, 0.26 * s, 0, Math.PI * 2); ctx.fill();                       // head, no features
+    if (pose === 'anjali') { line(-0.2, -1.4, 0, -1.25); line(0.2, -1.4, 0, -1.25); }                 // hands folded
+    else if (fly) { line(0, -1.5, 0.15, -2.6); line(0, -1.5, -0.15, -2.6); }                          // arms forward
+    else { line(-0.25, -1.4, -0.5, crouch ? -0.9 : -0.7); line(0.25, -1.4, 0.5, crouch ? -0.9 : -0.7); }
+    const k = crouch ? 0.6 : 1;
+    if (fly) { line(-0.1, -0.55, -0.25, 0.3); line(0.1, -0.55, 0.3, 0.25); }
+    else { line(-0.12, -0.55, -0.3, -0.55 + 0.9 * k); line(0.12, -0.55, 0.3, -0.55 + 0.9 * k); }
+    ctx.lineWidth = lw * 0.7;
+    ctx.beginPath(); ctx.moveTo(0.1 * s, -0.6 * s); ctx.quadraticCurveTo(0.9 * s, -0.3 * s, 0.75 * s, -1.6 * s); ctx.stroke(); // tail
+  }
+  ctx.restore();
+}
+function hanuman() {
+  const p = peak(), base = Math.min(W, H) * 0.05;
+  if (phase === 'start' || phase === 'mahendra' || phase === 'ready') {
+    const grow = phase === 'mahendra' ? 1 + 0.6 * ease((pt - 6.4) / 3) : phase === 'ready' ? 1.6 : 1;
+    const pose = phase === 'ready' ? 'crouch' : phase === 'mahendra' && pt < 6 ? 'anjali' : 'stand';
+    const shake = phase === 'ready' && !reduceMotion ? Math.sin(clock * 40) * charge * 1.5 : 0;
+    figure(p.x + shake, p.y + 2, base * grow, pose);
+    return;
+  }
+  if (phase === 'leap') {
+    const t = ease(pt / PHASES.leap);
+    const x = lerp(p.x, W * 0.5, t), y = lerp(p.y, H * 0.12, Math.sin(t * Math.PI * 0.6)), s = base * lerp(1.6, 0.7, t);
+    if (!reduceMotion) for (let i = 1; i < 5; i++) { const tt = Math.max(0, t - i * 0.03); figure(lerp(p.x, W * 0.5, tt), lerp(p.y, H * 0.12, Math.sin(tt * Math.PI * 0.6)), base * lerp(1.6, 0.7, tt), 'fly', 0.12); }
+    figure(x, y, s, 'fly');
+    return;
+  }
+  if (phase === 'sea') {
+    const t = pt / PHASES.sea;
+    figure(lerp(W * 0.5, mainakaAt().x - W * 0.08, t), lerp(H * 0.12, H * 0.2, t), base * lerp(0.7, 0.45, t), 'fly');
+    return;
+  }
+  if (phase === 'rise' || phase === 'wait') {
+    const m = mainakaAt();
+    const hover = reduceMotion ? 0 : Math.sin(clock * 1.5) * 3;
+    figure(m.x - W * 0.08, H * 0.2 + hover, base * 0.45, 'fly');
+    return;
+  }
+  if (phase === 'touch') {
+    const m = mainakaAt(), top = m.y - mountainLift() * H * 0.2;
+    const t = pt / PHASES.touch;
+    const down = ease(pt / 2.2), away = ease((pt - 2.6) / 4.4);
+    const x = lerp(lerp(m.x - W * 0.08, m.x, down), W * 1.05, away);
+    const y = lerp(lerp(H * 0.2, top - H * 0.035, down), H * 0.08, away);
+    figure(x, y, base * lerp(0.45, 0.2, away), 'fly', 1 - ease((t - 0.85) / 0.15));
+    if (pt > 2.1 && pt < 3.4) { // the touch: a small ring of gold where hand meets mountain
+      const k = 1 - (pt - 2.1) / 1.3;
+      ctx.strokeStyle = `rgba(227,176,75,${k})`; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(m.x, top - H * 0.01, (1 - k) * 30 + 6, 0, Math.PI * 2); ctx.stroke();
+    }
+  }
+}
+function shadow() {
+  if (phase !== 'sea' && !(phase === 'leap' && pt > 3)) return;
+  const hz = horizon();
+  const t = phase === 'sea' ? pt / PHASES.sea : 0;
+  const y = lerp(H * 0.92, hz + (H - hz) * 0.12, ease(t));
+  const w = lerp(W * 0.55, W * 0.12, ease(t)), h = lerp(H * 0.05, H * 0.008, ease(t));
+  const x = lerp(W * 0.42, mainakaAt().x - W * 0.06, ease(t));
+  const a = phase === 'leap' ? ease((pt - 3) / 2) * 0.4 : 0.45 * (1 - ease((t - 0.85) / 0.15));
+  ctx.fillStyle = `rgba(8,8,7,${a})`; ctx.beginPath(); ctx.ellipse(x, y, w, h, 0, 0, Math.PI * 2); ctx.fill();
+}
+/** How far Maināka has risen (0 under the water, 1 fully up), including the push down at 5.1.95. */
+function mountainLift() {
+  if (phase === 'rise') {
+    const up = ease(pt / 4);
+    const push = pt > 6 ? (pt < 7 ? ease((pt - 6) / 1) : 1 - ease((pt - 7.4) / 2.6)) * 0.55 : 0;
+    return Math.max(0, up - push);
+  }
+  if (phase === 'wait' || phase === 'touch') return 1;
+  if (phase === 'end') return 1;
+  return 0;
+}
+function mainaka() {
+  const lift = mountainLift();
+  if (lift <= 0) return;
+  const m = mainakaAt(), hz = horizon(), size = Math.min(W, H) * (portrait ? 0.26 : 0.2);
+  // glow: "like a hundred suns", kept soft (no rays)
+  const glow = ctx.createRadialGradient(m.x, hz - size * 0.4 * lift, 0, m.x, hz - size * 0.4 * lift, size * 1.6);
+  glow.addColorStop(0, `rgba(227,176,75,${0.35 * lift})`); glow.addColorStop(1, 'rgba(227,176,75,0)');
+  ctx.fillStyle = glow; ctx.fillRect(m.x - size * 2, hz - size * 2.2, size * 4, size * 2.2);
+  ctx.save();
+  ctx.beginPath(); ctx.rect(0, 0, W, hz); ctx.clip();       // the water hides what has not risen
+  const peaks = [[-0.55, 0.55], [-0.25, 0.85], [0, 1], [0.3, 0.75], [0.6, 0.5]];
+  for (const [dx, hgt] of peaks) {
+    const px = m.x + dx * size, top = hz - hgt * size * lift, wdt = size * 0.32;
+    const g = ctx.createLinearGradient(px, top, px, hz);
+    g.addColorStop(0, '#F6D48A'); g.addColorStop(0.4, C.gold); g.addColorStop(1, C.goldDk);
+    ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(px - wdt, hz + 2); ctx.lineTo(px, top); ctx.lineTo(px + wdt, hz + 2); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = 'rgba(80,58,20,0.5)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(px, top); ctx.lineTo(px + wdt * 0.35, hz); ctx.stroke();
+  }
+  ctx.restore();
+  // churned water at its foot
+  ctx.fillStyle = `rgba(239,230,210,${0.12 * lift})`;
+  ctx.beginPath(); ctx.ellipse(m.x, hz + 3, size * 0.95, 5, 0, 0, Math.PI * 2); ctx.fill();
+}
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  sky(); sea(); mainaka(); shadow(); mountain(); petalFall(); hanuman();
+  // a single vignette: everything the light does not reach falls to night
+  const v = ctx.createRadialGradient(W * 0.6, H * 0.5, Math.min(W, H) * 0.3, W * 0.5, H * 0.5, Math.max(W, H) * 0.8);
+  v.addColorStop(0, 'rgba(11,11,10,0)'); v.addColorStop(1, 'rgba(11,11,10,0.55)');
+  ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
+}
+
+/* ── input ── */
+$('begin').addEventListener('click', begin);
+$('again').addEventListener('click', begin);
+$('mute').addEventListener('click', () => { audioStart(); setMute(!muted); });
+$('revealBtn').addEventListener('click', openReveal);
+$('next').addEventListener('click', () => go('touch'));
+const hold = $('hold');
+hold.addEventListener('pointerdown', (e) => { e.preventDefault(); holding = true; idle = 0; });
+for (const ev of ['pointerup', 'pointerleave', 'pointercancel']) hold.addEventListener(ev, () => { holding = false; });
+hold.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); holding = true; idle = 0; } });
+hold.addEventListener('keyup', (e) => { if (e.key === ' ' || e.key === 'Enter') holding = false; });
+document.addEventListener('keydown', (e) => {
+  if (paused) return;
+  if (e.target instanceof HTMLButtonElement && (e.key === ' ' || e.key === 'Enter')) return;
+  if (e.key === 'm' || e.key === 'M') { audioStart(); setMute(!muted); }
+  else if (phase === 'start' && e.key === 'Enter') begin();
+  else if (phase === 'ready' && e.code === 'Space') { e.preventDefault(); holding = true; idle = 0; }
+  else if ((e.key === 'r' || e.key === 'R') && !$('revealBtn').hidden) openReveal();
+});
+document.addEventListener('keyup', (e) => { if (e.code === 'Space') holding = false; });
+
+/* ── preview hooks: #at=SECONDS fast-forwards, #auto plays itself, #reveal opens the sheet, #clean hides the interface ── */
+if (args.has('clean')) document.body.classList.add('clean');
+const target = parseFloat(args.get('at')) || 0;
+if (target > 0) {
+  $('title').hidden = true; go('mahendra');
+  let t = 0;
+  while (t < target && phase !== 'end') { if (phase === 'ready' && !AUTO) holding = true; update(1 / 30); t += 1 / 30; }
+  holding = false;
+}
+if (args.has('reveal')) {
+  if (phase === 'start') { $('title').hidden = true; go('rise'); pt = 8; }
+  showControls(); openReveal();
+}
+
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  update(dt); draw();
+  requestAnimationFrame(frame);
+}
+draw();
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

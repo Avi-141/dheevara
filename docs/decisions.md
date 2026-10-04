@@ -86,3 +86,26 @@ Newest last. Each entry: date, decision, reason.
   - Video models never generate audio; narration and chant are ours.
   - The 13-shot draft pass is estimated at $5.92.
   - Reason: the Build Brief's routing, bounded by the H3 decision of 4 Oct.
+- **2026-10-04 — The Rāmāyaṇa enters the canon from Smith's e-text of the Baroda critical edition.**
+  - **Source:** John Smith's files of the Baroda critical edition (Sundarakāṇḍa only for now): the Roman file gives the IAST, after ISO 15919 is mapped to house IAST; the Devanagari file is the text of record. Both are pinned by sha256 in `content/canon/sources.json`.
+  - **Claim ids:** `ram.<kāṇḍa>.<sarga>.<verse>`, on the same pattern as `mbh.*`.
+  - **Checks:** `pnpm canon:build` now also requires the Mahābhārata's transliterated Devanagari to equal Smith's BORI Devanagari, verse by verse. The canon test requires every committed verse's IAST to transliterate to its Devanagari. All 99 pass (52 Mahābhārata, 47 Rāmāyaṇa).
+  - **Rights:** Smith's files state no licence, and GRETIL's copy of the same text is CC BY-NC-SA 4.0. Only cited verses and the verse index are committed. Shipping verse text in the app waits on a rights answer (rule 9).
+  - Reason: the Mainaka experience (handoff, M6) cites the Sundarakāṇḍa, and no claim ships without a resolvable verse (rule 2).
+- **2026-10-04 — Vāyu and Samudra join the revered list.** In Sundarakāṇḍa 1, the Wind and the Ocean act as gods, so `REVERED` in `src/contract/rules.mjs` and `content/canon/people.json` flag both. Maināka is a mountain, not a deity, and stays unflagged. The Mainaka experience's witness is a vānara on Mahendra, never Hanumān. Reason: rule 1, until a scholar reviews the list.
+- **2026-10-04 — One reveal module for every JS experience.**
+  - `web/shared/reveal-sheet.js` renders a reveal as three labelled layers: the popular telling (named as such), what the text says (with claims and their verses), and what the collection holds.
+  - It is an accessible dialog: it traps focus, closes on Esc and respects reduced motion.
+  - Each experience inlines the module at build time, so every page stays one self-contained file.
+  - Reason: Build Brief JS standards (one file, offline) and DHE-27.
+- **2026-10-04 — JS experiences are built from sources and the canon, and checked in a browser.**
+  - `pnpm web:build` builds `web/<name>.html` from `web/src/<name>.html`. Each page's script lives in `content/web/<name>.json`, or comes from the canon export for the lineage explorer. Every claim it cites is resolved into the page, and an id that does not resolve fails the build.
+  - The built files are committed. `test/web.test.mjs` fails if any drifts from its source, and checks that every Chakravyūha caption cite is a registered claim.
+  - `pnpm web:check` renders each experience at 390×844 and 1440×900 in Playwright, with vendored fonts. It fails on console errors, sideways scroll, a missing aria-live region or a reveal that does not open. It needs Chromium, so it stays out of `pnpm check` and CI.
+  - Reason: rule 2 and the Build Brief's JS experience standards.
+- **2026-10-04 — Chakravyūha captions now match the critical edition and show their verse.**
+  - **Corrected lines:** Abhimanyu is "a boy, not yet grown" (7.32.21–23). "He cannot fight his way out" now follows 7.34.19. The flank-drivers line is cited to 7.47.31–33, Droṇa's praise to 7.47.18–30, and sunset to 7.48.41.
+  - **Cites:** every caption now draws its cite under the line and speaks it in the aria-live region.
+  - **Console errors:** vibration waits for a user gesture, which clears the console errors Chromium logged.
+  - **New claims:** `mbh.7.47.18-30`, `mbh.7.47.31-33` and `mbh.7.48.41` are registered.
+  - Reason: rule 2; the reference experience had uncited and overstated lines.

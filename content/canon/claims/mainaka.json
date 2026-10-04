@@ -1,0 +1,95 @@
+{
+  "$schema": "../../../schema/claim.schema.json",
+  "claims": [
+    {
+      "id": "ram.5.1.6-8",
+      "edition": "baroda-ce",
+      "status": "etext",
+      "statement": "On the slope of Mount Mahendra, Hanumān folds his hands to the Sun, to Mahendra, to Vāyu, to Svayambhū and to all beings, and resolves to go south."
+    },
+    {
+      "id": "ram.5.1.10-12",
+      "edition": "baroda-ce",
+      "status": "etext",
+      "statement": "Growing vast to leap the ocean, he presses the mountain with his arms and feet; it trembles, and its trees shed every flower until the mountain seems made of flowers."
+    },
+    {
+      "id": "ram.5.1.36",
+      "edition": "baroda-ce",
+      "status": "etext",
+      "statement": "Hanumān tells the vānaras he will go to Laṅkā like an arrow loosed by Rāma."
+    },
+    {
+      "id": "ram.5.1.40",
+      "edition": "baroda-ce",
+      "status": "etext",
+      "statement": "Having spoken, he leaps up with great speed, without a second thought."
+    },
+    {
+      "id": "ram.5.1.69-70",
+      "edition": "baroda-ce",
+      "status": "etext",
+      "statement": "His shadow on the salt sea, ten yojanas wide and thirty long, follows the son of the Wind like a bank of white cloud."
+    },
+    {
+      "id": "ram.5.1.75-79",
+      "edition": "baroda-ce",
+      "status": "etext",
+      "statement": "The Ocean, mindful that the Ikṣvāku king Sagara raised him, resolves that Hanumān must not sink for want of rest, and speaks to the golden-navelled mountain Maināka hidden under the water."
+    },
+    {
+      "id": "ram.5.1.80-81",
+      "edition": "baroda-ce",
+      "status": "etext",
+      "statement": "The Ocean reminds Maināka that Indra set him there as a bar over the asuras of Pātāla, standing across the gate of the underworld."
+    },
+    {
+      "id": "ram.5.1.89-93",
+      "edition": "baroda-ce",
+      "status": "etext",
+      "statement": "Maināka rises from the water at once, trees and creepers on it, its golden peaks shining like a hundred suns against the sky."
+    },
+    {
+      "id": "ram.5.1.94-95",
+      "edition": "baroda-ce",
+      "status": "etext",
+      "statement": "Hanumān, taking the risen mountain for an obstacle in mid-ocean, throws it down with his chest as wind drives a cloud."
+    },
+    {
+      "id": "ram.5.1.97-102",
+      "edition": "baroda-ce",
+      "status": "etext",
+      "statement": "Pleased, the mountain takes a human form on its own peak and asks him to rest on its peaks and eat its fruit, for the Ocean, raised by Rāma's line, would repay that kindness."
+    },
+    {
+      "id": "ram.5.1.106-107",
+      "edition": "baroda-ce",
+      "status": "etext",
+      "statement": "Maināka honours Hanumān as the son of Vāyu, the Wind, saying that to honour him is to honour his father."
+    },
+    {
+      "id": "ram.5.1.108-113",
+      "edition": "baroda-ce",
+      "status": "etext",
+      "statement": "In the Kṛta age the mountains had wings; Indra cut them off with his vajra, but the Wind hurled Maināka into the ocean and so kept its wings whole, which is why Maināka honours the Wind's son."
+    },
+    {
+      "id": "ram.5.1.116-118",
+      "edition": "baroda-ce",
+      "status": "etext",
+      "statement": "Hanumān says he is pleased and counts the hospitality as given, but time presses and he has promised not to stop; he touches the mountain with his hand and goes on into the sky as if laughing."
+    },
+    {
+      "id": "ram.5.1.125-126",
+      "edition": "baroda-ce",
+      "status": "etext",
+      "statement": "Indra, pleased, grants Maināka freedom from fear for helping Hanumān on his hundred-yojana leap."
+    },
+    {
+      "id": "ram.5.1.130-133",
+      "edition": "baroda-ce",
+      "status": "etext",
+      "statement": "The gods, gandharvas, siddhas and great sages ask Surasā, mother of the serpents, to stand in Hanumān's way for a moment in a fearsome form, to learn his strength and resource."
+    }
+  ]
+}

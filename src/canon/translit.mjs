@@ -16,7 +16,7 @@ const CONSONANTS = {
   p: 'प', ph: 'फ', b: 'ब', bh: 'भ', m: 'म',
   y: 'य', r: 'र', l: 'ल', v: 'व', ś: 'श', ṣ: 'ष', s: 'स', h: 'ह', ḻ: 'ळ',
 };
-const MARKS = { ṃ: 'ं', ṁ: 'ं', ḥ: 'ः', "'": 'ऽ', '’': 'ऽ', '|': '।', '||': '॥', '.': '।' };
+const MARKS = { 'm̐': 'ँ', ṃ: 'ं', ṁ: 'ं', ḥ: 'ः', "'": 'ऽ', '’': 'ऽ', '|': '।', '||': '॥', '.': '।' };
 const DIGITS = '०१२३४५६७८९';
 const VIRAMA = '्';
 
@@ -56,7 +56,7 @@ function word(w) {
     } else {
       if (pendingConsonant && tok !== "'" && tok !== '’') {
         // ṃ or ḥ after a bare consonant cannot occur in IAST; a daṇḍa ends the word.
-        if (tok === 'ṃ' || tok === 'ṁ' || tok === 'ḥ') throw new TranslitError(`"${tok}" follows a consonant in "${w}"`);
+        if (tok === 'ṃ' || tok === 'ṁ' || tok === 'ḥ' || tok === 'm̐') throw new TranslitError(`"${tok}" follows a consonant in "${w}"`);
         out += VIRAMA;
       }
       out += MARKS[tok];

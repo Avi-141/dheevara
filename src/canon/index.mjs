@@ -31,10 +31,12 @@ export function parseClaimId(id) {
   return ref;
 }
 
-/** Does `ref` name verses that exist in `index`? Returns a reason string when it does not. */
+/** Does `ref` name verses that exist in `index` ({ <text>: { <book>: { <adhyaya>: lastVerse } } })? Returns a reason string when it does not. */
 export function checkRef(ref, index) {
-  const book = index[ref.book];
-  if (!book) return `book ${ref.book} is not in the verse index`;
+  const text = index[ref.text];
+  if (!text) return `no edition of "${ref.text}" is in the canon`;
+  const book = text[ref.book];
+  if (!book) return `${ref.text} book ${ref.book} is not in the verse index`;
   const last = book[ref.adhyaya];
   if (!last) return `adhyāya ${ref.book}.${ref.adhyaya} does not exist`;
   if (ref.adhyayaEnd !== undefined) {
@@ -72,8 +74,13 @@ export function loadCanon(dir = CANON_DIR) {
   const problems = [];
   const sources = json(join(dir, 'sources.json'));
   const editions = new Map(sources.editions.map((e) => [e.id, e]));
-  const index = json(join(dir, 'mbh', 'verse-index.json'));
-  const passages = new Map(Object.entries(json(join(dir, 'mbh', 'passages.json'))));
+  const index = {};
+  const passages = new Map();
+  for (const ed of sources.editions) {
+    if (!existsSync(join(dir, ed.text, 'verse-index.json'))) { problems.push(`${ed.id}: no ${ed.text}/verse-index.json (run pnpm canon:build)`); continue; }
+    index[ed.text] = json(join(dir, ed.text, 'verse-index.json'));
+    for (const [id, p] of Object.entries(json(join(dir, ed.text, 'passages.json')))) passages.set(id, p);
+  }
   const people = existsSync(join(dir, 'people.json')) ? json(join(dir, 'people.json')).people : [];
 
   const claims = new Map();
@@ -88,6 +95,7 @@ export function loadCanon(dir = CANON_DIR) {
       const ref = parseClaimId(c.id);
       if (!ref) { problems.push(`claims/${file}: ${c.id} is not a claim id`); continue; }
       if (!editions.has(c.edition)) problems.push(`claims/${file}: ${c.id} names unknown edition ${c.edition}`);
+      else if (editions.get(c.edition).text !== ref.text) problems.push(`claims/${file}: ${c.id} is a ${ref.text} id but edition ${c.edition} is ${editions.get(c.edition).text}`);
       const why = checkRef(ref, index);
       if (why) problems.push(`claims/${file}: ${c.id} does not resolve: ${why}`);
       for (const vid of verseIds(ref)) if (!passages.has(vid)) problems.push(`claims/${file}: ${c.id} needs passage ${vid} (run pnpm canon:build)`);

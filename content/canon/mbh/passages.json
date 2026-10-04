@@ -191,6 +191,118 @@
     "devanagari": "स विस्फार्य महच्चापं किरन्निषुगणान्बहून् । तत्खण्डं पूरयामास यद्व्यदारयदार्जुनिः ॥ ६ ॥",
     "devanagariCheckedAgainst": "smith-ud"
   },
+  "mbh.7.47.18": {
+    "id": "mbh.7.47.18",
+    "edition": "bori-ce",
+    "iast": "tato droṇo maheṣvāsaḥ sarvāṃs tān pratyabhāṣata / asti vo 'syāntaraṃ kaś cit kumārasya prapaśyati",
+    "devanagari": "ततो द्रोणो महेष्वासः सर्वांस्तान्प्रत्यभाषत । अस्ति वोऽस्यान्तरं कश्चित्कुमारस्य प्रपश्यति ॥ १८ ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
+  "mbh.7.47.19": {
+    "id": "mbh.7.47.19",
+    "edition": "bori-ce",
+    "iast": "anv asya pitaraṃ hy adya carataḥ sarvatodiśam / śīghratāṃ narasiṃhasya pāṇḍaveyasya paśyata",
+    "devanagari": "अन्वस्य पितरं ह्यद्य चरतः सर्वतोदिशम् । शीघ्रतां नरसिंहस्य पाण्डवेयस्य पश्यत ॥ १९ ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
+  "mbh.7.47.20": {
+    "id": "mbh.7.47.20",
+    "edition": "bori-ce",
+    "iast": "dhanurmaṇḍalam evāsya rathamārgeṣu dṛśyate / saṃdadhānasya viśikhāñ śīghraṃ caiva vimuñcataḥ",
+    "devanagari": "धनुर्मण्डलमेवास्य रथमार्गेषु दृश्यते । संदधानस्य विशिखाञ्शीघ्रं चैव विमुञ्चतः ॥ २० ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
+  "mbh.7.47.21": {
+    "id": "mbh.7.47.21",
+    "edition": "bori-ce",
+    "iast": "ārujann iva me prāṇān mohayann api sāyakaiḥ / praharṣayati mā bhūyaḥ saubhadraḥ paravīrahā",
+    "devanagari": "आरुजन्निव मे प्राणान्मोहयन्नपि सायकैः । प्रहर्षयति मा भूयः सौभद्रः परवीरहा ॥ २१ ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
+  "mbh.7.47.22": {
+    "id": "mbh.7.47.22",
+    "edition": "bori-ce",
+    "iast": "ati mā nandayaty eṣa saubhadro vicaran raṇe / antaraṃ yasya saṃrabdhā na paśyanti mahārathāḥ",
+    "devanagari": "अति मा नन्दयत्येष सौभद्रो विचरन्रणे । अन्तरं यस्य संरब्धा न पश्यन्ति महारथाः ॥ २२ ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
+  "mbh.7.47.23": {
+    "id": "mbh.7.47.23",
+    "edition": "bori-ce",
+    "iast": "asyato laghuhastasya diśaḥ sarvā maheṣubhiḥ / na viśeṣaṃ prapaśyāmi raṇe gāṇḍīvadhanvanaḥ",
+    "devanagari": "अस्यतो लघुहस्तस्य दिशः सर्वा महेषुभिः । न विशेषं प्रपश्यामि रणे गाण्डीवधन्वनः ॥ २३ ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
+  "mbh.7.47.24": {
+    "id": "mbh.7.47.24",
+    "edition": "bori-ce",
+    "iast": "atha karṇaḥ punar droṇam āhārjuniśarārditaḥ / sthātavyam iti tiṣṭhāmi pīḍyamāno 'bhimanyunā",
+    "devanagari": "अथ कर्णः पुनर्द्रोणमाहार्जुनिशरार्दितः । स्थातव्यमिति तिष्ठामि पीड्यमानोऽभिमन्युना ॥ २४ ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
+  "mbh.7.47.25": {
+    "id": "mbh.7.47.25",
+    "edition": "bori-ce",
+    "iast": "tejasvinaḥ kumārasya śarāḥ paramadāruṇāḥ / kṣiṇvanti hṛdayaṃ me 'dya ghorāḥ pāvakatejasaḥ",
+    "devanagari": "तेजस्विनः कुमारस्य शराः परमदारुणाः । क्षिण्वन्ति हृदयं मेऽद्य घोराः पावकतेजसः ॥ २५ ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
+  "mbh.7.47.26": {
+    "id": "mbh.7.47.26",
+    "edition": "bori-ce",
+    "iast": "tam ācāryo 'bravīt karṇaṃ śanakaiḥ prahasann iva / abhedyam asya kavacaṃ yuvā cāśuparākramaḥ",
+    "devanagari": "तमाचार्योऽब्रवीत्कर्णं शनकैः प्रहसन्निव । अभेद्यमस्य कवचं युवा चाशुपराक्रमः ॥ २६ ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
+  "mbh.7.47.27": {
+    "id": "mbh.7.47.27",
+    "edition": "bori-ce",
+    "iast": "upadiṣṭā mayā asya pituḥ kavacadhāraṇā / tām eṣa nikhilāṃ vetti dhruvaṃ parapuraṃjayaḥ",
+    "devanagari": "उपदिष्टा मया अस्य पितुः कवचधारणा । तामेष निखिलां वेत्ति ध्रुवं परपुरंजयः ॥ २७ ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
+  "mbh.7.47.28": {
+    "id": "mbh.7.47.28",
+    "edition": "bori-ce",
+    "iast": "śakyaṃ tv asya dhanuś chettuṃ jyāṃ ca bāṇaiḥ samāhitaiḥ / abhīśavo hayāś caiva tathobhau pārṣṇisārathī",
+    "devanagari": "शक्यं त्वस्य धनुश्छेत्तुं ज्यां च बाणैः समाहितैः । अभीशवो हयाश्चैव तथोभौ पार्ष्णिसारथी ॥ २८ ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
+  "mbh.7.47.29": {
+    "id": "mbh.7.47.29",
+    "edition": "bori-ce",
+    "iast": "etat kuru maheṣvāsa rādheya yadi śakyate / athainaṃ vimukhīkṛtya paścāt praharaṇaṃ kuru",
+    "devanagari": "एतत्कुरु महेष्वास राधेय यदि शक्यते । अथैनं विमुखीकृत्य पश्चात्प्रहरणं कुरु ॥ २९ ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
+  "mbh.7.47.30": {
+    "id": "mbh.7.47.30",
+    "edition": "bori-ce",
+    "iast": "sadhanuṣko na śakyo 'yam api jetuṃ surāsuraiḥ / virathaṃ vidhanuṣkaṃ ca kuruṣvainaṃ yadīcchasi",
+    "devanagari": "सधनुष्को न शक्योऽयमपि जेतुं सुरासुरैः । विरथं विधनुष्कं च कुरुष्वैनं यदीच्छसि ॥ ३० ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
+  "mbh.7.47.31": {
+    "id": "mbh.7.47.31",
+    "edition": "bori-ce",
+    "iast": "tad ācāryavacaḥ śrutvā karṇo vaikartanas tvaran / asyato laghuhastasya pṛṣatkair dhanur ācchinat",
+    "devanagari": "तदाचार्यवचः श्रुत्वा कर्णो वैकर्तनस्त्वरन् । अस्यतो लघुहस्तस्य पृषत्कैर्धनुराच्छिनत् ॥ ३१ ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
+  "mbh.7.47.32": {
+    "id": "mbh.7.47.32",
+    "edition": "bori-ce",
+    "iast": "aśvān asyāvadhīd bhojo gautamaḥ pārṣṇisārathī / śeṣās tu chinnadhanvānaṃ śaravarṣair avākiran",
+    "devanagari": "अश्वानस्यावधीद्भोजो गौतमः पार्ष्णिसारथी । शेषास्तु छिन्नधन्वानं शरवर्षैरवाकिरन् ॥ ३२ ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
+  "mbh.7.47.33": {
+    "id": "mbh.7.47.33",
+    "edition": "bori-ce",
+    "iast": "tvaramāṇās tvarākāle virathaṃ ṣaṇ mahārathāḥ / śaravarṣair akaruṇā bālam ekam avākiran",
+    "devanagari": "त्वरमाणास्त्वराकाले विरथं षण्महारथाः । शरवर्षैरकरुणा बालमेकमवाकिरन् ॥ ३३ ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
   "mbh.7.47.38": {
     "id": "mbh.7.47.38",
     "edition": "bori-ce",
@@ -238,6 +350,13 @@
     "edition": "bori-ce",
     "iast": "abhimanyau hate rājañ śiśuke 'prāptayauvane / saṃprādravac camūḥ sarvā dharmarājasya paśyataḥ",
     "devanagari": "अभिमन्यौ हते राजञ्शिशुकेऽप्राप्तयौवने । संप्राद्रवच्चमूः सर्वा धर्मराजस्य पश्यतः ॥ ३२ ॥",
+    "devanagariCheckedAgainst": "smith-ud"
+  },
+  "mbh.7.48.41": {
+    "id": "mbh.7.48.41",
+    "edition": "bori-ce",
+    "iast": "tato niśāyā divasasya cāśivaḥ; śivārutaḥ saṃdhir avartatādbhutaḥ / kuśeśayāpīḍanibhe divākare; vilambamāne 'stam upetya parvatam",
+    "devanagari": "ततो निशाया दिवसस्य चाशिवः; शिवारुतः संधिरवर्तताद्भुतः । कुशेशयापीडनिभे दिवाकरे; विलम्बमानेऽस्तमुपेत्य पर्वतम् ॥ ४१ ॥",
     "devanagariCheckedAgainst": "smith-ud"
   },
   "mbh.7.51.20": {

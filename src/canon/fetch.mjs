@@ -34,7 +34,7 @@ export async function ensureBook(edition, book, { set = 'etext', fetch = globalT
 
 if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
   for (const ed of editions()) {
-    for (const set of ['etext', 'devanagariCheck']) {
+    for (const set of ['etext', 'devanagariCheck', 'devanagari']) {
       for (const book of Object.keys(ed[set]?.files ?? {})) {
         const p = await ensureBook(ed, book, { set, log: console.log });
         console.log(`ok    ${ed.id} ${set} book ${book}  ${p.slice(ROOT.length)}`);

@@ -17,7 +17,7 @@ export const WITNESSES = SCHEMA.$defs.witness.enum;
  */
 export const REVERED = [
   'agni', 'balarama', 'brahma', 'durga', 'ganesha', 'ganga', 'hanuman', 'indra', 'krishna',
-  'lakshmi', 'parvati', 'rama', 'sarasvati', 'shiva', 'sita', 'surya', 'vishnu',
+  'lakshmi', 'parvati', 'rama', 'samudra', 'sarasvati', 'shiva', 'sita', 'surya', 'vayu', 'vishnu',
 ];
 
 /** Framings that read as a facial close-up. */
