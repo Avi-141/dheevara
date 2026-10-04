@@ -56,7 +56,7 @@ Source: https://docs.sarvam.ai/api/api-guides-tutorials/text-to-speech/pronuncia
   - create: `POST` multipart, field `file`, part type `application/json`. Returns `dictionary_id`, e.g. `p_5cb7faa6`.
   - list: `GET`
   - get: `GET /<id>`
-  - update: `PUT /<id>`, merging, id kept
+  - update: `PUT ?dict_id=<id>`, merging, id kept (a `PUT /<id>` returns 405; found on the first real update, 2026-10-04)
   - delete: `DELETE ?dict_id=<id>`
 - **Limits:** 10 dictionaries per user, 100 words per dictionary, 1 MB per file, one dictionary per request, bulbul:v3 only.
 - **Gotcha:** the Node SDK sends the file part as `application/octet-stream`, which the API rejects. Use `fetch` with `FormData` and a `Blob` of type `application/json`.
