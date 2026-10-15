@@ -109,3 +109,9 @@ Newest last. Each entry: date, decision, reason.
   - **Console errors:** vibration waits for a user gesture, which clears the console errors Chromium logged.
   - **New claims:** `mbh.7.47.18-30`, `mbh.7.47.31-33` and `mbh.7.48.41` are registered.
   - Reason: rule 2; the reference experience had uncited and overstated lines.
+- **2026-10-15 — Generation is API-first; self-hosting is not a requirement (founder's direction).**
+  - Our data stays ours, but generation (keyframes, video, voice, transcription) can go through hosted APIs. There is no sovereign-hosting requirement, and we won't host and run inference on open models ourselves for now.
+  - Voice shortlist from the founder: Sarvam, Fish Audio, ElevenLabs, Bland.ai. Research (`docs/research/2026-10-15-api-first-tooling.md`) recommends Sarvam as primary, ElevenLabs as fallback, Fish Drama 3 for testing only, and dropping Bland.ai.
+  - Rule 5 still stands: no unreleased passage goes to a provider whose terms allow training on inputs. Each provider's terms must be checked before first use.
+  - Proposed, for Avi: drop rule 4's self-hosted H3 wording, which this direction makes moot. Turn rule 5 into a provider-terms registry checked in code. Decide whether the pipeline may call an LLM API; that needs a key and ledger rows, and changes CLAUDE.md.
+  - Reason: open models would mean hosting and running inference ourselves, which the founder judged the wrong use of a small team. The open-source survey (`docs/research/2026-10-15-open-source-stack.md`) is kept as the fallback map.
