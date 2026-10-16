@@ -115,3 +115,21 @@ Newest last. Each entry: date, decision, reason.
   - Rule 5 still stands: no unreleased passage goes to a provider whose terms allow training on inputs. Each provider's terms must be checked before first use.
   - Proposed, for Avi: reword rule 4 to say plainly that H3 output is India-only whether hosted or self-hosted (decision of 4 Oct), since self-hosting is no longer the path. Turn rule 5 into a provider-terms registry checked in code. Decide whether the pipeline may call an LLM API; that needs a key and ledger rows, and changes CLAUDE.md.
   - Reason: open models would mean hosting and running inference ourselves, which the founder judged the wrong use of a small team. The open-source survey (`docs/research/2026-10-15-open-source-stack.md`) is kept as the fallback map.
+- **2026-10-16 — Keyframe bake-off: three models, two s1e3 shots, one key.**
+  - **Command:** `pnpm bakeoff:keyframes` (`src/keyframe/bakeoff.mjs`).
+  - **What runs:** s1e3-sh05 (Abhimanyu in his chariot, medium-wide: a character shot) and s1e3-sh12 (the reveal macro on the carved wheel: the material look) go to Nano Banana Pro, FLUX.2 pro and Seedream 4.5, all on fal. That's 2 takes per shot, 12 images, estimated at $1.06.
+  - **Same input for every model:** each shot gets one prompt, compiled from its contract by the same words the video compiler uses, plus an "Avoid:" sentence carrying the forbidden list. Each model receives it byte for byte. Seeds are fixed by shot and take.
+  - **Guards:** the ledger row is written before each request (rule 3); the run is refused above MAX_RUN_USD; a take already done is never re-billed; a failed take is recorded, not replaced. Without FAL_KEY nothing is sent.
+  - **Why fal:** one key covers all three models. Prompts are 'script' class (rule 5 allows fal). The Gemini direct and Vertex routes wait for a Google key.
+  - **How the takes are scored** (verdicts committed under `content/s1e3/bakeoff/`, written in session):
+    1. Carved relief, not painting or 3D render.
+    2. One warm raking lamp with falloff to black.
+    3. Framing obeys the contract: nothing closer than medium-wide on sh05, and no figure on sh12.
+    4. No faces read as acting, and no deity.
+    5. No anachronism from the never-list.
+    6. Correct iconography: chariot, bow, dress.
+    7. Gold only on the subject.
+    8. Take-to-take consistency.
+    9. Usable as a first frame for image-to-video.
+  - **Known prompt bug, left in for a fair test:** sh12's setting moves the lamp to the right, but the compiler always says "light from the left". It gets fixed after the bake-off, in the compiler, for all models at once.
+  - Reason: experiment 2 in `docs/research/2026-10-15-api-first-tooling.md`, and the founder's request of 16 Oct.

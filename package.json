@@ -15,6 +15,7 @@
     "manifest": "node src/plan/manifest.mjs",
     "render": "node src/render/cli.mjs",
     "report": "node src/render/report.mjs",
+    "bakeoff:keyframes": "node src/keyframe/bakeoff.mjs",
     "web:build": "node scripts/build-web.mjs",
     "web:check": "node web/check.mjs",
     "secrets": "scripts/gitleaks.sh git --redact --no-banner --config .gitleaks.toml .",
