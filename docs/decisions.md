@@ -133,3 +133,8 @@ Newest last. Each entry: date, decision, reason.
     9. Usable as a first frame for image-to-video.
   - **Known prompt bug, left in for a fair test:** sh12's setting moves the lamp to the right, but the compiler always says "light from the left". It gets fixed after the bake-off, in the compiler, for all models at once.
   - Reason: experiment 2 in `docs/research/2026-10-15-api-first-tooling.md`, and the founder's request of 16 Oct.
+- **2026-10-17 — Both epics from the start (founder's direction).**
+  - The Mahābhārata and the Rāmāyaṇa are built in parallel, each with its own sourcing lane, both feeding one knowledge graph.
+  - The Mahābhārata starts from the Droṇa Parva (day 13, the s1e3 arc already in the canon). The Rāmāyaṇa starts from the Sundara Kāṇḍa (already in the canon from the Baroda critical edition), timed to the 6 Nov film.
+  - This takes up proposal 1 of 4 Oct (a Sundara Kāṇḍa pilot for the film) without dropping the Mahābhārata.
+  - Reason: the founder wants both; the canon, claim ids (`mbh.*`, `ram.*`) and pipeline already handle both texts.
