@@ -1,44 +1,40 @@
 # Dheevara data sourcing plan: from archives to the temporal knowledge graph
 
-Status: plan, 17 Oct 2026. The six principles in §2 are the founder's and are decided. Items marked **Decide** need Avi. This is not legal advice.
+Status: plan, 17 Oct 2026. The six principles in §2 are the founder's and are decided. **Decide** marks items for Avi. This is not legal advice.
 
-Inputs, cited inline by short name:
+Inputs, cited inline:
 - **[inventory]** `docs/research/notes-2026-10-17-sourcing/source_inventory.md`
-- **[tooling]** `docs/research/notes-2026-10-17-sourcing/acquisition_extraction_tooling.md`
-- **[methods]** `docs/research/notes-2026-10-17-sourcing/storylines_trivia_methods.md`
-- **[sources]** `docs/research/sources.md`, which covers what is already held and the BORI rights analysis. This plan does not repeat it.
-- **[TKG]** `docs/architecture/temporal-knowledge-graph.md`, the target data model. This plan links to its tables and does not redefine them.
+- **[tooling]** `…/acquisition_extraction_tooling.md`
+- **[methods]** `…/storylines_trivia_methods.md`
+- **[sources]** `docs/research/sources.md`: what is already held, and the BORI rights analysis. Neither is repeated here.
+- **[TKG]** [`temporal-knowledge-graph.md`](temporal-knowledge-graph.md): the target data model. Its tables are linked here, not redefined.
 
 ---
 
 ## 1. Summary
 
-- **What this plan covers.** How every fact Dheevara shows gets from a website, an archive scan, a PDF or a printed book into the knowledge graph, with evidence a scholar can check. It covers both epics from today: the Mahābhārata from the Droṇa Parva (day 13, 7.32–7.51, already in the canon for s1e3) and the Rāmāyaṇa from the Sundara Kāṇḍa (Baroda CE book 5: 66 sargas, 2,487 verses, already indexed), timed to the *Ramayana* film on 6 Nov 2026 ([decisions] 17 Oct).
-- **We source by season.** Each season writes a scope file: the adhyāyas or sargas it covers, the verses those passages point back to, the translations and tellings that retell them, and the images that depict them. That scope decides what gets fetched. We get breadth by repeating this season after season, not by ingesting whole corpora up front.
+- **Goal.** Every fact Dheevara shows reaches the knowledge graph from a website, scan, PDF or book with evidence a scholar can check. This covers both epics from today:
+  - the Mahābhārata from the Droṇa Parva (day 13, 7.32–7.51, already in the canon for s1e3);
+  - the Rāmāyaṇa from the Sundara Kāṇḍa (Baroda CE book 5: 66 sargas, 2,487 verses, already indexed), timed to the 6 Nov film ([decisions] 17 Oct).
+- **Source by season.** A season's scope file names what gets fetched: its passages, the verses they point to, and the tellings and images that retell them. Breadth comes from repeating this per season.
 - **Two layers that never mix.**
-  - The **evidence layer** holds bytes fetched once and never changed: sha256, page and line coordinates, a Wayback capture, our own WARC copy and a crawl log.
-  - The **assertion layer** holds versioned claims. Each claim points at exact evidence spans and is signed off by a scholar. It is the knowledge layer already designed in [TKG §3.3](temporal-knowledge-graph.md#33-node-and-edge-types-by-layer).
-- **Verse alignment is the spine.** Every line from every source gets a critical-edition verse id as early as possible:
-  - OCR of a Sanskrit print is aligned against the e-texts we already hold, which gives a measured error rate on every page for free.
+  - The **evidence layer** holds immutable bytes, each with a sha256, page and line coordinates, a Wayback capture, our own WARC copy and a crawl-log line.
+  - The **assertion layer** holds versioned, signed claims that point at exact evidence spans (the [TKG knowledge layer](temporal-knowledge-graph.md#knowledge-layer)).
+- **Verse alignment is the spine.** Every line gets a CE verse id early:
+  - OCR is aligned against the e-texts we hold, which gives a measured error rate per page.
   - Translations get a section→verse map.
-  - Regional tellings get scene-level links to story events.
-- **Machines propose and people decide.** OCR, alignment, LLM extraction and regex passes all write *candidates* (`scratch.candidate`, [TKG §6.2](temporal-knowledge-graph.md#62-why-an-llm-extracted-graph-is-not-the-system-of-record)). Only an editor turns a candidate into a claim, and only the scholar signs one. Review throughput is the bottleneck, so the Studio review screen gets built in week 1, not later.
-- **Disagreement is data.** Each edition and each telling is its own attributed account.
-  - War-day placement is graded *stated*, *derived* or *conventional*.
-  - A conventional placement is never stored as a claim.
-- **Everything compiles downstream.** The chain is graph → chapter plan → manifest → shot contracts → renders. A corrected claim lists every caption, shot and kept reveal that used it.
-- **What exists today.**
-  - A fetcher that pins URLs by sha256 and fails loudly (`src/canon/fetch.mjs`).
-  - Parsers for GRETIL and Smith (`src/ingest/`).
-  - 12 pinned files in `content/canon/sources.json`.
+  - Regional tellings get scene-level links.
+- **Machines propose, people decide.** Automated steps write only evidence or `scratch.candidate` rows. Editors promote candidates to claims, and scholars sign. Review throughput is the bottleneck, so a Studio review screen is built in week 1.
+- **Disagreement is data.** Each edition and telling is its own account. War-day placement is graded stated, derived or conventional, and a conventional placement is never stored as a claim.
+- **Everything compiles downstream.** A corrected claim lists every caption, shot and kept reveal that used it.
+- **Built today:**
+  - a sha256-pinning fetcher that fails loudly (`src/canon/fetch.mjs`);
+  - GRETIL and Smith parsers (`src/ingest/`);
+  - 12 pinned files (`content/canon/sources.json`);
   - 99 cited verses (52 MBh, 47 Rām) and 43 claims.
-  - The rest of this plan is still to build.
-- **First three weeks.** Both lanes run, with the Rāmāyaṇa ranked first because of the film date. The main deliverables:
-  - shared fetch, preserve and OCR tooling;
-  - a Studio review screen, v0;
-  - a print-verified, signed Sundara Kāṇḍa pilot;
-  - page coordinates for every cited Droṇaparvan verse (DHE-1).
-- **What blocks the 6 Nov date.** A named scholar who can sign Rāmāyaṇa claims by about 30 Oct, plus four other founder actions (§8).
+
+  The rest is to build.
+- **The critical dependency for 6 Nov:** a scholar who can sign Rāmāyaṇa claims by about 30 Oct (§8).
 
 ---
 
@@ -46,164 +42,170 @@ Inputs, cited inline by short name:
 
 ### 2.1 Source by season, not by corpus
 
-Each season has a scope file that sits beside its chapters. The proposed location is `content/seasons/<season>/scope.json`, with season ids taken from [TKG `prod` Season](temporal-knowledge-graph.md#production-layer), e.g. `mbh-s1` and `ram-s1`. The file lists four things:
+Each season gets a scope file: proposed `content/seasons/<season>/scope.json`, with season ids as in [TKG Season](temporal-knowledge-graph.md#production-layer). It lists four things:
 
-1. **Core window.** The CE passages the season tells.
-2. **Pointer verses.** Passages the core retells, recalls or depends on. They are found by the propose step as accounts with `mode = recalled | retold` ([TKG §2.1.1](temporal-knowledge-graph.md#211-narration-frames-tellings)), and get added to scope as they are found.
-3. **Retellings.** Translations, commentaries and regional tellings, each with the parts of it that cover the window.
-4. **Visual references.** Images that depict the window.
+1. **Core window:** the CE passages the season tells.
+2. **Pointer verses:** passages the core retells or recalls. The propose step finds them as accounts with `mode = recalled | retold` ([TKG §2.1.1](temporal-knowledge-graph.md#211-narration-frames-tellings)) and adds them to scope.
+3. **Retellings:** the translation sections, commentary and regional tellings that cover the window.
+4. **Images:** visual references that depict the window.
 
-The fetcher acquires only what a scope file names. The register (§3) can list a source long before any season asks for it, but nothing is OCR'd, aligned or proposed until a season's scope includes it.
+Nothing is fetched, OCR'd, aligned or proposed unless a scope file names it. The register (§3) may list a source long before any season uses it.
 
 | | `mbh-s1` (Droṇa, day 13) | `ram-s1` (Sundara Kāṇḍa) |
 |---|---|---|
-| Core window | 7.32–7.51 (Abhimanyuvadha sub-parvan; MCI maps it to "Adhyāyas 7. 32-51" [inventory §1]): 20 adhyāyas, 643 CE verses | 5.1–5.66: 66 sargas, 2,487 CE verses (from `content/canon/ram/verse-index.json`) |
-| Pointer verses already cited | 1.213 (birth), 3.132 (heard from the womb), 3.256 (Jayadratha's boon, retold at 7.41), 4.67 (marriage), 14.65–69 (Parīkṣit) | none yet. The 15 Maināka claims all sit in 5.1. Hanumān's recollections will add Araṇya and Kiṣkindhā pointers |
-| Apparatus | 7.34.18\*259 (womb passage) and CE App. I No. 8 (the Vyāsa consolation, Ganguli L–LXXI) [sources §3] | Smith's Rāmāyaṇa star passages: not checked [inventory §2 gaps] |
-| Translations | Ganguli XXXI–XLIX and LXXII–LXXIII (map in [sources §3]); Dutt's Droṇa volume (to locate) | Griffith Book V (PG #24869); Dutt's Sundara volume |
-| Tellings (tier C) | Pampa, Sāraḷā Dāsa, Telugu MBh, each for its day-13 episode | Kṛttivāsa (Sundarā kāṇḍa), Growse's *Mānas* (Sundar Kāṇḍ), Kamba (Sundara Kāṇḍam), Ezhuthachan |
-| Next window | Day 14, Jayadrathavadha (from 7.52; range to confirm from MCI's sub-parvan entry) | Yuddha Kāṇḍa opening (6.1ff.), or back into Kiṣkindhā; **Decide** after the film |
+| Core window | 7.32–7.51, the Abhimanyuvadha sub-parvan (MCI: "related to Adhyāyas 7. 32-51" [inventory §1]): 20 adhyāyas, 643 verses | 5.1–5.66: 66 sargas, 2,487 verses (`content/canon/ram/verse-index.json`) |
+| Pointer verses already cited | 1.213, 3.132, 3.256 (retold at 7.41), 4.67, 14.65–69 | none yet: the 15 Maināka claims are all in 5.1. Hanumān's recollections will add Araṇya and Kiṣkindhā pointers |
+| Apparatus | 7.34.18\*259 (the womb passage); App. I No. 8 (the Vyāsa consolation, Ganguli L–LXXI) [sources §3] | Smith's Rāmāyaṇa star passages: not yet checked |
+| Translations | Ganguli XXXI–XLIX and LXXII–LXXIII (mapped in [sources §3]); Dutt's Droṇa volume | Griffith Book V; Dutt's Sundara volume |
+| Tellings | Pampa, Sāraḷā Dāsa, Telugu MBh (their day-13 episodes) | Kṛttivāsa, Growse's *Mānas*, Kamba, Ezhuthachan (their Sundara episodes) |
+| Next window | Day 14, Jayadrathavadha (from 7.52; range to confirm) | Yuddha 6.1ff. or back into Kiṣkindhā (**Decide** after the film) |
 
 ### 2.2 Two layers that never mix
 
-**Evidence layer.** This layer is append-only and holds bytes and their coordinates:
-- an evidence object for every fetched file (fields in §4.3);
-- a page record for every scan page;
-- an evidence span for every quotable piece: file sha256, page, IIIF/`xywh` box, line, character offsets, and the exact quote with prefix and suffix (W3C `TextQuoteSelector` + `TextPositionSelector` + `FragmentSelector` [tooling §5–6]).
+**Evidence layer.** Append-only. It holds:
+- **Evidence objects:** one per fetched file.
+- **Page records:** one per scan page.
+- **Evidence spans:** file sha256, page, `xywh` box, line, character offsets, and the exact quote with its prefix and suffix. These are W3C `TextQuoteSelector`, `TextPositionSelector` and `FragmentSelector` [tooling §5–6].
 
-Nothing in this layer is ever edited. A re-fetch that returns different bytes makes a new object. In [TKG](temporal-knowledge-graph.md#22-textual-time) terms, an evidence object is a `txt.manifestation` with its sha256, and its bytes live in the object store ([TKG §4.5](temporal-knowledge-graph.md#45-object-store)).
+A re-fetch that returns different bytes creates a new object. In TKG terms an evidence object is a `txt.manifestation` ([§2.2](temporal-knowledge-graph.md#22-textual-time)), and its bytes live in the object store ([§4.5](temporal-knowledge-graph.md#45-object-store)).
 
-**Assertion layer.** This layer holds:
-- `kn.claim` / `kn.claim_version` / `kn.claim_target`;
-- `story.*` facts with their `kn.support`;
-- popular attestations (`pa.*`);
-- `kn.review` sign-offs.
+**Assertion layer.** This is `kn.claim` / `claim_version` / `claim_target`, `story.*` with `kn.support`, `pa.*` popular attestations and `kn.review` ([TKG §3.3](temporal-knowledge-graph.md#33-node-and-edge-types-by-layer), [§4.3](temporal-knowledge-graph.md#43-ddl-sketch-core-tables)). Assertions point down into evidence and never the other way, so editing a claim cannot alter a span.
 
-All of these are defined in [TKG §3.3 and §4.3](temporal-knowledge-graph.md#33-node-and-edge-types-by-layer). An assertion points *down* into the evidence layer. Nothing points the other way, so editing a claim can never change an evidence span.
-
-**What TKG does not have yet.** TKG has no table for the evidence layer below `txt.manifestation`: page records, evidence spans, alignment links and the crawl log. §4 gives their fields. They belong in a `src` (source) schema next to `txt`, and TKG should gain a short section for them. This is a proposal, not yet in the architecture document.
+**Gap in TKG.** TKG stops at `txt.manifestation`. Page records, evidence spans, alignment links and the crawl log (fields in §4) need a `src` schema next to `txt`, and TKG needs a section for it. This is a proposal.
 
 ### 2.3 Verse alignment is the spine
 
-A line that has no CE verse id cannot support a claim, so alignment happens straight after extraction, before any LLM sees the text. There are three methods, from the most to the least exact:
+A line without a CE verse id cannot support a claim. Alignment therefore runs right after extraction, before any LLM sees the text.
 
-| Source kind | Method | What it yields |
+| Source kind | Method | Yields |
 |---|---|---|
-| Sanskrit print of a text we hold as e-text (BORI Droṇaparvan, Baroda Sundara) | Character alignment of the OCR output against Smith/GRETIL for the expected adhyāya | Verse id, page and box per line, plus a **measured CER** per page |
-| Translation (Ganguli, Dutt, Griffith) or vulgate (Nīlakaṇṭha) | Section→verse map: hand-anchored at the section boundaries, then embedding-proposed inside them, then human-accepted | Many-to-many links, each with a score and a status |
-| Regional telling (Kṛttivāsa, Pampa, …) | Scene-level link to a `story.event`, with the CE locator of the episode it diverges from | Event links, not verse links |
+| Sanskrit print of a text we hold as e-text | Character alignment of the OCR against Smith/GRETIL for the expected adhyāya | Verse id, page and box for each line, plus a **measured CER** per page |
+| Translation (Ganguli, Dutt, Griffith) or vulgate (Nīlakaṇṭha) | Section boundaries anchored by hand; links inside each section proposed by embedding similarity, then accepted by a person | Many-to-many links, each with a score and a status |
+| Regional telling | Scene-level link to a `story.event`, plus the CE locator it retells or departs from | Event links, not verse links |
 
 ### 2.4 Machines propose, people decide
 
-Every automated step writes to the evidence layer (OCR and alignment) or to `scratch.candidate` (proposals). Only three kinds of person write assertions:
-- the **editor** registers a claim;
-- the **proofreader** marks it `proofed`;
-- the **scholar** signs it.
+Automated steps write evidence (OCR, alignment) or `scratch.candidate` rows ([TKG §6.2](temporal-knowledge-graph.md#62-why-an-llm-extracted-graph-is-not-the-system-of-record)). Only people write assertions:
+- the editor registers the claim;
+- the proofreader marks it `proofed`;
+- the scholar signs it ([TKG §2.3](temporal-knowledge-graph.md#23-knowledge-system-time-bitemporal); roles from [methods §6]).
 
-These roles follow [methods §6] and [TKG §2.3](temporal-knowledge-graph.md#23-knowledge-system-time-bitemporal). The Studio review screen is where people work through candidates, so its throughput (candidates decided per hour) sets how fast the graph grows. We measure it from week 1 (§4.8).
+The Studio review screen therefore sets the pace of the whole graph. Its throughput is measured from the first week (§4.7).
 
 ### 2.5 Disagreement is data
 
 - Each edition, recension, translation and telling is its own `txt.expression`.
-- A fact two sources disagree on gets one `story.account` per source, each with its own claim or attestation. The two are never averaged into one value.
-- Ranks follow the Wikidata pattern [methods §3]:
-  - **preferred**: `bori-ce` / `baroda-ce` main text;
-  - **normal**: other expressions, shown with their label;
-  - **deprecated**: only our own withdrawn versions.
-- Popular tellings are never ranks on a claim. They stay `pa.*`.
+- Where sources disagree, each gets a `story.account` with its own claim or attestation. Accounts are never averaged.
+- Ranks follow Wikidata [methods §3]:
+  - *preferred* = `bori-ce` / `baroda-ce` main text;
+  - *normal* = other expressions, shown with their label;
+  - *deprecated* = our own withdrawn versions.
+- Popular tellings stay `pa.*` and never become ranks.
 - War-day placement is graded:
-  - **stated**: a verse names the day or boundary, cited with `kn.support.role = 'dates'`;
-  - **derived**: counted from stated anchors along `story.event_order` edges, with the tick computed rather than asserted;
-  - **conventional**: the parvan-to-day schema (Bhīṣma 1–10, Droṇa 11–15 …). It is never stored as a claim; at most it appears as a popular attestation or an editorial note [methods §2].
+  - **stated:** a verse names the day or a boundary, cited with `kn.support.role = 'dates'`;
+  - **derived:** counted from stated anchors along `story.event_order` edges, so the tick is computed;
+  - **conventional:** the parvan = days schema. It is never a claim; at most it is a popular attestation or an editorial note [methods §2].
 
 ### 2.6 Everything compiles downstream
 
-Every downstream artifact is a projection: the chapter plan (`content/<ch>/plan.json`), the manifest ([TKG §5.1](temporal-knowledge-graph.md#51-the-chapter-manifest-becomes-a-projection)), shot contracts, web experiences and renders. A corrected claim is a new `kn.claim_version`, and the blast-radius query (TKG Q3) lists what used the old version: captions, narration lines, shot contracts, kept reveals and web pages. Today `src/canon/claims-used.mjs` already finds every claim id used under `content/`, and the web build fails on an unresolved id. That is the seed of this query. A correction produces new versions of everything it touches, and it never rewrites anything already released.
+- The chapter plan, manifest ([TKG §5.1](temporal-knowledge-graph.md#51-the-chapter-manifest-becomes-a-projection)), shot contracts, web experiences and renders are all projections of the graph.
+- A correction is a new `kn.claim_version`. The blast-radius query (TKG Q3) then lists every caption, narration line, shot, kept reveal and web page that used the old version.
+- Pieces that exist today:
+  - `src/canon/claims-used.mjs` already finds every claim id used under `content/`;
+  - `pnpm web:build` fails on an unresolved id.
+- Released versions are never rewritten. Corrections produce new versions.
 
 ---
 
 ## 3. Source register
 
-### 3.1 Tiers
+### 3.1 Tiers and rules
 
-| Tier | Meaning | May support | Example |
-|---|---|---|---|
-| **A, the text** | Critical-edition constituted text | `kn.claim_target` (main text only, [TKG §4.4](temporal-knowledge-graph.md#44-the-star-passage-guard)) | `bori-ce`, `baroda-ce`, Harivaṃśa CE |
-| **B, scholarship** | Translations, commentaries, indexes, lexicons, studies | Glosses, translations, finding aids, apparatus notes. A tier-B source can *lead to* a claim but never *be* its target | Ganguli, MCI, Nīlakaṇṭha |
-| **C, popular telling** | "What many heard": regional poems, comics, TV | `kn.popular_attestation` only | Kṛttivāsa, Amar Chitra Katha |
-| **D, pointer** | Leads and join keys | Nothing. Ids and leads only | Wikidata, Wikipedia |
+| Tier | Meaning | May support |
+|---|---|---|
+| **A, the text** | Critical-edition constituted text | `kn.claim_target`, main text only ([TKG §4.4](temporal-knowledge-graph.md#44-the-star-passage-guard)) |
+| **B, scholarship** | Translations, commentaries, indexes, lexicons | Glosses, translations, finding aids, apparatus notes. Can lead to a claim; is never its target |
+| **C, popular telling** | Regional poems, comics, TV: "what many heard" | `kn.popular_attestation` only |
+| **D, pointer** | Leads and join keys | Nothing |
 
-### 3.2 Rules that apply to every row
+**Rules for every row:**
+1. **An archive.org uploader's rights mark (CC0, PDM, CC BY-NC-ND) is never rights evidence.** We record it and ignore it. Such marks have already turned up on BORI, ACK, Rajaji and Mani scans [sources §5; inventory §5, §7]. Evidence means one of:
+   - a scanning centre's `NOT_IN_COPYRIGHT`;
+   - a verified publication date plus a verified death date;
+   - a licence text held by sha256;
+   - a permission letter.
+2. Calcutta, vulgate or recension locators are leads until they are aligned to a CE id.
+3. A row that names no verse-mapping method is tier D.
 
-1. **An archive.org uploader's rights mark is never rights evidence.** A `licenseurl` of CC0, PDM or CC BY-NC-ND set by an uploader is recorded and ignored. We have already seen it on scans of BORI, Amar Chitra Katha, Rajaji and Mani [sources §5; inventory §5, §7]. What counts as evidence:
-   - a scanning centre's `possible-copyright-status: NOT_IN_COPYRIGHT`;
-   - a publication date we have verified, plus an author's death date we have verified;
-   - a licence text we hold by sha256.
-2. **Locators get converted to CE before use.** A Calcutta, vulgate or recension locator (Sørensen, Mani, Dutt, Griffith) is a lead until it is converted to a CE id through the alignment of §2.3.
-3. **Every row names its verse-mapping method.** If it cannot name one, it is tier D.
+**Status values:**
+- *held*: pinned today;
+- *next*: in a season scope within three weeks;
+- *later*;
+- *excluded*.
 
-**Status values:** *held* (pinned in `content/canon/sources.json` today), *next* (in a season scope within three weeks), *later*, *excluded*.
+### 3.2 Mahābhārata
 
-### 3.3 Mahābhārata lane
-
-| Source | Tier | Format | Rights (one line) | Verse mapping | Status |
+| Source | Tier | Format | Rights | Verse mapping | Status |
 |---|---|---|---|---|---|
-| Smith CE e-text, `text/UD` (Devanagari) books 1, 3, 4, 7, 14 | A | plain text, 9-char ids | (C) BORI; "Please do not provide copies" [sources §2] | native CE | **held** (as `devanagariCheck`) |
-| Smith CE `text/UR` (ISO 15919) books 1–18 + `apps/UR/SuppNN.txt` | A (+ apparatus) | plain text | same | native CE; star passages `07*0259_01` | **next**: becomes the parse source in place of GRETIL [sources §0, §9.1] |
-| GRETIL `mbh_NN_u.htm` books 1, 3, 4, 7, 14 | A (cross-check) | HTML, `07,034.019a` | defers to the BORI terms | native CE; 83 Book 7 lines differ from Smith [sources §1] | **held** (parse source today) |
-| BORI CE print scans, Droṇaparvan 1958 (`in.ernet.dli.2015.407869`, 826 pp, among others) | A (print witness) | scans; DLI OCR unusable | print may be protected to 2028/2038 (De's death date conflicts); uploader CC0 irrelevant | OCR→e-text alignment | **next** (DHE-1: page coordinates) |
-| Harivaṃśa CE (Vaidya, BORI 1969), GRETIL TEI + App. I | A | TEI | BORI print + GRETIL CC BY-NC-SA 4.0 | native CE + star | later (Kṛṣṇa material) |
-| Ganguli, PG #15475 + scans `mahabharataofkri04royp` | B | PG text; scans NOT_IN_COPYRIGHT | PD (1883–96) [sources §9.2] | section map; done by hand for 7.32–7.51 | **held** (researched; not pinned in `sources.json`) |
-| M. N. Dutt prose MBh (1895–1905), `aproseenglishtr00duttgoog`, DLI parvan volumes | B | scans only | PD in the US; India on Dutt's death (≈1912, unverified) | numbered vulgate verses → vulgate→CE map | **next** (Droṇa volume to locate) |
-| Nīlakaṇṭha *Bhāratabhāvadīpa*, Chitrashala 1929–36 (Droṇa 1931: `cRkp_…`) | B (later layer; vulgate numbering) | scans; no e-text | commentary PD; Kinjawadekar's editorial matter unverified; 1931 is borderline for the US | vulgate chapter/verse → CE map | later (needed to bridge Mani and Dutt) |
-| Mehendale, *MBh Cultural Index* (CDSL `mci.txt`) | B (finding aid) | tagged text, 2,643 records | print in copyright (1993); digital: CC BY-NC-SA 3.0 header vs CC BY-SA 4.0 LICENSE | **cites the CE directly** (`7. 32. 13`), records war days | **next** (locators only, never its prose) |
-| Sørensen, *Index to the Names* (CDSL `inm.txt`; DLI scans `in.ernet.dli.2015.98210`) | B (aliases) | tagged text; scans | print PD (1904–25); digital layer carries the same licence conflict | Calcutta locators → Ganguli → CE | **next** (take the text from the PD scans; CDSL file as internal lookup only) |
-| Vettam Mani, *Purāṇic Encyclopaedia* (CDSL `pe.txt`) | B, pointer only | tagged text | in copyright (1975; US to ≈2070) | vulgate chapter → CE | later, pointer only |
-| Monier-Williams 1899, Apte 1890 (CDSL `mw`, `ap90`) | B (lexical) | tagged text | print PD; digital NC/SA conflict | n/a (glosses) | **next**, internal only until Cologne answers |
-| Hopkins, *Epic Mythology* 1915 | B | scans (`epicmythology00hopkuoft`, NOT_IN_COPYRIGHT) | US PD; India PD if he died before 1966 (1932 unverified) | vulgate | later |
-| DCS CoNLL-U (Hellwig) | B (morphology) | CoNLL-U | CC BY 4.0 on GitHub, CC BY 3.0 on the site | counter is not CE; drifts [sources §7] | later (lemmas only) |
-| Pampa Bhārata (1898 Bibliotheca Carnatica, `india.history.resource.111026`) | C | scans | work PD; 1898 edition pre-1931 | scene-level | **next** (day-13 scenes) |
-| Sāraḷā Dāsa MBh (`odia-mahabharata`) | C | scans; no rights field | work PD; edition date to verify | scene-level | later |
-| Āndhra Mahābhāratamu (palm-leaf `bwoz-232-…`; 1968 revised print `andhramahabharat025923mbp`) | C | scans | work PD; the 1968 printing may be protected | scene-level | later |
-| Kannada Jaimini Bhārata (Lakṣmīśa; 1852 Sanderson tr. `jaiminibharataa00sandgoog`, NOT_IN_COPYRIGHT) | C | scans | PD | scene-level, against Aśvamedha episodes absent from the CE | later (no day-13 content) |
-| Villiputhurar (Project Madurai) | C | e-text (unverified) | Project Madurai terms unverified | scene-level | later |
-| Rajaji, ACK, B. R. Chopra 1988 | C, cite only | — | in copyright; archive.org PD/CC0 marks are false | by issue, episode or timestamp | cite only; never reproduce |
-| Van Buitenen, Debroy, Fitzgerald | B, consult only | — | in copyright | CE | consult; quote within fair dealing only |
-| Wikidata (224 MBh items, 13.7% of statements referenced) | D | SPARQL | CC0 | none | **next**, QIDs only, never as evidence |
+| Smith CE `text/UD`, books 1, 3, 4, 7, 14 | A | text, ids like `07034019a` | (C) BORI, "do not provide copies" | native CE | **held** (Devanagari check) |
+| Smith CE `text/UR` books 1–18 + `apps/UR/SuppNN.txt` | A + apparatus | text | same | native CE; star passages `07*0259_01` | **next**, to replace GRETIL as the parse source [sources §9.1] |
+| GRETIL `mbh_NN_u.htm`, books 1, 3, 4, 7, 14 | A (cross-check) | HTML | defers to BORI | native; 83 Book 7 lines differ from Smith | **held** (today's parse source) |
+| BORI Droṇaparvan print, 1958 (`in.ernet.dli.2015.407869`, 826 pp, and others) | A (print witness) | scans; DLI OCR unusable | print possibly protected to 2028 or 2038; uploader CC0 is irrelevant | OCR→e-text | **next** (DHE-1) |
+| Harivaṃśa CE (BORI 1969), GRETIL TEI + App. I | A | TEI | BORI + CC BY-NC-SA 4.0 | native + star passages | later |
+| Ganguli, PG #15475; scans `mahabharataofkri04royp` | B | text; scans NOT_IN_COPYRIGHT | PD | section map (7.32–7.51 done) | **held** (researched, not yet pinned) |
+| M. N. Dutt prose (1895–1905), `aproseenglishtr00duttgoog` + DLI | B | scans | PD in the US; India hinges on Dutt's death (≈1912, unverified) | numbered vulgate verses → CE | **next** (find the Droṇa volume) |
+| Nīlakaṇṭha, Chitrashala 1929–36 (Droṇa 1931, `cRkp_…`) | B (later layer) | scans | commentary PD; editor unverified; 1931 borderline in the US | vulgate numbering → CE | later (the bridge for Mani and Dutt) |
+| Mehendale, *Cultural Index* (CDSL `mci.txt`) | B (finding aid) | tagged text | print in copyright; digital layer has a CC BY-NC-SA 3.0 vs CC BY-SA 4.0 conflict | **cites CE directly**; records war days | **next** (locators only) |
+| Sørensen, *Index to the Names* (CDSL `inm.txt`; DLI `…98210`) | B (aliases) | text; scans | print PD; digital layer has the same conflict | Calcutta → Ganguli → CE | **next** (text from PD scans; CDSL as internal lookup) |
+| Vettam Mani, *Purāṇic Encyclopaedia* (CDSL `pe.txt`) | B, pointer | text | in copyright | vulgate → CE | later |
+| Monier-Williams 1899, Apte 1890 (CDSL) | B (lexical) | text | print PD; digital NC/SA conflict | n/a | **next**, internal only |
+| Hopkins, *Epic Mythology* 1915 | B | scans | US PD; India hinges on his death year (≈1932) | vulgate | later |
+| DCS CoNLL-U | B (morphology) | CoNLL-U | CC BY 4.0 (GitHub) / 3.0 (site) | counter ≠ CE | later |
+| Pampa Bhārata, 1898 (`india.history.resource.111026`) | C | scans | PD (pre-1931 edition) | scene | **next** |
+| Sāraḷā Dāsa (`odia-mahabharata`) | C | scans | work PD; edition unverified | scene | later |
+| Āndhra Mahābhāratamu (palm-leaf `bwoz-232-…`; 1968 print) | C | scans | work PD; 1968 print may be protected | scene | later |
+| Kannada Jaimini Bhārata (Sanderson 1852, NOT_IN_COPYRIGHT) | C | scans | PD | scene (Aśvamedha episodes absent from the CE) | later |
+| Villiputhurar (Project Madurai) | C | e-text, unverified | terms unverified | scene | later |
+| Rajaji, ACK, B. R. Chopra 1988 | C, cite only | — | in copyright; archive.org marks are false | issue, episode, timestamp | cite only |
+| Van Buitenen, Debroy, Fitzgerald | B, consult | — | in copyright | CE | consult only |
+| Wikidata (224 items; 13.7% of statements referenced) | D | SPARQL | CC0 | none | **next**, QIDs only |
 
-### 3.4 Rāmāyaṇa lane
+### 3.3 Rāmāyaṇa
 
-| Source | Tier | Format | Rights (one line) | Verse mapping | Status |
+| Source | Tier | Format | Rights | Verse mapping | Status |
 |---|---|---|---|---|---|
-| Smith Baroda CE `text/UR/Ram05.txt` + `text/UD/Ram05.txt` | A | plain text, 8-char ids `5001089a` | no licence stated; "still far from correct" [inventory §2] | native CE | **held** (book 5) |
-| Smith `Ram00`–`Ram07` (UR + UD), plus star passages if published | A | plain text | same | native CE | **next** (all books for the verse index; Ram00 for provenance) |
-| GRETIL `sa_rAmAyaNa.xml` / `.txt` (Tokunaga, Smith 1st rev.) | A (cross-check) | TEI, txt `R_1,001.001` | CC BY-NC-SA 4.0 (GRETIL's wrapper) | native CE | **next** (Smith-vs-GRETIL diff, as done for MBh 7) |
-| Hellwig rev. 2–3 (`sa_vAlmIki-rAmAyaNa-rev-2-3.xml`) | A (cross-check, kāṇḍas 2–3) | TEI | CC BY-NC-SA 4.0 | CE, with "occasional minor corrections according to the Southern recension" | later |
-| Baroda CE print volumes (Oriental Institute, 1960–75) | A (print witness) | scans **not yet located** | editorial copyright possible (Bhatt, Shah; death dates unverified) | OCR→e-text alignment | **next**: locate. Every cited Rām verse needs a print check, because Smith's text is error-prone |
-| Griffith, PG #24869 (+ DLI `in.ernet.dli.2015.217237`, `…217235`) | B | PG text (verse); scans | PD (1870–74) | Benares-recension cantos → Baroda sargas (canto-level map) | **next** (Book V) |
-| M. N. Dutt prose Rāmāyaṇa 1891–94 | B | scans (uploader PDM ignored; pre-1931 date is the evidence) | PD | vulgate → CE | **next** (Sundara volume) |
-| Goldman et al., Princeton (CE-based) | B, consult only | — | in copyright | CE | consult for the scholar |
-| Hari Prasad Shastri | **excluded** | — | US probably protected; credible allegation it is translated from Roussel [inventory §3] | — | excluded |
-| IIT Kanpur Valmiki (southern recension) | C/D | web (unreachable 17 Oct) | terms unverified | southern numbering, **not CE** | later, never as CE |
-| Kṛttivāsī Rāmāyaṇa (DLI `in.ernet.dli.2015.291061`, 1903) | C | scans | work PD; 1903 printing pre-1931 | scene-level | **next** |
-| Growse, *Rámáyana of Tulsi Dás* 1883 (HathiTrust 002721438; Wikisource DjVu) | C (with a PD English) | scans; Wikisource `Page:` | PD | scene-level; Wikisource page + revision id as anchor | **next** |
-| Kamba Rāmāyaṇam (Project Madurai) | C | e-text (unverified) | work PD; Project Madurai terms unverified; Penguin's new English is in copyright | scene-level | **next**: verify the files and terms |
-| Ezhuthachan, *Adhyātma Rāmāyaṇam Kilippāṭṭu* (palm-leaf `zbzh-173-…`) | C | scans | work PD; uploader marks ignored | scene-level | later |
-| Ramanand Sagar *Ramayan* 1987, ACK Rāmāyaṇa issues | C, cite only | — | in copyright | episode or issue + timestamp or page | cite only |
-| Wikidata Rāmāyaṇa items | D | SPARQL | CC0 | none | **next** (count unknown: the earlier query used a wrong QID) |
+| Smith Baroda CE `Ram05` (UR + UD) | A | text, ids like `5001089a` | no licence stated; "still far from correct" | native CE | **held** |
+| Smith `Ram00`–`Ram07` (UR + UD) | A | text | same | native | **next** |
+| GRETIL `sa_rAmAyaNa.xml` / `.txt` | A (cross-check) | TEI, txt | CC BY-NC-SA 4.0 | native | **next**: diff against Smith |
+| Hellwig rev. 2–3 | A (cross-check) | TEI | CC BY-NC-SA 4.0 | CE with some southern corrections | later |
+| Baroda CE print volumes (1960–75) | A (print witness) | scans **not yet located** | possible editorial copyright (Bhatt, Shah) | OCR→e-text | **next**: Smith's warning means every cited verse needs a print check |
+| Griffith, PG #24869 (+ DLI vols 1–2) | B | text (verse) | PD | Benares cantos → Baroda sargas | **next** (Book V) |
+| M. N. Dutt prose 1891–94 | B | scans (uploader PDM ignored) | PD by date | vulgate → CE | **next** (Sundara volume) |
+| Goldman et al. (Princeton) | B, consult | — | in copyright | CE | consult |
+| Hari Prasad Shastri | **excluded** | — | likely protected in the US; alleged to be translated from Roussel | — | excluded |
+| IIT Kanpur (southern recension) | C/D | web, unreachable 17 Oct | unverified | **not CE** | later |
+| Kṛttivāsī, 1903 (`in.ernet.dli.2015.291061`) | C | scans | PD (pre-1931 printing) | scene | **next** |
+| Growse, *Tulsi Dás* 1883 (HathiTrust; Wikisource DjVu) | C | scans; Wikisource `Page:` | PD | scene; page + revision id | **next** |
+| Kamba (Project Madurai) | C | e-text, unverified | work PD; site terms unverified | scene | **next**: verify first |
+| Ezhuthachan (palm-leaf `zbzh-173-…`) | C | scans | work PD | scene | later |
+| Sagar *Ramayan* 1987, ACK | C, cite only | — | in copyright | episode, page | cite only |
+| Wikidata | D | SPARQL | CC0 | none | **next** (count unknown) |
 
-### 3.5 Images (both lanes)
+### 3.4 Images
 
-| Source | Rights | Use | Status |
-|---|---|---|---|
-| Cleveland Museum of Art Open Access API (`cc0=1&has_image=1`: 11 MBh, 38 Rām hits) | CC0 | Shippable visual references. Several titles name the kāṇḍa and chapter (e.g. 2013.306, "Chapters 50 and 51 of the Aranya Kanda"), so they link at scene level | **next** |
-| Met Open Access | CC0 for public-domain works | Same. The client must use `/public/collection/v1.1/search` (v1 retired 1 Oct 2026) | **next** |
-| Smithsonian Open Access (incl. National Museum of Asian Art) | CC0 | Same | later |
-| Wikimedia Commons (`Category:Chakravyuha`, 19 files; `Kurukshetra War (Angkor Wat)`; `Ramayana in art`) | per file | Only after a per-file licence check. A CC BY-SA photo of a relief may make a conditioned render a derivative, so flag it before use as a render input | **next**, file by file |
-| British Museum | CC BY-NC-SA 4.0 | **Excluded** from anything shipped and from render conditioning | excluded |
-| AIIS, Huntington | scholarly only; AIIS bars commercial publicity | **Excluded** unless a written licence is obtained | excluded |
-
-Every image gets an evidence object (the API record snapshot plus the image bytes, both by sha256) and a `prod.asset`-style rights note. Rule 1 still governs what an image may be used for: no deity close-up as a reference for a shot.
+- **Shippable, CC0:**
+  - Cleveland Open Access API: 11 MBh hits, 38 Rām. Some titles name the kāṇḍa and chapter (2013.306: "Chapters 50 and 51 of the Aranya Kanda"), so they can be linked at scene level.
+  - Met Open Access: use `/v1.1/search`, since v1 was retired on 1 Oct 2026.
+  - Smithsonian Open Access.
+- **Per file only:** Wikimedia Commons (`Category:Chakravyuha`, 19 files; Angkor Wat reliefs; `Ramayana in art`).
+  - Check each file's licence.
+  - Flag CC BY-SA photographs of reliefs before using them to condition a render, since the render may become a derivative.
+- **Excluded:**
+  - British Museum: CC BY-NC-SA.
+  - AIIS: scholarly use only; commercial publicity barred.
+  - Huntington: no blanket licence.
+- **Records:** each image gets an evidence object (API record and image bytes, both by sha256) and a rights note.
+- **Rule 1 still governs use:** no deity close-up as a shot reference.
 
 ---
 
@@ -211,168 +213,188 @@ Every image gets an evidence object (the API record snapshot plus the image byte
 
 ```
 register → acquire → preserve → extract → align → propose → verify → load → use
- (rows)    (bytes)   (witness)   (text)   (CE ids) (scratch)  (people)  (SQL)  (projections)
 ```
 
 ### 4.1 Register
 
-- **Tool:** a register file per source. The proposal is to extend `content/canon/sources.json` from editions to all sources, or to add `content/canon/register/*.json`. Today `sources.json` holds two editions (`bori-ce`, `baroda-ce`) and 12 pinned files with notices and a rights paragraph.
-- **Built today:** the editions shape. **To build:** fields for tier, kind, mapping method, rights evidence and status, plus a test.
-- **Record:** `{source_id, title, work, expression_kind (TKG txt.expression.kind), tier, manifestations[], rights: {summary, evidence_kind: scan_centre_status | pubdate+deathdate | licence_text | permission_letter | none, evidence_ref, verified_by, date}, uploader_marks (recorded, ignored), mapping_method, seasons[], status}`.
-- **Gate:** a test fails if any source in a season scope has no register row, if a row's `rights.evidence_kind` is an uploader mark, or if a tier-A or tier-B row lacks a mapping method.
-- **Cost:** none.
+- **Tool.** Extend `content/canon/sources.json`, which today holds two editions and 12 pinned files with notices and a rights paragraph, into a register of all sources.
+- **Record.** `{source_id, work, expression_kind, tier, manifestations[], rights: {summary, evidence_kind: scan_centre_status | pubdate+deathdate | licence_text | permission_letter | none, evidence_ref, verified_by, date}, uploader_marks (ignored), mapping_method, seasons[], status}`.
+- **Gate.** A test fails if any of these is true:
+  - a scoped source has no register row;
+  - a row's rights evidence is an uploader mark;
+  - a tier-A or tier-B row has no mapping method.
+- **Cost.** None.
 
 ### 4.2 Acquire
 
-- **Tools:**
-  - **archive.org.** The Metadata API is used per item. The Scraping API (cursor-based) is used for discovery past advancedsearch's 10k cap. Use advancedsearch `numFound` for counts, because `total_only` returned 3128 for every query [tooling §1]. Files are downloaded from `/download/<id>/<file>`.
-  - **Project Gutenberg.** Fetch through mirrors or the harvest feed, never by crawling the main site.
-  - **Wikisource and Commons.** The MediaWiki API.
-  - **Museums.** The CMA Open Access API and Met v1.1.
-  - **Already-pinned e-texts.** Direct URL fetch, as today.
-- **Built today:** `src/canon/fetch.mjs`. It fetches each pinned URL into the gitignored `.cache/canon/`, checks the sha256 and throws on a mismatch. It does no robots check, keeps no crawl log and makes no WARC. One small fix: its error message says "GRETIL returned" even for Smith URLs.
-- **To build:**
-  - Read robots.txt first (RFC 9309) and store its sha256.
+- **Tools.**
+  - archive.org: the Metadata API per item, and the Scraping API (cursor-based) for discovery beyond advancedsearch's 10k cap. Use `numFound` for counts, because `total_only` returned 3128 for every query [tooling §1].
+  - Project Gutenberg: mirrors or the harvest feed only.
+  - Wikisource and Commons: the MediaWiki API.
+  - Museums: the CMA API and Met v1.1.
+- **Built.** `fetch.mjs` downloads each pinned URL into the gitignored `.cache/canon/`, checks its sha256 and throws on a mismatch. It has no robots check, no log and no WARC. Its error message says "GRETIL returned" even for Smith URLs; this is minor and should be fixed.
+- **To build.**
+  - Fetch robots.txt first (RFC 9309) and record its sha256.
   - User-Agent `DheevaraCorpusBot/0.1 (+contact)`.
   - One request per second per host, or the Crawl-delay if larger.
   - Back off on 429 and 503.
-  - On a 403 challenge, **fail loudly with no retry and no workaround** (the Cloudflare, DCS proof-of-work and CAPTCHA cases [tooling §7]).
-  - For archive.org, check IA's own `sha1` from `/metadata/<id>` before computing ours.
+  - **Fail loudly on a 403 challenge, with no retry or workaround** (Cloudflare, the DCS proof-of-work, CAPTCHAs [tooling §7]).
+  - Check IA's `sha1` before computing our sha256.
   - Email info@archive.org before any job over about 10k files.
-- **Record:** a crawl-log line, appended as JSONL to `content/canon/crawl-log/` [tooling §7]: `{ts, url, method, status, bytes, sha256, robots_ok, robots_txt_sha256, user_agent, delay_ms, purpose (season + source_id), warc_file, wayback_ts, ia_id?, ia_sha1?}`.
-- **Gate:** no fetch outside a season scope. A sha256 mismatch on a pinned file fails, as today. A `robots_ok = false` fails.
-- **Cost:** none, apart from time. The scale per season is hundreds of files, not thousands.
+- **Record.** A JSONL crawl-log line in `content/canon/crawl-log/`: `{ts, url, method, status, bytes, sha256, robots_ok, robots_txt_sha256, user_agent, delay_ms, purpose, warc_file, wayback_ts, ia_id?, ia_sha1?}`.
+- **Gate.** No fetch outside a scope. A pin mismatch fails. `robots_ok = false` fails.
+- **Cost.** None.
 
 ### 4.3 Preserve
 
-- **Tools:**
-  - `warcio` (a Python sidecar wrapping the same request, so the WARC holds the exact bytes we hashed), or a Node WARC writer.
-  - SPN2 with archive.org S3 keys: `if_not_archived_within=30d`; limits 7 captures/min, 30k/day and 5 per URL per day [tooling §2].
-  - CDX lookups to record the capture.
-- **Built today:** nothing. **To build:** all of it. SPN2 reachability through this environment's proxy is untested. The Wayback Machine reset connections on 4 Oct [sources §3], which is why we keep our own WARC as well.
-- **Where it lives:** an object-store bucket `evidence`, next to the `assets`, `records` and `cache` buckets of [TKG §4.5](temporal-knowledge-graph.md#45-object-store). BORI and Baroda full texts go in the restricted area TKG describes. Git holds only the CDXJ index and the hashes. A copy goes to the Drive folder "Dheevara — Build Output" only for deliverables, not for raw evidence.
-- **Record:** the evidence object, `{sha256, bytes, media_type, source_url, retrieved_at, http: {status, last_modified, etag}, warc: {file, offset}, wayback: {ts, spn_job_id} | {error}, ia: {id, file, sha1, metadata_snapshot_sha256}?, rights_hint (recorded only)}`. This becomes a `txt.manifestation` row when loaded.
-- **Gate:** an evidence object without a WARC record is incomplete. A missing Wayback capture is allowed but recorded as an error, never left silently empty.
-- **Cost:** storage of about $1–5 a month at 100–200 GB [tooling synthesis]. SPN2 is free.
+- **Tools.**
+  - `warcio`, as a Python sidecar around the same request, so the WARC holds exactly the bytes we hashed.
+  - SPN2 with S3 keys and `if_not_archived_within=30d`. Its limits are 7 captures a minute, 30k a day and 5 per URL per day [tooling §2].
+  - CDX lookup to confirm each capture.
+- **Built.** Nothing.
+  - SPN2 through this environment's proxy is untested.
+  - Wayback reset our connection on 4 Oct [sources §3], which is one reason we keep our own WARC copy.
+- **Storage.**
+  - An object-store bucket `evidence`, alongside TKG's `assets`, `records` and `cache`.
+  - Full BORI and Baroda texts go in TKG's restricted area.
+  - Git holds only the CDXJ index and the hashes.
+- **Record.** The evidence object: `{sha256, bytes, media_type, source_url, retrieved_at, http: {status, last_modified, etag}, warc: {file, offset}, wayback: {ts, spn_job_id} | {error}, ia: {id, file, sha1, metadata_snapshot_sha256}?, rights_hint}`. It loads as a `txt.manifestation`.
+- **Gate.** An evidence object needs a WARC record. A failed Wayback capture is recorded as an error, never left empty.
+- **Cost.** Storage of about $1–5 a month at 100–200 GB. SPN2 is free.
 
 ### 4.4 Extract
 
-**E-texts** go through deterministic parsers.
-- **Built:** `src/ingest/gretil.mjs` (GRETIL MBh HTML, star passages kept apart) and `src/ingest/smith.mjs` (Smith files, both epics, ISO 15919 → IAST).
-- **Still to build:**
-  - Smith `apps/` (Supp) files;
-  - GRETIL TEI (Harivaṃśa, the Rāmāyaṇa cross-check);
-  - a PG text parser that keeps section and canto headings (Ganguli, Griffith);
-  - a CDSL record parser (`<L>…<LEND>`, `{@…@}`, page breaks `[Page…]`) for MCI and INM.
+**E-texts: deterministic parsers.**
+- Built:
+  - `src/ingest/gretil.mjs` (keeps star passages apart);
+  - `src/ingest/smith.mjs` (both epics; ISO 15919 → IAST).
+- To build:
+  - a Smith `apps/` parser;
+  - a GRETIL TEI parser;
+  - a PG parser that keeps section and canto headings (Ganguli, Griffith);
+  - a CDSL record parser (`<L>…<LEND>`) for MCI and INM.
 
-**Scans** go through layout, then OCR, then normalisation.
-1. **Layout.** Split each page into text block, apparatus, footnote, running head and page number, each with a box. Use Sarvam's layout JSON or docling. Only the text block feeds alignment. The apparatus is kept as evidence and not parsed in v1 [tooling §4].
-2. **OCR, two engines** on every text block:
-   - **Sarvam Vision** is primary: Indic-first, 23 languages including `sa-IN`. Its limits are 10 pages per PDF job and 10 requests a minute, so about 100 pages a minute at best.
-   - **Mistral OCR 3** (`mistral-ocr-2512`, batch) is second.
-   - The Gemini paid tier is an alternative second engine.
-   - Tesseract `tessdata_best` is the free baseline.
-3. **Normalise.** Unicode NFC, then vidyut-lipi to SLP1 for comparison.
+**Scans: layout, then two OCR engines, then normalisation.**
+1. **Layout.** Split each page into text block, apparatus, footnote, running head and page number, each with a box (Sarvam layout JSON or docling). Only the text block is aligned. The apparatus is kept as evidence and is not parsed in v1 [tooling §4].
+2. **OCR with two engines:**
+   - **Sarvam Vision** first: Indic-first, with `sa-IN`. Its limits of 10 pages per job and 10 requests a minute give at most about 100 pages a minute.
+   - **Mistral OCR 3** (`mistral-ocr-2512`, batch) second.
+   - Gemini paid tier as an alternative second engine.
+   - Tesseract `tessdata_best` as the free baseline.
+3. **Normalisation.** NFC, then vidyut-lipi to SLP1 for comparison.
 
-Rule 5 and the router:
+**Rule 5.**
 - Scans of published books are data class `public`, so Sarvam (registered as `opt-out` in `src/providers.mjs`, per `docs/research/sarvam.md`) may receive them.
-- Mistral and Gemini **have no entry in `src/providers.mjs`**, so the router refuses them until their terms are recorded. This is deliberate. Note that Mistral's Labs/experimental models may train on inputs under its 5 Aug 2026 terms; only `mistral-ocr` with ZDR qualifies. The Gemini free tier is excluded.
-- Set Sarvam's account to opt out of training anyway (§8).
+- Mistral and Gemini have **no entry** in `src/providers.mjs`, so the router refuses them until their terms are recorded.
+- Mistral's Labs models may train on inputs under its 5 Aug 2026 terms, so only `mistral-ocr` with zero data retention qualifies.
+- The Gemini free tier is excluded.
 
-- **Record:** a page record, `{manifestation_sha256, page_no, image_sha256, iiif_canvas?, regions: [{kind, xywh}], ocr: [{engine, engine_version, region, text, confidence?}], normaliser_version}`.
-- **Gate:** before any engine is committed, run a bake-off on a **gold set of 50–100 pages** from our own editions (BORI Droṇaparvan; a Ganguli page-image volume; Baroda Sundara once found), hand-transcribed in Label Studio. No public benchmark covers printed Devanagari Sanskrit with apparatus [tooling §4]. The nearest figures are Hindi chrF++ (Gemini 2.5 Flash 86.3) and a Sanskrit-manuscript panel (Gemini 3.1 Pro 9.86% CER). Neither is our material.
-- **Cost:** Sarvam ₹0.5–1.5 a page (the published prices conflict); Mistral $1–2 per 1,000 pages. A season of about 5,000 pages (two Sanskrit volumes, a translation volume and three tellings: our estimate) costs about ₹2,500–7,500 on Sarvam plus about $5–10 on Mistral.
+**Record.** A page record: `{manifestation_sha256, page_no, image_sha256, iiif_canvas?, regions: [{kind, xywh}], ocr: [{engine@version, region, text}], normaliser_version}`.
+
+**Gate.** A bake-off on **50–100 gold pages from our own editions**, hand-transcribed in Label Studio, before committing to engines. No public benchmark covers printed Sanskrit with apparatus. The nearest figures (Hindi chrF++, where Gemini 2.5 Flash scores 86.3; a Sanskrit-manuscript panel at 9.86% CER) are not our material [tooling §4].
+
+**Cost.**
+- Sarvam: ₹0.5–1.5 a page (published prices conflict).
+- Mistral: $1–2 per 1,000 pages.
+- An assumed season of about 5,000 pages comes to about ₹2,500–7,500 plus $5–10.
 
 ### 4.5 Align
 
 **Sanskrit OCR → CE.**
-- Take the text-block OCR, convert it to SLP1, strip daṇḍas and punctuation, and align it at character level (Needleman–Wunsch) against the pinned Smith text for the expected adhyāya.
-- Each OCR line gets `{verse_id, char_span, page, xywh, edit_distance}`, and each page gets a CER.
-- Each line then falls into one of three cases:
-  1. **Both engines match the e-text.** The verse is confirmed in print, and we gain its page coordinate. This closes DHE-1 for every cited verse.
-  2. **Both engines agree with each other but not with the e-text.** Treat this as a suspected e-text error and send it to the scholar with the page image. This matters most for the Rāmāyaṇa, because Smith says it "still contains many errors". It is how the GRETIL-vs-Smith disagreement at 07014024c [sources §1] would be settled.
-  3. **The engines disagree with each other.** Treat it as OCR noise. Above a per-page CER threshold, the page goes to review. The threshold is set from the gold set, not guessed here.
+1. Convert OCR to SLP1 and strip daṇḍas.
+2. Run a character alignment (Needleman–Wunsch) against the pinned Smith adhyāya.
+3. Each line gets `{verse_id, char_span, page, xywh, edit_distance}`, and each page gets a CER.
+
+Each line then falls into one of three cases:
+- **Both engines match the e-text.** The verse is confirmed in print and gains a page coordinate. This closes DHE-1 for each cited verse.
+- **The engines agree with each other but not the e-text.** This is a suspected e-text error and goes to the scholar with the page image. It matters most for the Rāmāyaṇa, which Smith says "still contains many errors". It is also how 07014024c gets settled [sources §1].
+- **The engines disagree with each other.** This is OCR noise. Pages above a CER threshold go to review. The threshold is set from the gold set, not guessed.
 
 **Translations → CE.**
-- First anchor section boundaries by hand. This is already done for Ganguli 7.32–7.51 [sources §3].
-- Inside each section, propose paragraph↔verse links by multilingual embedding similarity (LaBSE or similar), against the CE verse and our English gloss.
-- A person accepts each link.
-- Dutt's numbered vulgate verses go through the Nīlakaṇṭha/Chitrashala numbering. Griffith's cantos map to Baroda sargas at canto level.
-- No published Ganguli↔CE concordance was found [tooling §5 gaps]. Ours becomes a reusable asset.
+- Section boundaries are anchored by hand (done for Ganguli 7.32–7.51 [sources §3]).
+- Inside each section, paragraph↔verse links are proposed by multilingual embeddings (LaBSE or similar) against the verse and our English gloss. A person accepts each link.
+- Dutt maps through the Chitrashala vulgate numbering.
+- Griffith maps canto to sarga.
+- No published Ganguli↔CE concordance exists [tooling §5], so ours becomes an asset.
 
-**Regional tellings → events.**
-- A reader of the language marks scene boundaries in the PD edition (page, plus canto and verse where printed).
-- Each scene is linked to a `story.event`, with the CE locator of the episode it retells or departs from.
+**Tellings → events.** A reader marks scene boundaries in the PD edition and links each scene to a `story.event`, together with the CE locator it retells or departs from.
 
-- **Built today:** the hand table for Ganguli 7.32–7.51 and the 83-line GRETIL/Smith diff for Book 7 (`sources/gretil_vs_smith_book07_diff.tsv`, referenced in [sources §1]). Everything else is to build.
-- **Record:** an alignment link, `{from: evidence_span (manifestation_sha256, page, xywh, char_start, char_end, exact, prefix, suffix), to: {expression, ref} | {event_id}, method: ocr_align | section_anchor | embedding | scene, score, cer?, status: proposed | accepted | rejected, by, at}`. On export it maps to a W3C annotation [tooling §5].
-- **Gate:** a tier-A or tier-B line with no accepted link cannot be cited as evidence. A tier-C scene with no event link cannot back an attestation.
-- **Cost:** compute only, plus small embedding charges.
+- **Built.** The hand-made Ganguli table, and the 83-line Book 7 GRETIL/Smith diff (described in [sources §1]; the TSV itself is not in the repo).
+- **Record.** An alignment link: `{from: span (manifestation_sha256, page, xywh, char_start, char_end, exact, prefix, suffix), to: {expression, ref} | {event_id}, method: ocr_align | section_anchor | embedding | scene, score, cer?, status: proposed | accepted | rejected, by, at}`. It exports as a W3C annotation.
+- **Gate.** A tier-A or tier-B line with no accepted link is not citable. A tier-C scene with no event link cannot back an attestation.
+- **Cost.** Compute, plus a few cents for embeddings.
 
 ### 4.6 Propose
 
-- **Who proposes:**
-  - **Claude in session** reads aligned passages per adhyāya or sarga and writes candidate files. This is how planning works today: CLAUDE.md says there is no Anthropic key in the pipeline.
-  - **LangExtract** (Apache-2.0, character-offset grounding) on the Gemini paid tier would automate this. It needs a Gemini key, a `src/providers.mjs` entry and the founder's decision that the pipeline may call an LLM API, which is still open from [decisions] 15 Oct. **Decide.**
+- **Who proposes.**
+  - **Claude in session** reads aligned passages per adhyāya or sarga and writes candidate files. CLAUDE.md: there is no Anthropic key in the pipeline.
+  - **LangExtract** (Apache-2.0, character-offset grounding) on the Gemini paid tier would automate this. It needs a key, a `src/providers.mjs` entry and the founder's decision on LLM calls, which has been open since 15 Oct. **Decide.**
   - **Deterministic helpers:**
-    - a regex pass over Book 7 for day markers (ordinals with *ahan*/*divasa*, sunrise and sunset, "tomorrow") and *iti* frames;
-    - MCI's CE locators parsed into candidate rows (vyūhas, war days, places);
-    - Sørensen's names as alias candidates, with locators bridged Calcutta → Ganguli → CE.
-- **What a candidate can be:** an event, participation, relation, epithet (with its in-text gloss), placement (graded stated, derived or conventional), account (with mode), or popular attestation.
-- **Record:** `scratch.candidate` ([TKG §6.2](temporal-knowledge-graph.md#62-why-an-llm-extracted-graph-is-not-the-system-of-record)), with `{origin: llm | regex | finding_aid | viewer | family, model@version?, prompt_sha256?, evidence_span, kind, payload, placement_grade?, season}`.
-- **Gates:**
-  - The span text must equal the pinned bytes exactly, or the candidate is rejected. This is the cheap test [tooling §6].
-  - The span must resolve to a main-text `ord` range for tier A.
-  - Entities resolve against the register with **no auto-merge**.
-  - Epithet collisions are flagged. Examples: Kṛṣṇa used for Arjuna, Pārtha and Kaunteya across the brothers, and the bird called Droṇa in MCI.
-  - A `conventional` placement can be proposed, but it can only be promoted to an editorial note, never to a claim.
-- **Cost:** in-session work is free in money. LangExtract on the Gemini paid tier costs "tens of dollars per full parva" (not computed precisely [tooling synthesis]).
+    - day-marker and *iti*-frame regexes over Book 7 (ordinals with *ahan*/*divasa*, sunrise, sunset, "tomorrow");
+    - MCI's CE locators, turned into candidate rows;
+    - Sørensen's names, as alias candidates.
+- **Record.** `scratch.candidate`: `{origin: llm | regex | finding_aid | viewer | family, model@version?, prompt_sha256?, span, kind (event, participation, relation, epithet+gloss, placement, account, attestation), payload, placement_grade?, season}`.
+- **Gates.**
+  - The span text must equal the pinned bytes exactly, or the candidate is rejected [tooling §6].
+  - Tier-A spans must resolve to a main-text `ord` range.
+  - No entity is ever merged automatically.
+  - Epithet collisions are flagged: Kṛṣṇa as a name of Arjuna, Pārtha and Kaunteya across the brothers, Droṇa the bird in MCI.
+  - A `conventional` placement can become an editorial note only, never a claim.
+- **Cost.** Session time. LangExtract runs at roughly tens of dollars per parva [tooling synthesis].
 
 ### 4.7 Verify
 
-- **Tool: our own Studio review screen.** It extends the Studio of mockups s20 and s21. Generic tools such as INCEpTION and Label Studio do span annotation well, but they do not write our records: `kn.claim_version`, `kn.review` sign-offs pinned to a version, or alignment acceptances. A bridge to them would cost as much as the screen. The plan is therefore:
-  - Label Studio for one job only, the OCR gold set;
-  - Studio for everything else.
-  - **Decide**, since this is [TKG §7.4](temporal-knowledge-graph.md#74-open-questions) Q2.
-- **Studio v0 screens:**
-  1. **Candidate queue,** per season and kind, sorted by what blocks the next chapter.
-  2. **Evidence pane:** the page image with the box drawn, the e-text line, the translation link and the other expressions' readings, side by side.
-  3. **Decide:** accept and write the claim (statement and translation), edit, merge into an existing claim, or reject with a reason.
-  4. **Proof:** text checked against the print. Quoted verses are double-keyed.
-  5. **Sign:** the scholar signs a batch per chapter. The output is a signed JSON over `{claim_id@version: sha256(statement ‖ targets)}` with scholar id, method and date, stored in `records` and referenced by `kn.review` [methods §6].
-- **Built today:** nothing for claims. Claims carry `status: etext` and people `review: pending` in git.
-- **Record:** `kn.review` rows ([TKG §4.3](temporal-knowledge-graph.md#43-ddl-sketch-core-tables)) plus the signed record asset.
-- **Gate:** rule 9. `signed` is derived from review rows, and any edit drops the status back to `etext` ([TKG §2.3](temporal-knowledge-graph.md#23-knowledge-system-time-bitemporal)).
-- **Throughput measures, from week 1:**
+- **Tool: our own Studio review screen,** extending the Studio of mockups s20–s21.
+  - INCEpTION and Label Studio annotate spans well, but they do not write our records (versioned claims, sign-offs pinned to a version, alignment acceptances), and a bridge would cost as much as the screen.
+  - Label Studio is kept for the OCR gold set only.
+  - **Decide** ([TKG §7.4](temporal-knowledge-graph.md#74-open-questions) Q2).
+- **Studio v0:**
+  1. **Queue:** per season and kind, sorted by what blocks the next chapter.
+  2. **Evidence pane:** the page image with its box, the e-text line, the translation link, and other expressions' readings, side by side.
+  3. **Decide:** accept and write the claim statement and translation, edit, merge, or reject with a reason.
+  4. **Proof:** checked against the print; quoted verses double-keyed.
+  5. **Sign:** the scholar signs a batch per chapter, producing a signed JSON over `{claim_id@version: sha256(statement ‖ targets)}` stored in `records` [methods §6].
+- **Built.** Nothing. Claims carry `status: etext` in git, and people carry `review: pending`.
+- **Record.** `kn.review` rows plus the signed record asset.
+- **Gate.** Rule 9. `signed` is derived from the review rows, and any edit drops the claim back to `etext`.
+- **Measures, from week 1:**
   - candidates decided per reviewer-hour;
   - the share accepted unchanged;
   - time from candidate to signed;
-  - backlog by status.
-  
-  Hold monthly "review parties" for the `etext → proofed` backlog. Proofing can be delegated; signing cannot [methods §6].
-- **Cost:** people's time. This is the real cost of the whole plan.
+  - the backlog by status.
+
+  Monthly review parties clear the proofing backlog. Proofing can be delegated; signing cannot.
+- **Cost.** People's time. This is the plan's real cost.
 
 ### 4.8 Load
 
-- **Tool:** `pnpm graph:load`, Phase 1 of [TKG §7.1](temporal-knowledge-graph.md#71-phases): Postgres 18, an idempotent loader from git, and claim history replayed from `git log`.
-- **Built today:** nothing. Git JSON is the authoring surface, and `pnpm canon:build` writes only cited verses, a verse index and variants, with the Devanagari cross-check.
-- **To build:** the loader, plus the evidence-layer tables of §2.2.
-- **Gate:** the loader constraints:
+- **Tool.** `pnpm graph:load`, Phase 1 of [TKG §7.1](temporal-knowledge-graph.md#71-phases): Postgres 18, an idempotent loader from git, and claim history replayed from `git log`.
+- **Built.** Only `pnpm canon:build`, which writes cited verses, the verse index and variants, and checks Devanagari against Smith UD.
+- **To build.** The loader, plus the `src` evidence tables.
+- **Gate.** The loader's constraints, run in CI on every PR:
   - the star-passage guard;
-  - every story edge supported by a claim;
-  - `event_order` acyclic;
+  - every story edge supported;
+  - an acyclic `event_order`;
   - ticks only with a `dates` support;
-  - tellings correctly nested.
-  
-  CI runs the loader on every PR.
-- **Cost:** a small India-hosted Postgres instance.
+  - correctly nested tellings.
+- **Cost.** A small Postgres instance hosted in India.
 
 ### 4.9 Use
 
-- **Tools:** the `facts()` / `claims.search()` / `passage()` / `popular()` agent tools ([TKG §6.1](temporal-knowledge-graph.md#61-drafting-only-from-cited-facts)), the plan validator (§5.3), the manifest generator, and `pnpm web:build`.
-- **Built today:** the manifest from the plan (deterministic, drift-tested), the web build that fails on unresolved claims, and `claims-used.mjs`.
-- **To build:** the plan validator, the blast-radius report (claim → captions, lines, shots, reveals, web pages, manifests), and the trivia pipeline (§5.4).
-- **Gate:** finals read only `signed` claims. Drafts may use `etext`.
+- **Tools.**
+  - `facts()`, `claims.search()`, `passage()` and `popular()` ([TKG §6.1](temporal-knowledge-graph.md#61-drafting-only-from-cited-facts));
+  - the plan validator (§5.3);
+  - the manifest generator;
+  - `pnpm web:build`.
+- **Built.**
+  - The deterministic manifest, with its drift test.
+  - The web build, which fails on unresolved claims.
+  - `claims-used.mjs`.
+- **To build.**
+  - The plan validator.
+  - The blast-radius report: claim → captions, lines, shots, reveals, pages, manifests.
+  - The trivia pipeline (§5.4).
+- **Gate.** Finals read `signed` claims only. Drafts may use `etext`.
 
 ---
 
@@ -380,69 +402,76 @@ Rule 5 and the router:
 
 ### 5.1 Character bibles
 
-A bible is a projection of cited rows, never a free-text profile [methods §3].
+A bible is a projection of cited rows [methods §3]. It has four parts:
+- **Names.** Each name is a row `(entity, name, script, lang, kind ∈ {name, epithet, patronymic, metronymic, title}, attested_by, gloss_claim)`.
+  - Arjuna's ten names and the etymologies he gives Uttara become ten rows plus their gloss claims. The CE locator is to confirm: vedapath gives 4.39, Ganguli gives section 44.
+  - Patronymics are resolved per passage.
+  - Sørensen and MCI supply candidates; the verse supplies the claim.
+- **Relations** run from a start event to an optional end event:
+  - `student_of` begins with Droṇa's instruction;
+  - `spouse_of` begins with the 4.67 marriage;
+  - `killed_by` is anchored to its event, which carries the day.
+- **Attributes** (Gāṇḍīva, white horses, the banner, Devadatta) are relations, each with its own support. An epithet's gloss doubles as evidence for an attribute.
+- **Conflicts** are rendered as "CE says X (7.x.y); some manuscripts add Y (\*NNN); popular tellings say Z".
 
-- **Names.** One row per name: `(entity, name, script, lang, kind ∈ {name, epithet, patronymic, metronymic, title}, attested_by claim, gloss_claim)`.
-  - Arjuna's ten names, with the etymologies he gives Uttara, are ten rows plus their gloss claims. The CE locator is to confirm: vedapath gives adhyāya 39, Ganguli section 44.
-  - Patronymics are resolved per passage, never globally.
-  - Sørensen and MCI supply alias *candidates*; the verse supplies the claim.
-- **Relations with time.** These are `story.relation` rows from a start event to an optional end event. Examples: `student_of` from Droṇa's instruction; `spouse_of` from the 4.67 marriage; `killed_by` anchored to the event, which carries the day. Ticks are used only where the text gives them.
-- **Attributes.** Each is a relation with its own support: Gāṇḍīva, white horses, the monkey banner, Devadatta. An epithet's gloss doubles as attribute evidence (Śvetavāhana → white horses).
-- **Conflicts.** Shown as ranked accounts: "CE says X (7.x.y); some manuscripts add Y (\*NNN); popular tellings say Z."
-- **Drafting.** Prose bibles are drafted only through `facts()`, with claim ids on every sentence, and checked by the validator of [TKG §6.1](temporal-knowledge-graph.md#61-drafting-only-from-cited-facts).
-- **Rāmāyaṇa.** The same shape applies. The revered list (`REVERED` in `src/contract/rules.mjs`, now including Vāyu and Samudra) is read from `story.entity.revered`. Hanumān is never the witness: the Maināka experience's witness is a vānara on Mahendra.
+Drafted bible prose goes through `facts()`, with claim ids on every sentence. For the Rāmāyaṇa:
+- the revered list (`REVERED`, now including Vāyu and Samudra) is read from `story.entity.revered`;
+- the witness is a vānara, never Hanumān.
 
 ### 5.2 Story time
 
-- **Eras, clock and order.** Placement uses the three tiers of §2.5 on the war clock of [TKG §2.1](temporal-knowledge-graph.md#21-story-time). Day 13 is ticks `[72, 78)`. Events that cannot be placed on the clock are ordered by `story.event_order`.
-- **Vocabulary.** Borrow TimeML/Allen terms rather than invent new ones: `before`, `includes`/`during` (for `part_of`), and IDENTITY for a retelling, such as 7.41 retelling 3.256 [methods §1]. The full 13 relations are not needed.
-- **Contested placements** become one account per expression: the 58 vs 56 days of Bhīṣma's wait, the night fighting of days 14 and 15, vulgate vs CE ordering.
-- **Not modelled:** absolute (BCE) dates [methods §2].
-- **QA view:** a time map plotting the war tick against the CE `ord`. It shows Sañjaya's early report of Droṇa's fall against the later narration of the days before it.
-- **Rāmāyaṇa.** The Sundara Kāṇḍa needs a clock only if a season places events by night and day in Laṅkā. Until then it uses an era plus partial order, and `clock_span = NULL` is correct for most events.
+- **Placement.** The three grades of §2.5 apply on the war clock of [TKG §2.1](temporal-knowledge-graph.md#21-story-time), where day 13 is ticks `[72, 78)`. Anything that cannot be placed is held as a partial order in `story.event_order`.
+- **Relations.** Use Allen and TimeML terms: `before`, `includes`/`during`, and IDENTITY for a retelling (7.41 retells 3.256). The other ten Allen relations are not needed [methods §1].
+- **Contested placements** get one account per expression: Bhīṣma's 58 vs 56 days, the night fighting of days 14–15, vulgate vs CE order.
+- **No BCE dates.**
+- **QA view.** A time map plotting the war tick against the CE `ord`. It exposes, for example, Sañjaya's early report of Droṇa's fall.
+- **The Sundara Kāṇḍa** uses an era plus a partial order. `clock_span = NULL` is correct until a season needs a Laṅkā clock.
 
 ### 5.3 Storyline and chapter planning
 
-A chapter plan is a typed object: `window`, `witness`, `cold_open`, `verse`, `scene`, `reveal`, `question` [methods §5]. A **plan validator** (same shape as the citation validator) enforces:
-
-1. Every beat references signed claims, or `etext` for drafts only.
-2. **`question(N)` is answered by a claim in `claims(N+1)`**, as s1e3 "The way in" → s1e4 "The gatekeeper" (3.256, 7.41–42) does today.
-3. The window is contiguous in story time, or it is a flashback marked by `account.mode`.
+A plan is typed: `window`, `witness`, `cold_open`, `verse`, `scene`, `reveal`, `question` [methods §5]. The **plan validator** checks:
+1. Every beat cites signed claims (`etext` is allowed for drafts).
+2. **`question(N)` is answered by a claim in `claims(N+1)`.** Example: s1e3 asks, and s1e4 "The gatekeeper" (3.256, 7.41–42) answers.
+3. The window is contiguous, or it is a flashback marked by `account.mode`.
 4. No reveal repeats within a season.
-5. The witness is present at the events, or narrates them.
+5. The witness is present or narrates.
 6. Rules 1 and 7 hold.
 
-Planning works in five steps:
-1. Claude in session enumerates candidate windows from the season's event graph.
-2. It scores them by protagonist centrality, signed-claim density, whether a reveal exists, and continuity.
-3. It proposes two or three orderings with rationales.
+The planning loop:
+1. Claude in session enumerates windows.
+2. It scores them on centrality, signed-claim density, whether a reveal exists, and continuity.
+3. It proposes two or three orderings.
 4. A human picks one, and the pick goes in `docs/decisions.md`.
 5. The plan is committed under `content/<chapter>/`.
 
 ### 5.4 Trivia and hidden details
 
-The sequence is select → template → paraphrase → decompose → check → review [methods §4].
+Items are built **only from signed claims**, by template:
+- who / what / which day;
+- epithet → entity;
+- text vs telling;
+- order;
+- who told whom.
 
-- **Select.** Items are built only from **signed** claims, using templates: who/what/which day; which name (epithet → entity); text vs telling (claim + `pa.*` + optional star passage); order; who told whom.
-- **Atomic fact check.**
-  1. The LLM paraphrase is split into atomic facts (FActScore-style).
-  2. Each fact is checked for entailment against the claim's statement and translation, and against the passage where `data_class` allows.
-  3. **Any unsupported atom rejects the item.** Zero tolerance, not a threshold.
-  4. A second-model judge advises; it does not decide.
-- **Distractor check across editions.** Each distractor comes from the graph: same type, same era, and not true for the slot in **any** expression. A distractor that is a vulgate reading, a star passage or a regional telling's version turns a quiz into misinformation. So distractors are checked against every expression, not just the CE.
-- **Language lint in QC.**
-  - A banned-phrase list: "myth", "wrong", "actually", "debunked", "really happened".
-  - A framing rubric. The approved pattern is "The critical edition's text does not tell it; some manuscripts do (\*259)" ([TKG §3.3](temporal-knowledge-graph.md#text-layer)).
-  - Sensitivity review covers revered figures, caste and community references, and regional traditions that hold the "popular" version as their own.
-  - Note: `docs/product-plan.md` §183 says "what the text actually says". The lint would flag that line if it were copy, and the positioning line should be reworded.
-- **Sign-off.** The scholar signs each item as a record tied to the exact claim versions it uses.
+Then:
+1. **Atomic fact check.**
+   - Decompose the LLM paraphrase into atomic facts (FActScore-style).
+   - Check each fact for entailment against the claim's statement, translation and, where `data_class` allows, the passage.
+   - **Any unsupported atom rejects the item.**
+   - A second-model judge only advises.
+2. **Distractor check across editions.** Distractors come from the graph: same type and era, and false in **every** expression. A vulgate reading, a star passage or a regional version used as a "wrong" answer would be misinformation.
+3. **Language lint.**
+   - Ban "myth", "wrong", "actually", "debunked" and "really happened".
+   - Apply a framing rubric built on the approved pattern "The critical edition's text does not tell it; some manuscripts do (\*259)".
+   - Run a sensitivity review: revered figures, caste and community, and traditions that hold the popular version as their own.
+   - Note that `docs/product-plan.md` (line 183) says "what the text actually says". The positioning should be reworded.
+4. **Sign-off.** The scholar signs each item as a record tied to exact claim versions.
 
 ### 5.5 "Tell our scholar" and family tellings
 
-- An in-app report creates a `scratch.candidate` with `origin = viewer`. It carries the clip or reveal and the `manifestId` shown ([TKG §5.2](temporal-knowledge-graph.md#52-canonical-shapes-manifest-schema-v2) adds it to "Report a mistake"). The editor triages it and the scholar answers.
-- If the claim changes, a `pub.correction` goes out with a public notice, and the reporter is credited if they opt in.
-- A family telling enters as a candidate with `origin = family`. It can become a `pop.*` expression and a popular attestation only with consent, never with identity ([TKG §3.3, audience layer](temporal-knowledge-graph.md#audience-layer)).
-- No viewer or family text ever becomes a claim directly.
+- A report creates a `scratch.candidate` (`origin = viewer`) carrying the clip or reveal and the `manifestId` shown ([TKG §5.2](temporal-knowledge-graph.md#52-canonical-shapes-manifest-schema-v2)). The editor triages it, the scholar answers, and any claim change goes out as a `pub.correction` with a notice. The reporter is credited if they opt in.
+- A family telling enters as `origin = family`. It becomes a `pop.*` expression only with consent, and never carries identity ([TKG audience layer](temporal-knowledge-graph.md#audience-layer)).
+- Neither ever becomes a claim directly.
 
 ---
 
@@ -450,172 +479,149 @@ The sequence is select → template → paraphrase → decompose → check → r
 
 ### 6.1 What we may do now
 
-- **Fetch** and hold full e-texts and scans for internal research, in the gitignored cache or the restricted bucket. Never in the shared store, and never in git.
-- **Resolve claim ids internally** against BORI and Baroda e-texts, and quote single cited verses as citations with attribution. This is what the repo does today: 99 verses and a verse index.
-  - The repo is public, so even this is a judgment call for Avi [sources, pipeline note].
-  - A single chanted śloka in a released chapter is a quotation of the same kind. Whether that holds for a monetised product is part of the BORI and Baroda letters.
-- **Use PD translations and tellings in full** where the edition is pre-1931 and the translator's or editor's death date is verified: Ganguli via PG (with PG marks removed), Griffith, the Dutts, Growse 1883, Pampa 1898 and Kṛttivāsa 1903.
-- **Use CC0 images** from Cleveland, Met OA and Smithsonian.
-- **Use MCI and Sørensen locators** (facts, not expression) as finding aids. Never reproduce their prose.
-- **Use Wikidata QIDs** as join keys (CC0). We may also contribute CE-referenced statements back.
+- **Fetch and hold** full e-texts and scans for internal research, in the cache or a restricted bucket. Never in git or the shared store.
+- **Resolve claim ids** against the BORI and Baroda e-texts, and quote single cited verses with attribution, as the repo does today (99 verses plus an index).
+  - The repo is public, so this is already a judgment call for Avi [sources].
+  - A single chanted śloka is a quotation of the same kind. Its status in a paid product is part of the letters below.
+- **Use PD translations and tellings in full** where the edition predates 1931 and the death date is verified: Ganguli via PG (PG marks removed), Griffith, the Dutts, Growse 1883, Pampa 1898, Kṛttivāsa 1903.
+- **Use CC0 museum images.**
+- **Use MCI and Sørensen locators** as facts. Never their prose.
+- **Use Wikidata QIDs**, and contribute CE-referenced statements back.
 
 ### 6.2 What needs permission or an answer
 
-| Who | Ask | Covers | Status |
-|---|---|---|---|
-| BORI (copy John Smith) | Written permission to show cited verse text (Devanagari and IAST) in the app and on the web, to hold the full e-text in a private database, and to serve references (and later text) via DTS | `bori-ce`, Harivaṃśa CE | planned since 4 Oct; not sent |
-| Oriental Institute, M. S. University of Baroda (copy Smith; errors go to Suvarna Deshpande or Pranav Gokhale) | The same for the Baroda CE Rāmāyaṇa. Also: does the Institute claim copyright in the constituted text? | `baroda-ce` | not sent; **urgent** for the film pilot |
-| Cologne / The Sanskrit Library (CDSL, csl-orig) | Which licence governs: the CC BY-SA 4.0 LICENSE file or the CC BY-NC-SA 3.0 headers? | MW, Apte, INM, MCI, PE digitisations | not asked |
-| GRETIL | None needed if we use Smith as the source. GRETIL's TEI files are NC, so use them for cross-checks only | — | — |
-| archive.org | Advance notice before any job over about 10k files | bulk scans | when needed |
-| AIIS, Huntington, British Museum | Only if a specific image is needed | images | not planned |
-
-Every answer becomes a `txt.rights_grant` row with valid time and the letter as an evidence asset ([TKG §3.3](temporal-knowledge-graph.md#text-layer)). Until a grant exists, the release gate refuses to show text.
-
-### 6.3 Copyright terms to verify (death dates)
-
-India: life + 60 (s.22); posthumous works, 60 years from publication (s.24, not re-read). US: published before 1931 = PD; later foreign works are usually protected 95 years from publication (URAA).
-
-| Person | Why it matters | Known / claimed |
+| Who | Ask | Status |
 |---|---|---|
-| S. K. De (Droṇaparvan ed.) | Whether the 1958 print is protected to the end of 2028 or 2038 | 1968 (LoC; Wikipedia lead) vs 1978 (Wikipedia infobox) |
-| BORI general editors (Sukthankar, Belvalkar) and the editors of books 1, 3, 4, 14 | Joint-authorship term | unverified |
-| G. H. Bhatt, U. P. Shah (Baroda Rām.) | Baroda print term | unverified |
-| P. L. Vaidya (Harivaṃśa) | Harivaṃśa print term | unverified |
-| K. M. Ganguli | Translation (almost certainly PD in India regardless) | unverified |
-| M. N. Dutt | Both Dutt translations | ≈1912, unverified |
-| R. T. H. Griffith | Rāmāyaṇa translation | ≈1906, unverified |
-| F. S. Growse; Lewis Rice (Pampa 1898) | Edition terms | unverified |
-| Sørensen, Olesen, Andersen | INM (posthumous) | unverified; s.24 likely makes it PD regardless |
-| E. W. Hopkins | *Epic Mythology*, India | ≈1932, unverified |
-| R. Kinjawadekar | Chitrashala editorial matter | unverified |
-| M. A. Mehendale | MCI print | believed 2010s, unverified |
-| Vettam Mani | PE | unverified (in copyright on any plausible date) |
-| C. Rajagopalachari | Cite-only status | 1972, so protected to the end of 2032 if that date holds |
-| Editors of the 1940/1957/1978 Kṛttivāsī and 1968 Telugu printings | Avoid those printings until checked | unverified |
+| BORI (cc John Smith) | Permission to show cited verse text in the app and on the web; to hold the full e-text privately; to serve references and later text via DTS. Covers `bori-ce` and the Harivaṃśa | planned since 4 Oct, not sent |
+| Oriental Institute, M. S. University of Baroda (cc Smith; errata contacts Suvarna Deshpande, Pranav Gokhale) | The same for `baroda-ce`, and whether the Institute claims copyright in the constituted text | not sent; **urgent** for the film |
+| Cologne / The Sanskrit Library | Which licence governs csl-orig: CC BY-SA 4.0 (LICENSE) or CC BY-NC-SA 3.0 (headers)? | not asked |
+| archive.org | Notice before any job over about 10k files | when needed |
+| AIIS, Huntington, British Museum | Only for a specific image we need | not planned |
+
+Each answer becomes a `txt.rights_grant` row with valid time and the letter as evidence ([TKG text layer](temporal-knowledge-graph.md#text-layer)). With no grant, the release gate shows no text.
+
+### 6.3 Copyright terms to verify
+
+The rules:
+- **India:** life + 60 (s.22); posthumous works, 60 years from publication (s.24, not re-read).
+- **US:** works before 1931 are PD; later foreign works are usually protected for 95 years from publication.
+
+Death dates to verify:
+- **S. K. De:** 1968 (LoC) vs 1978 (Wikipedia infobox). This sets whether the Droṇaparvan print is protected to the end of 2028 or 2038.
+- **BORI general editors** (Sukthankar, Belvalkar) and the editors of books 1, 3, 4 and 14.
+- **Baroda editors** G. H. Bhatt and U. P. Shah; **P. L. Vaidya** (Harivaṃśa).
+- **Translators:** K. M. Ganguli, M. N. Dutt (≈1912), R. T. H. Griffith (≈1906), F. S. Growse.
+- **Editors:** Lewis Rice (Pampa), R. Kinjawadekar.
+- **Index and reference authors:** Sørensen, Olesen and Andersen (s.24 likely makes INM PD anyway); E. W. Hopkins (≈1932); M. A. Mehendale; Vettam Mani.
+- **C. Rajagopalachari:** 1972, so protected to the end of 2032.
+- **Editors of the 1940, 1957 and 1978 Kṛttivāsī printings and the 1968 Telugu printing.**
 
 ### 6.4 Questions for Indian counsel
 
-1. **Text and data mining.** The Copyright Act s.52 has no explicit TDM exception [tooling §7 gaps]. Does OCR, alignment and extraction over in-copyright prints (the 1958 Droṇaparvan, the Baroda volumes, MCI) for internal research fall under fair dealing for research (s.52(1)(a))? Does it change once the outputs feed a commercial product?
-2. **Critical editions.** Does a reconstructed critical text, as distinct from its apparatus and introduction, attract copyright in India? No Indian ruling was found [sources §8].
-3. **Fair dealing** for short quotations of in-copyright popular tellings in reveals (criticism and review). The s.52 wording was not re-read this session.
-4. **Public repo.** Is committing cited verses to a public GitHub repo distribution?
-5. **Relief photographs** from ASI-protected monuments (Halebidu, Ellora), and CC BY-SA photographs used as render conditioning.
+1. **TDM.** s.52 has no explicit text-and-data-mining exception. Is OCR, alignment and extraction over in-copyright prints (the 1958 Droṇaparvan, the Baroda volumes, MCI) research fair dealing under s.52(1)(a)? Does the answer change once the outputs feed a paid product?
+2. **Critical texts.** Does a reconstructed critical text, as distinct from its apparatus and introduction, attract copyright? No Indian ruling was found [sources §8].
+3. **Quotation.** Is a short quotation of an in-copyright popular telling in a reveal fair dealing as criticism or review?
+4. **Public repo.** Is committing cited verses to a public repository distribution?
+5. **Photographs.** What are the rules for photographs of ASI-protected reliefs, and for CC BY-SA photographs used as render conditioning?
 
 ---
 
 ## 7. First three weeks (19 Oct – 8 Nov), ranked
 
-The film opens on Friday 6 Nov. The Rāmāyaṇa lane is ranked first wherever the lanes compete for the same person. Shared items come first because both lanes depend on them.
+The film opens Friday 6 Nov. Where the two lanes compete for the same person, the Rāmāyaṇa wins. The shared items come first, because both lanes depend on them.
 
-### 7.1 Shared, week 1 (19–25 Oct)
-
-| # | Work | Delivers |
-|---|---|---|
-| S1 | Extend `fetch.mjs`: robots check, UA, rate limit, fail on 403 challenge, crawl-log JSONL, archive.org Metadata API with IA sha1 check | Every fetch from here on is logged and polite |
-| S2 | Preserve: WARC per fetch, SPN2 per cited URL, the `evidence` bucket, CDXJ index in git; test SPN2 through the proxy | An evidence object for each held file, back-filled for the 12 pinned files |
-| S3 | Source register shape plus a test; season scope files `mbh-s1`, `ram-s1` | §3's tables as data; nothing fetched out of scope |
-| S4 | Studio v0: candidate queue, evidence pane, accept/reject, signed-record export | People can decide candidates and sign; throughput is measured |
-| S5 | OCR bake-off: 50 gold pages (25 BORI Droṇaparvan, 25 Ganguli v4; Baroda pages added once found), transcribed in Label Studio; Sarvam vs Mistral vs Tesseract; record the Mistral (and Gemini, if wanted) terms in `src/providers.mjs` first | A chosen engine pair and a CER threshold, from our own pages |
-
-### 7.2 Rāmāyaṇa lane
-
-| # | When | Work | Delivers |
+| # | Wk | Work | Delivers |
 |---|---|---|---|
-| R1 | wk 1 | Pin Smith `Ram00`–`Ram07` (UR + UD) and GRETIL `sa_rAmAyaNa.txt`; diff Smith vs GRETIL for all of book 5 | Full Rāmāyaṇa verse index; a list of Sundara lines where the two disagree |
-| R2 | wk 1 | Locate Baroda CE print scans (Sundara volume) on archive.org, Wikisource and HathiTrust; register their rights evidence | A print witness, or a recorded gap and a request to borrow the print |
-| R3 | wk 1–2 | OCR + align the print for every cited Sundara verse (the 47 held, then the pilot's) | Page coordinates; e-text errors found or ruled out for each cited verse. This is the check Smith's warning requires |
-| R4 | wk 1 | Send the Oriental Institute Baroda letter (with BORI's) | A rights question on record, dated |
-| R5 | wk 2 | Griffith Book V (PG #24869) and Dutt's Sundara volume: canto→sarga map for 5.1–5.66 | English parallel links for the whole kāṇḍa |
-| R6 | wk 2 | Propose pass over the pilot window (Claude in session): events, participations, epithets, recalled accounts; Studio review | Candidate → claim backlog for the pilot; pointer verses added to `ram-s1` scope |
-| R7 | wk 2 | Tier C for the reveal: Kṛttivāsa 1903, Growse 1883, Kamba (verify Project Madurai first): scene links for 2–3 reveal candidates | Reveal candidates with attributed tellings |
-| R8 | wk 2–3 | Cleveland CC0 Rāmāyaṇa folios (38) filtered to Sundara scenes, plus Met v1.1 | A shippable visual reference set with rights records |
-| R9 | wk 3 | Plan validator + language lint; pilot plans validated; scholar signs the pilot's claims and items | **Signed Sundara pilot ready to release in the week of 6 Nov** (rule 9), if the scholar is in place by about 30 Oct |
-
-### 7.3 Mahābhārata lane
-
-| # | When | Work | Delivers |
-|---|---|---|---|
-| M1 | wk 1 | Switch the MBh parse to Smith UR (the step [sources] names) and pin `Supp07`; keep GRETIL as cross-check; pin UR/UD indexes for all 18 books | One parser for both epics; a full CE verse index; star passages from Smith's apparatus |
-| M2 | wk 1–2 | DHE-1: OCR + align the 1958 Droṇaparvan scan for 7.32–7.51 | Printed volume, page and line for every cited Droṇa verse; a measured print-vs-e-text CER |
-| M3 | wk 2 | Parse MCI and verify its CE locators for day 13–14 against Smith (vyūhas, war-day mentions, sub-parvans) | Finding-aid candidates, each checked against a verse |
-| M4 | wk 2 | Day-marker regex over Book 7 (*ahan*/*divasa* ordinals, sunrise, sunset) | Candidates for *stated* placements on days 13–14; the rest graded *derived* |
-| M5 | wk 2–3 | Extend the Ganguli map to day 14 (from 7.52) using PG #15475 and the `mahabharataofkri04royp` page images | A section map ready for s1e4–s1e5 |
-| M6 | wk 3 | Sørensen aliases for the s1 cast from the PD scans; locate Dutt's Droṇa volume | Name and epithet candidates with a CE bridge |
-| M7 | wk 3 | Pampa (1898): day-13 scene links | One regional telling for the Abhimanyu reveal |
-| M8 | wk 3 | Wikidata QIDs for the s1 cast and the Sundara cast | Join keys on `story.entity` (no statements imported) |
+| **S1** | 1 | `fetch.mjs`: robots check, UA, rate limit, fail on challenge, crawl log, IA Metadata API with sha1 check | Polite, logged fetching |
+| **S2** | 1 | WARC per fetch, SPN2 per cited URL, `evidence` bucket, CDXJ in git; test SPN2 through the proxy | Evidence objects, back-filled for the 12 pinned files |
+| **S3** | 1 | Register shape plus its test; scope files `mbh-s1` and `ram-s1` | §3 as data; out-of-scope fetches refused |
+| **S4** | 1 | Studio v0: queue, evidence pane, decide, signed-record export | People can review and sign; throughput measured |
+| **S5** | 1 | OCR bake-off on 50 gold pages (Droṇaparvan, Ganguli v4; Baroda pages once found); record Mistral (and Gemini) terms in `src/providers.mjs` first | Engine pair and CER threshold, set on our own pages |
+| **R1** | 1 | Pin Smith `Ram00`–`07` (UR + UD) and GRETIL `sa_rAmAyaNa.txt`; diff book 5 | Full Rāmāyaṇa index; list of Sundara disagreements |
+| **R2** | 1 | Locate the Baroda Sundara print (archive.org, Wikisource, HathiTrust) | A print witness, or a recorded gap and a plan to borrow the volume |
+| **R3** | 1 | Send the Baroda and BORI letters | A dated rights question on record |
+| **R4** | 1–2 | OCR and align the print for every cited Sundara verse | Page coordinates; e-text errors found or ruled out |
+| **M1** | 1 | Switch the MBh parse to Smith UR; pin `Supp07` and the UR/UD indexes for all 18 books | One parser for both epics; full CE index |
+| **R5** | 2 | Griffith Book V and Dutt's Sundara volume: canto→sarga map | English parallels for 5.1–5.66 |
+| **R6** | 2 | Propose pass over the pilot window; Studio review | Candidate→claim backlog; pointer verses added to scope |
+| **M2** | 1–2 | DHE-1: OCR and align the Droṇaparvan 1958 scan for 7.32–7.51 | Volume, page and line for every cited Droṇa verse; a measured CER |
+| **R7** | 2 | Kṛttivāsa 1903, Growse 1883, Kamba (after verifying Project Madurai): scene links for 2–3 reveal candidates | Reveals with attributed tellings |
+| **M3** | 2 | MCI locators for days 13–14, verified against Smith | Checked finding-aid candidates |
+| **M4** | 2 | Day-marker regex over Book 7 | *Stated* placement candidates for days 13–14 |
+| **R8** | 2–3 | Cleveland's 38 Rāmāyaṇa folios filtered to Sundara; Met v1.1 | A shippable visual set with rights records |
+| **R9** | 3 | Plan validator and language lint; the scholar signs the pilot's claims and items | **Signed Sundara pilot releasable in the week of 6 Nov**, if the scholar starts by about 30 Oct |
+| **M5** | 2–3 | Ganguli map extended to day 14 (from 7.52), with the page images | Section map for s1e4–s1e5 |
+| **M6** | 3 | Sørensen aliases for the s1 cast from PD scans; locate Dutt's Droṇa volume | Epithet candidates with a CE bridge |
+| **M7** | 3 | Pampa 1898: day-13 scene links | A regional telling for the Abhimanyu reveal |
+| **M8** | 3 | Wikidata QIDs for both casts | Join keys only |
 
 ---
 
 ## 8. What we need from the founder
 
 **People**
-1. **A scholar who can sign Rāmāyaṇa claims by about 30 Oct**, and the same or a second scholar for the Mahābhārata. Nothing can be released before then (rule 9).
-2. A proofreader for double-keying quoted verses against print.
-3. Part-time readers for scene marking: Bengali (Kṛttivāsa), Awadhi/Hindi (Mānas), Tamil (Kamba), Kannada (Pampa), later Odia, Telugu and Malayalam.
+1. A scholar who can sign Rāmāyaṇa claims by about 30 Oct, and one (or the same) for the Mahābhārata. Rule 9 blocks release until then.
+2. A proofreader for double-keying.
+3. Part-time scene readers in Bengali, Awadhi/Hindi, Tamil and Kannada, and later Odia, Telugu and Malayalam.
 
 **Permissions**
-4. Sign the letters to BORI and to the Oriental Institute, Baroda, this week. Approve the email to Cologne about the CDSL licence.
-5. Instruct Indian counsel on the §6.4 questions.
+4. Sign the BORI and Baroda letters this week, and approve the email to Cologne.
+5. Brief Indian counsel on the questions in §6.4.
 
 **Keys and accounts** (environment only, rule 8)
-6. archive.org S3 keys, for SPN2 and bulk download.
-7. A Mistral API key (OCR second engine). Optionally, a Gemini paid-tier key.
+6. archive.org S3 keys.
+7. A Mistral key, and optionally a Gemini paid-tier key.
 8. Opt the Sarvam account out of training.
-9. An India-hosted object-store bucket for the evidence layer.
+9. An India-hosted bucket for the evidence layer.
 
 **Decisions**
-10. May the pipeline call an LLM API for extraction (LangExtract on the Gemini paid tier), or does proposing stay with Claude in session? (Open since 15 Oct.)
-11. Build our own Studio review screen (recommended) or adopt INCEpTION or Payload ([TKG §7.4](temporal-knowledge-graph.md#74-open-questions) Q2).
-12. Whether the public repo keeps committing cited verse text before the rights answers arrive.
-13. Whether the CDSL files may be used internally as lookups while the licence question is open (recommended: yes, never shipped).
-14. The `ram-s1` window beyond the pilot, and the next window after day 13.
-15. Reword the product-plan line "what the text actually says" to fit the framing lint.
+10. May the pipeline call an LLM API for extraction, or does proposing stay with Claude in session?
+11. Our own Studio screen (recommended) or INCEpTION or Payload?
+12. Should the public repo keep committing cited verse text before the rights answers arrive?
+13. Internal use of the CDSL files while their licence is open (recommended: yes, never shipped).
+14. The windows after the Sundara pilot and after day 13.
+15. Reword the "actually" line in the product plan.
 
 ---
 
 ## 9. Gaps and unverified items
 
-These come from the research notes and from this plan. None of them has been resolved.
-
-**Sources and texts**
-- Baroda CE Rāmāyaṇa print scans: not searched for specifically. Smith's Rāmāyaṇa star passages: not checked. The Oriental Institute's copyright position and its editors' death dates: unverified [inventory §2].
-- IIT Kanpur Valmiki: unreachable on 17 Oct; licence unknown.
-- Project Madurai files and terms for Kamba and Villi: not opened. The P. S. Sundaram translation's rights: unverified [inventory §5].
-- Which base text M. N. Dutt translated is unknown. Whether the 1929–31 Chitrashala volumes are pre-1931 for US purposes: unchecked (Droṇa is 1931).
-- MCI: whether volume 2 (persons, weapons, places) exists in CDSL. The header says volume 1 only. Main heroes do not appear as persons in volume 1.
-- No e-text of the *Bhāratabhāvadīpa*, and no OCR quality check on it. No Sanskrit Jaiminīya Aśvamedha edition was located.
-- The Wikidata Rāmāyaṇa item count is unknown (wrong QID used). IndicKG and Kaggle datasets: not searched.
-- No published Ganguli↔CE concordance. Fitzgerald, Hiltebeitel, Brockington and the BORI CE introductions on the war-day count and the Sañjaya frame were not retrieved and must not be cited until checked [methods §2].
-- The CE locator of Arjuna's ten names (4.39 vs Ganguli 44): unverified.
-- The printed BORI volume and page for 7.34.19 and 7.48.21 (DHE-1) are still unverified, and so is 07014024c.
-- The Jayadrathavadha CE range (day 14) is to confirm.
+**Sources**
+- Baroda print scans: not located. Smith's Rāmāyaṇa star passages: unchecked. The Oriental Institute's rights position and its editors' dates: unknown.
+- IIT Kanpur: unreachable. Project Madurai files and terms for Kamba and Villi: unopened. Sundaram's translation rights: unverified.
+- Dutt's base text: unknown. Whether the 1931 Chitrashala Droṇa volume is PD in the US: borderline.
+- MCI: volume 1 only in CDSL. Persons are absent from it. Whether a volume 2 exists digitally: unknown.
+- No *Bhāratabhāvadīpa* e-text and no OCR check of it. No Sanskrit Jaiminīya Aśvamedha edition located.
+- Wikidata: the Rāmāyaṇa count is unknown (wrong QID used). IndicKG and Kaggle: not searched.
+- No Ganguli↔CE concordance exists.
+- Fitzgerald, Hiltebeitel, Brockington and the CE introductions on war days and the Sañjaya frame were not retrieved; do not cite them yet.
+- Unconfirmed locators:
+  - Arjuna's ten names: 4.39 or 44.
+  - DHE-1: printed pages for 7.34.19 and 7.48.21.
+  - The 07014024c reading.
+  - The Jayadrathavadha range.
 
 **Tooling**
-- archive.org: no published rate limit; the Scraping API `total_only` anomaly is unexplained; eGangotri totals across its accounts are unknown.
-- SPN2 through this environment's proxy: untested. perma.cc pricing: unchecked. IA IIIF manifests: unverified.
-- OCR: no hosted-vendor CER exists for printed Devanagari Sanskrit with apparatus.
-  - Sarvam's prices conflict (₹0.5 vs ₹1.5 a page).
-  - Sarvam's training terms contradict each other: the EULA says opt-in; the privacy policy says used unless you opt out. We treat them as opt-out [`docs/research/sarvam.md`].
-  - Mistral and Gemini terms are not yet in `src/providers.mjs`.
-  - Bhashini OCR status: unverified.
-  - Google Document AI and Azure pricing: unfetched.
-- Alignment and extraction:
-  - Which vidyut Python modules are production-ready is unconfirmed.
-  - LangExtract's span accuracy on IAST and Sanskrit is unmeasured.
-  - GLiNER's performance on Indic names is unknown.
-  - Recogito Studio's hosting is unchecked.
-- Story planning: PLOTTER and STORYTELLER were read at abstract level only. There is no precedent for an AI writers' room with mandatory citation, and none for trivia generation over sacred texts with a sensitivity review.
-- No published entailment accuracy for Indic-language claim checking. Run the checks over the English statement and translation, and match Sanskrit by id.
+- archive.org: no published rate limit; the `total_only` anomaly is unexplained; eGangotri totals are unknown.
+- SPN2 through the proxy: untested. perma.cc pricing: unchecked. IA IIIF manifests: unverified.
+- No hosted-vendor CER exists for printed Sanskrit with apparatus.
+- Sarvam: the price conflicts, and so do its training terms (EULA opt-in vs privacy-policy opt-out; we treat it as opt-out).
+- Mistral and Gemini terms are not yet recorded. Bhashini, Document AI and Azure: unchecked.
+- vidyut module readiness, LangExtract accuracy on IAST, and GLiNER on Indic names: unmeasured.
+- PLOTTER and STORYTELLER were read at abstract level only.
+- No precedents found for:
+  - a cited AI writers' room;
+  - sacred-text trivia with sensitivity review;
+  - Indic entailment accuracy (check against the English statement; match Sanskrit by id).
 
-**Rights and law**
-- All the death dates in §6.3.
-- The Indian TDM position; the s.52 and s.24 wording (not re-read); ASI photography rules; LACMA's terms.
-- The 19 Chakravyūha Commons files: not licence-checked one by one.
-- Met v1.1 search: not yet run for epic objects.
-- AIIS terms beyond vmis.in: not found.
+**Rights**
+- Every death date in §6.3.
+- The Indian TDM position; the s.52 and s.24 wording; ASI photography rules; LACMA's terms.
+- The 19 Chakravyūha Commons files, one by one.
+- Met v1.1 results for epic objects.
+- AIIS terms beyond vmis.in.
 
-**This plan's own assumptions**
-- The proposed `src` evidence schema (page record, evidence span, alignment link, crawl log) is not yet in [TKG](temporal-knowledge-graph.md). It needs a section there and a decision entry.
-- TKG's `txt.expression.kind` has no value for a medieval retelling such as Kṛttivāsa or Pampa: `popular` was designed for TV and comics, and `regional_recension` means a recension of the Sanskrit. Proposal: add `retelling`.
-- The season page estimate of about 5,000 pages and the 30 Oct scholar date are our planning assumptions, not measured figures.
+**This plan's assumptions**
+- The `src` evidence schema is not yet in [TKG](temporal-knowledge-graph.md). It needs a section there and a decision entry.
+- `txt.expression.kind` lacks a value for a medieval retelling such as Kṛttivāsa or Pampa: `popular` was meant for TV and comics, and `regional_recension` means a Sanskrit recension. Proposal: add `retelling`.
+- The figures of about 5,000 pages per season and a scholar by 30 Oct are planning assumptions, not measurements.
