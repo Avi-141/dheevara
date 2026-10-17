@@ -138,3 +138,8 @@ Newest last. Each entry: date, decision, reason.
   - The Mahābhārata starts from the Droṇa Parva (day 13, the s1e3 arc already in the canon). The Rāmāyaṇa starts from the Sundara Kāṇḍa (already in the canon from the Baroda critical edition), timed to the 6 Nov film.
   - This takes up proposal 1 of 4 Oct (a Sundara Kāṇḍa pilot for the film) without dropping the Mahābhārata.
   - Reason: the founder wants both; the canon, claim ids (`mbh.*`, `ram.*`) and pipeline already handle both texts.
+- **2026-10-17 — Sourcing rules from the source inventory.**
+  - **archive.org rights marks are not rights evidence.** Uploaders have set CC0 or public-domain marks on BORI volumes, Amar Chitra Katha, Rajagopalachari and Mani. A source's rights come from the work's own notice and the copyright term, recorded verbatim in the source register.
+  - **Cologne dictionaries (CDSL):** each file's header says CC BY-NC-SA 3.0, while the repository LICENSE says CC BY-SA 4.0. Until Cologne answers in writing, Sørensen, Mani, Mehendale's Cultural Index, Monier-Williams and Apte are used only as internal finding aids, to locate verses that are then checked against the critical edition. Nothing from them is shown.
+  - **Baroda Rāmāyaṇa:** ask the Oriental Institute, Baroda for permission alongside the BORI request. Smith calls his Baroda e-text "still far from correct", so every cited Rāmāyaṇa verse is checked against the print before sign-off.
+  - Reason: `docs/research/notes-2026-10-17-sourcing/source_inventory.md`; rule 2 needs evidence whose rights we can state.
